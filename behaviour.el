@@ -1,6 +1,9 @@
 ;;; backups
 (setq backup-directory-alist
       '(("." . "~/.emacs.d/backup-files")))
+(setq tramp-backup-directory-alist backup-directory-alist)
+(setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
 
 ;;; remeber opened files
 (savehist-mode 1)

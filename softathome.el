@@ -25,17 +25,25 @@
 (defun my-sah-setup-semantic ()
   (interactive)
   (if sah-project
-      (progn 
+      (let ((sysinc (format "%sinclude" (or (sah-project-component-directory "sah_toolchain") "/usr/")))
+            (staginginc (format "%sinclude" (sah-staging-directory))))
+        ;;; semantic
+        (message "setting up semantic")
+        (message "system includes in %s" sysinc)
+        (message "project includes in %s" staginginc)
         (semantic-mode 't)
         (semantic-idle-summary-mode 't)
         (semantic-stickyfunc-mode 't)
         (semantic-reset-system-include 'c-mode)
-        (semantic-add-system-include (format "%sinclude" (or (sah-project-component-directory "sah_toolchain") "/usr/include"))
-                                     'c-mode)
-        (semantic-add-system-include (format "%sinclude" (sah-staging-directory))
-                                     'c-mode)
-        (add-to-list 'ac-sources 'ac-source-semantic-raw)
+        (semantic-add-system-include sysinc 'c-mode)
+        (semantic-add-system-include staginginc 'c-mode)
+        ;;; autocomplete
+        ;;(add-to-list 'ac-sources 'ac-source-semantic-raw)
+        ;;; flymake
+        (message "setting up flymake")
+        (setenv "INCLUDE" sysinc)
         (flymake-mode 't)
+        (setq flymake-get-project-include-dirs-function (lambda () staginginc))
         (define-key c-mode-map "\C-c\C-v" 'flymake-display-err-menu-for-current-line)
         (define-key c-mode-map (kbd "A-j") 'semantic-ia-fast-jump)
         (subword-mode 't))))

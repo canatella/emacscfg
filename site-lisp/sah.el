@@ -338,6 +338,9 @@
                                   (cons 'component-list (concat (sah-project-build-directory project) "component.lst"))
                                   ))
           (setenv "STAGINGDIR" (sah-staging-directory))
+          (setenv "PKG_CONFIG_LIBDIR" (format "%sbuild/pkg-config" (sah-staging-directory)))
+          (setenv "PKG_CONFIG_TOP_BUILD_DIR" (sah-staging-directory))
+
           (run-hooks 'sah-set-project-hook)
           )
       (message "Directory %s does not seem to be a project directory" project))))
