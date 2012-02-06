@@ -26,9 +26,26 @@
 (add-hook 'latex-mode-hook
 	  (lambda () (local-set-key (kbd "\C-c \C-e") 'tex-close-latex-block)))
 
+;;; ruby-mode
+(defun ruby-close-block ()
+  (interactive)
+  (unless (string-match "^[[:blank:]]*$" (buffer-substring (line-beginning-position) (line-end-position)))
+    (newline))
+  (insert "end")
+  (ruby-indent-line))
+
+(add-hook 'ruby-mode-hook
+          (lambda () 
+            (local-set-key (kbd "\C-c \C-e") 'ruby-close-block)
+            (subword-mode 't)))
+
 ;;; semantic
 (require 'semantic)
 (setq semanticdb-default-save-directory "~/.emacs.d/semantic-cache")
+
+;;; flymake
+(require 'flymake)
+(setq flymake-run-in-place nil)
 
 (defun my-toggle-fullscreen (&optional f)
   (interactive)
