@@ -184,8 +184,9 @@
   (if (not top) (setq top config-directory))
   (let ((project-list (split-string (shell-command-to-string
                                      (concat "P4PORT=" sah-p4-wijgmaal " p4 files " config-directory "/.../project.list")) "\n")))
-    (mapcar
-     (lambda (p) (file-name-directory (replace-regexp-in-string (file-name-as-directory top) "" (car (split-string p "#"))))) project-list)))
+    (remove-if-not stringp (mapcar
+     (lambda (p) (file-name-directory (replace-regexp-in-string (file-name-as-directory top) "" (car (split-string p "#"))))) project-list))))
+
 
 (defvar sah-config-projects-cache  () "projects cache")
 
