@@ -2,6 +2,7 @@
 (require 'gud)
 (require 'tail)
 (require 'ido)
+(require 'cl)
 
 (defgroup sah nil "Integrate with SAH build system."
   :group 'environment)
@@ -162,11 +163,15 @@
 (defun sah-config-all ()
   "Return the list of available release"
   (reverse
-   (cons "//depot/config/MAIN"
+   (cons (cons "//depot/config/MAIN"
          (butlast (split-string
                    (shell-command-to-string
                     (concat "P4PORT=" sah-p4-wijgmaal " p4 dirs //depot/config/DEV/*"))
-                   "\n")))))
+                   "\n")))
+         (butlast (split-string
+          (shell-command-to-string
+           (concat "P4PORT=" sah-p4-wijgmaal " p4 dirs //depot/config/GEN/V4.6/PROJ/FT_STEP4/REL/*"))
+          "\n")))))
 
 (defun sah-build-all ()
   "Return the list of available release"
@@ -184,7 +189,7 @@
   (if (not top) (setq top config-directory))
   (let ((project-list (split-string (shell-command-to-string
                                      (concat "P4PORT=" sah-p4-wijgmaal " p4 files " config-directory "/.../project.list")) "\n")))
-    (remove-if-not stringp (mapcar
+    (remove-if-not 'stringp (mapcar
      (lambda (p) (file-name-directory (replace-regexp-in-string (file-name-as-directory top) "" (car (split-string p "#"))))) project-list))))
 
 
@@ -573,8 +578,11 @@
     (sah-p4-exec sah-p4-wijgmaal (sah-workspace-wijgmaal) nil "sync" "-f" (concat config-dir "/...#head"))
     (message "opening project %s" project-dir)
     (sah-set-project project-dir)
-    (message "marking project list as +w")
-    (set-file-modes (sah-project-list) (logior (file-modes (sah-project-list)) ?\600))
+    (message "checking out projectl list")
+    (sah-p4-exec sah-p4-wijgmaal (sah-workspace-wijgmaal) nil "edit" (sah-project-list))
+    (p4-refresh-files-in-buffers)
+    (p4-check-mode)
+    (p4-update-opened-list)
     (sah-mode t)
     (pop-to-buffer (find-file (sah-project-list)))))
 
@@ -597,8 +605,8 @@
     (sah-p4-exec sah-p4-wijgmaal (sah-workspace-wijgmaal) nil "sync" "-f" (concat config-dir "/...#head"))
     (message "opening project %s" project-dir)
     (sah-set-project project-dir)
-    (message "marking project list as +w")
-    (set-file-modes (sah-project-list) (logior (file-modes (sah-project-list)) ?\600))
+    (message "checking out projectl list")
+    (p4-edit (sah-project-list))
     (sah-mode t)
     (pop-to-buffer (find-file (sah-project-list)))))
 
