@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: sah-trace-error-check
+# key: stec
+# group: sah.sah-trace
+# binding: C-c C-o
+# --
+if ($1) {
+   SAH_TRACE_ERROR($2);
+   goto error_$3;
+}
