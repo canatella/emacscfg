@@ -6,8 +6,9 @@
 (load-library "behaviour")
 (load-library "editing")
 (load-library "bindings")
-(if (equal 0 (call-process-shell-command "/sbin/ip route list 192.168.18.0/24 | grep 192.168.18.0"))
-    (load-library "softathome"))
+(load-library "cedetrc")
+(if (equal 0 (call-process-shell-command "/sbin/ip route list 10.0.2.0/24 | grep 10.0.2.0"))
+    (load-library "dsa"))
 
 (defun byte-recompile-world ()
   "recompile emacs.d"
@@ -15,10 +16,10 @@
   (byte-recompile-directory "~/.emacs.d/site-lisp" 0))
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ac-auto-show-menu nil)
  '(ac-use-fuzzy nil)
  '(c-basic-offset 4)
@@ -39,15 +40,15 @@
  '(js2-indent-on-enter-key nil)
  '(js2-mirror-mode nil)
  '(js2-mode-indent-ignore-first-tab t)
+ '(makefile-cleanup-continuations t)
  '(mutt-alias-file-list (quote ("~/.mutt_aliases")))
- '(semanticdb-ebrowse-file-match "\\.\\(hh?\\|HH?\\|hpp\\|cc?\\)")
  '(tail-hide-delay 2)
  '(tail-max-size 10)
  '(tail-volatile nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(flymake-errline ((((class color) (background dark)) (:underline "red"))))
  '(flymake-warnline ((((class color) (background dark)) (:underline "orange")))))

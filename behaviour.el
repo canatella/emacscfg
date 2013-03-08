@@ -39,12 +39,8 @@
             (local-set-key (kbd "\C-c \C-e") 'ruby-close-block)
             (subword-mode 't)))
 
-;;; semantic
-(require 'semantic)
-(setq semanticdb-default-save-directory "~/.emacs.d/semantic-cache")
-
 ;;; flymake
-(require 'flymake)
+;;(require 'flymake)
 (setq flymake-run-in-place nil)
 
 (defun my-toggle-fullscreen (&optional f)
@@ -64,3 +60,4 @@
 ;;; c-mode
 (font-lock-add-keywords 'c-mode
       '(("\\<\\(int8_t\\|int16_t\\|int32_t\\|int64_t\\|uint8_t\\|uint16_t\\|uint32_t\\|uint64_t\\)\\>" . font-lock-keyword-face)))
+(add-hook 'c-mode-common-hook 'my-file-make-writeable)

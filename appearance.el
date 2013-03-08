@@ -1,6 +1,6 @@
 ;;; transparency
-(set-frame-parameter (selected-frame) 'alpha '(85 85))
-(add-to-list 'default-frame-alist '(alpha 85 85))
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 100))
 
 ;;; font-lock
 (global-font-lock-mode 1)
@@ -12,8 +12,8 @@
 (setq inhibit-startup-message t)
 
 ;;; no scrollbar and buttons
-(scroll-bar-mode nil)
-(tool-bar-mode nil)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
 ;;; colors
 (require 'color-theme)

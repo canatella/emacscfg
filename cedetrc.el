@@ -33,6 +33,7 @@
 ;; customisation of modes
 (defun my/cedet-hook ()
   (interactive)
+  (setq buffer-read-only t)
   (local-set-key (kbd "H-j") 'semantic-ia-fast-jump)
   (local-set-key (kbd "s-j") 'semantic-analyze-proto-impl-toggle)
   (local-set-key (kbd "s-q") 'semantic-symref)

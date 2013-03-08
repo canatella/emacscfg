@@ -1,0 +1,82 @@
+;;(defun my-dsa-c-mode-hook ()
+;;  (interactive)
+;;  (subword-mode 't)
+;;  (gtags-mode 't)
+;;  (semantic-mode 't)
+;;  (semantic-idle-summary-mode 't)cd
+;;  (semantic-stickyfunc-mode 't)
+;;  (semanticdb-enable-gnu-global-databases 'c-mode)
+;;  (semanticdb-enable-gnu-global-databases 'c++-mode)
+;;  (define-key c-mode-map (kbd "H-j") 'semantic-ia-fast-jump)
+;;  (define-key c++-mode-map (kbd "H-j") 'semantic-ia-fast-jump))
+;;
+;;(add-hook 'c-mode-common-hook 'my-dsa-c-mode-hook)
+
+;;                :include-path '("/"
+;;                                "/Common"
+;;                                "/Interfaces"
+;;                                "/Libs"
+;;                               )
+;;                :system-include-path '("~/exp/include")
+;;                :spp-table '(("isUnix" . "")
+;;                             ("BOOST_TEST_DYN_LINK" . "")))
+
+(setq dsa/develop (file-name-as-directory "/home/dam/Build/develop/fisgate/"))
+(setq dsa/tcl-major "8.5")
+(setq dsa/tcl-minor "8.5.9")
+(setq dsa/libc-projects '("aes" "des" "gaf" "mqs" "rtx" "xml" "anet" "calc" "cont" "file" "link" 
+                          "prot" "rfid" "tftp" "time" "unix" "zlib" "libshared" "ascii" "cadul" 
+                          "dbapi" "dtobj" "expat" "fzdio" "lptio" "mpsse" "share" "netsock" 
+                          "mthread" "dsasystemjni" "unittest" "process" "bluetooth" "cipher" 
+                          "xmlXerces" "rtx-2.2" "licapi" "prot2x" "display" "unicode"
+                          "verinfo" "xmllibxml2" "measure" "logtool"))
+
+(ede-cpp-root-project "fistcl" 
+                      :name "fisTCL"
+                      :version dsa/tcl-minor
+                      :file (format "%sextern/tcl%s/tcl%s/ChangeLog" dsa/develop 
+                                    dsa/tcl-major dsa/tcl-minor)
+                      :include-path (list "/generic" "/include"))
+
+(ede-cpp-root-project "fislibc" 
+                      :name "C libraries"
+                      :file (format "%slib/libc/Makefile" dsa/develop)
+                      :include-path (append (list "/") 
+                                            (mapcar (lambda (s) (format "/include/%s" s))
+                                                    dsa/libc-projects)
+                                            (mapcar (lambda (s) (format "/src/%s" s))
+                                                    dsa/libc-projects)))
+
+(ede-cpp-root-project "fisgate" 
+                      :name "Fisgate"
+                      :version "22.03"
+                      :file (concat dsa/develop "app/fisgate/fisgate/fisgate/Makefile.dsa")
+                      :include-path (list "/")
+                      :system-include-path (list "/usr/include" 
+                                                 (concat dsa/develop "lib/libc/include")
+                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor)
+                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor))
+                      :spp-table '(("HAVE_CONFIG_H" . "")
+                                   ("LINUX" . "")
+                                   ("FISGATE_LX" . "")))
+
+(ede-cpp-root-project "poci" 
+                      :name "Poci"
+                      :version "22.03"
+                      :file (concat dsa/develop "app/fisgate/poci/poci/Makefile.dsa")
+                      :include-path (list "/")
+                      :system-include-path (list "/usr/include" 
+                                                 (concat dsa/develop "lib/libc/include")
+                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor)
+                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor))
+                      :spp-table '(("HAVE_CONFIG_H" . "")
+                                   ("LINUX" . "")
+                                   ("FISGATE_LX" . "")))
+
+
+(setq auto-mode-alist (cons '("Makefile" . makefile-gmake-mode) auto-mode-alist))
+(list "/usr/include" (concat dsa/develop "lib/libc/include"))

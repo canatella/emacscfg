@@ -4,3 +4,6 @@ backup-files
 histories
 semantic-cache
 *.elc
+history
+semanticdb
+srecode-map.el

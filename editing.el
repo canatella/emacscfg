@@ -18,10 +18,5 @@
 (defun my-file-make-writeable ()
   (interactive)
   (when buffer-file-name
-    (if buffer-read-only
-        (progn (message "enable write")
-         (set-file-modes buffer-file-name (logior (file-modes buffer-file-name) ?\600))
-         (setq buffer-read-only nil))
-      (progn (message "disabling write")
-       (set-file-modes buffer-file-name (logand (file-modes buffer-file-name) ?\444))
-       (setq buffer-read-only t)))))
+        (setq buffer-read-only (not buffer-read-only))))
+
