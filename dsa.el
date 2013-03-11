@@ -30,6 +30,7 @@
                           "mthread" "dsasystemjni" "unittest" "process" "bluetooth" "cipher" 
                           "xmlXerces" "rtx-2.2" "licapi" "prot2x" "display" "unicode"
                           "verinfo" "xmllibxml2" "measure" "logtool"))
+(setq dsa/create-tag "/home/dam/Build/gentags.sh")
 
 (ede-cpp-root-project "fistcl" 
                       :name "fisTCL"
@@ -53,7 +54,7 @@
                       :file (concat dsa/develop "app/fisgate/fisgate/fisgate/Makefile.dsa")
                       :include-path (list "/")
                       :system-include-path (list "/usr/include" 
-                                                 (concat dsa/develop "lib/libc/include")
+                                                 (format "%slib/libc/include" dsa/develop)
                                                  (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
                                                          dsa/tcl-major dsa/tcl-minor)
                                                  (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
@@ -62,21 +63,31 @@
                                    ("LINUX" . "")
                                    ("FISGATE_LX" . "")))
 
-(ede-cpp-root-project "poci" 
-                      :name "Poci"
-                      :version "22.03"
-                      :file (concat dsa/develop "app/fisgate/poci/poci/Makefile.dsa")
-                      :include-path (list "/")
-                      :system-include-path (list "/usr/include" 
-                                                 (concat dsa/develop "lib/libc/include")
-                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
-                                                         dsa/tcl-major dsa/tcl-minor)
-                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
-                                                         dsa/tcl-major dsa/tcl-minor))
-                      :spp-table '(("HAVE_CONFIG_H" . "")
-                                   ("LINUX" . "")
-                                   ("FISGATE_LX" . "")))
-
+;(ede-cpp-root-project "poci" 
+;                      :name "Poci"
+;                      :version "22.03"
+;                      :file (concat dsa/develop "app/fisgate/poci/poci/Makefile.dsa")
+;                      :include-path (list "/")
+;                      :system-include-path (list "/usr/include" 
+;                                                 (concat dsa/develop "lib/libc/include")
+;                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
+;                                                         dsa/tcl-major dsa/tcl-minor)
+;                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
+;                                                         dsa/tcl-major dsa/tcl-minor))
+;                      :spp-table '(("HAVE_CONFIG_H" . "")
+;                                   ("LINUX" . "")
+;                                   ("FISGATE_LX" . "")))
+;
+(defun dsa/create-tag-script ()
+  (interactive)
+  (with-temp-file dsa/create-tag
+    (insert "#!/bin/sh\n")
+    (mapc (lambda (project)
+            (insert (format "gtags -i %s\n" 
+                            (replace-regexp-in-string "/home/dam/Build/" "/home/dn/"
+                                                      (ede-cpp-root-project-root (file-name-directory (oref project :file)))))))
+          ede-cpp-root-project-list))
+  (set-file-modes dsa/create-tag ?\755))
 
 (setq auto-mode-alist (cons '("Makefile" . makefile-gmake-mode) auto-mode-alist))
-(list "/usr/include" (concat dsa/develop "lib/libc/include"))
+
