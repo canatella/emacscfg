@@ -7,3 +7,6 @@ semantic-cache
 history
 semanticdb
 srecode-map.el
+.emacs.desktop*
+ede-projects.el
+tramp
