@@ -1,0 +1,13 @@
+#contributor : dam <dam@cosinux.org>
+#name: test
+#key: test
+# --
+test {$1} {
+    $2
+} -setup {
+    ${3:eval \$SETUP}
+} -cleanup {
+    ${4:eval \$CLEANUP}
+} -body {
+    $0
+} -result ${6:1}
