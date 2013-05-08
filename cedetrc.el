@@ -30,14 +30,28 @@
 ;; load contrib library
 (require 'eassist)
  
+;; load the sr speedbar stuff
+(require 'sr-speedbar)
+
+;; toggle and select speedbar
+(defun my-speedbar-toggle () 
+  (interactive) 
+  (if (sr-speedbar-exist-p)
+      (sr-speedbar-close)
+     (sr-speedbar-open) (sr-speedbar-select-window)))
+
 ;; customisation of modes
 (defun my/cedet-hook ()
   (interactive)
   (local-set-key (kbd "H-j") 'semantic-ia-fast-jump)
+  (local-set-key (kbd "H-t") 'my-speedbar-toggle)
   (local-set-key (kbd "s-j") 'semantic-analyze-proto-impl-toggle)
   (local-set-key (kbd "s-q") 'semantic-symref)
 )
 ;;  ;;
+
+(add-hook 'speedbar-reconfigure-keymaps-hook 'my-speedbar-toggle)
+
 ;;  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
 ;;  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
 ;; 
