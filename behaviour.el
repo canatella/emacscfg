@@ -1,3 +1,6 @@
+;;; use default locale
+(setq system-time-locale "C")
+
 ;;; backups
 (setq backup-directory-alist
       '(("." . "~/.emacs.d/backup-files")))
