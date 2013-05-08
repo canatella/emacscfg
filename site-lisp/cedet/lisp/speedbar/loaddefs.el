@@ -48,7 +48,7 @@ current message into that RMAIL folder.
 ;;;***
 
 ;;;### (autoloads nil nil ("sb-ant.el" "sb-html.el" "sb-texinfo.el")
-;;;;;;  (20792 41361 280393))
+;;;;;;  (20874 4672 215508))
 
 ;;;***
 

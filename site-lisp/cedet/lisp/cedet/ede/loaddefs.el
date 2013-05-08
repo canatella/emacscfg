@@ -83,7 +83,7 @@ ROOTPROJ is nil, sinc there is only one project for a directory tree.
 ;;;***
 
 ;;;### (autoloads (ede-cpp-root-project ede-cpp-root-project-root)
-;;;;;;  "ede/cpp-root" "cpp-root.el" (20746 56154))
+;;;;;;  "ede/cpp-root" "cpp-root.el" (20824 29944))
 ;;; Generated autoloads from cpp-root.el
 
 (autoload 'ede-cpp-root-project-root "ede/cpp-root" "\
@@ -353,7 +353,7 @@ Argument NEWVERSION is the version number to use in the current project.
 ;;;;;;  "proj-aux.el" "proj-comp.el" "proj-elisp.el" "proj-info.el"
 ;;;;;;  "proj-misc.el" "proj-obj.el" "proj-prog.el" "proj-scheme.el"
 ;;;;;;  "proj-shared.el" "proj.el" "project-am.el" "shell.el" "source.el"
-;;;;;;  "srecode.el") (20792 41361 896067))
+;;;;;;  "srecode.el") (20874 4673 93970))
 
 ;;;***
 

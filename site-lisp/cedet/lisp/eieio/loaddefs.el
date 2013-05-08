@@ -3,6 +3,22 @@
 ;;; Code:
 
 
+;;;### (autoloads (eieio-defclass-autoload) "eieio-core" "eieio-core.el"
+;;;;;;  (20813 60452))
+;;; Generated autoloads from eieio-core.el
+
+(autoload 'eieio-defclass-autoload "eieio-core" "\
+Create autoload symbols for the EIEIO class CNAME.
+SUPERCLASSES are the superclasses that CNAME inherits from.
+DOC is the docstring for CNAME.
+This function creates a mock-class for CNAME and adds it into
+SUPERCLASSES as children.
+It creates an autoload function for CNAME's constructor.
+
+\(fn CNAME SUPERCLASSES FILENAME DOC)" nil nil)
+
+;;;***
+
 ;;;### (autoloads (customize-object) "eieio-custom" "eieio-custom.el"
 ;;;;;;  (20778 32961))
 ;;; Generated autoloads from eieio-custom.el
@@ -50,7 +66,7 @@ Also extracts information about all methods specific to this generic.
 
 ;;;***
 
-;;;### (autoloads nil "eieio-xml" "eieio-xml.el" (20580 44388))
+;;;### (autoloads nil "eieio-xml" "eieio-xml.el" (20797 46268))
 ;;; Generated autoloads from eieio-xml.el
 
 (defmethod object-write-xml ((this eieio-default-superclass) &optional comment) "\
@@ -88,8 +104,8 @@ Bind the viss bookmark functions to F2 related keys.
 ;;;***
 
 ;;;### (autoloads nil nil ("chart.el" "eieio-base.el" "eieio-datadebug.el"
-;;;;;;  "eieio-doc.el" "eieio-speedbar.el" "eieio.el") (20792 41361
-;;;;;;  158475))
+;;;;;;  "eieio-doc.el" "eieio-speedbar.el" "eieio.el") (20874 4671
+;;;;;;  991434))
 
 ;;;***
 

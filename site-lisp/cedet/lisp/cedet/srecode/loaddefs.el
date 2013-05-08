@@ -15,7 +15,7 @@ Add android specific symbols into DICT based on the current project.
 ;;;***
 
 ;;;### (autoloads (srecode-compile-templates) "srecode/compile" "compile.el"
-;;;;;;  (20779 52264))
+;;;;;;  (20824 34742))
 ;;; Generated autoloads from compile.el
 
 (autoload 'srecode-compile-templates "srecode/compile" "\
@@ -280,8 +280,8 @@ Adds the following:
 ;;;***
 
 ;;;### (autoloads nil nil ("args.el" "ctxt.el" "dictionary.el" "extract.el"
-;;;;;;  "fields.el" "filters.el" "find.el" "semantic.el" "table.el")
-;;;;;;  (20792 41362 84300))
+;;;;;;  "fields.el" "filters.el" "find.el" "semantic.el" "srt-wy.el"
+;;;;;;  "table.el") (20874 4673 350285))
 
 ;;;***
 

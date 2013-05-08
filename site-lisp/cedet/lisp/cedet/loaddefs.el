@@ -210,7 +210,7 @@ Create a new data-debug buffer with NAME.
 
 ;;;***
 
-;;;### (autoloads (global-ede-mode) "ede" "ede.el" (20779 52264))
+;;;### (autoloads (global-ede-mode) "ede" "ede.el" (20824 29944))
 ;;; Generated autoloads from ede.el
 
 (defvar global-ede-mode nil "\
@@ -306,7 +306,7 @@ See a pretty-printed representation of FUNCTION-NAME.
 ;;;***
 
 ;;;### (autoloads (semantic-mode semantic-default-submodes) "semantic"
-;;;;;;  "semantic.el" (20755 5128))
+;;;;;;  "semantic.el" (20831 38598))
 ;;; Generated autoloads from semantic.el
 
 (defvar semantic-default-submodes '(global-semantic-idle-scheduler-mode global-semanticdb-minor-mode) "\
@@ -363,8 +363,8 @@ Semantic mode.
 ;;;***
 
 ;;;### (autoloads nil nil ("cedet-cscope.el" "cedet-files.el" "cedet-idutils.el"
-;;;;;;  "cedet.el" "pulse.el" "srecode.el" "working.el") (20792 41360
-;;;;;;  931479))
+;;;;;;  "cedet.el" "pulse.el" "srecode.el" "working.el") (20874 4671
+;;;;;;  751664))
 
 ;;;***
 

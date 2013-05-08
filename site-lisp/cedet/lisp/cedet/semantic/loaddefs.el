@@ -166,7 +166,7 @@ list of semantic tokens found.
 ;;;***
 
 ;;;### (autoloads (semantic-c-add-preprocessor-symbol semantic-default-c-setup)
-;;;;;;  "semantic/bovine/c" "bovine/c.el" (20783 52919))
+;;;;;;  "semantic/bovine/c" "bovine/c.el" (20836 52920))
 ;;; Generated autoloads from bovine/c.el
 
 (autoload 'semantic-default-c-setup "semantic/bovine/c" "\
@@ -192,8 +192,19 @@ Activate clang completions for C/C++.
 
 ;;;***
 
+;;;### (autoloads (semantic-default-elisp-setup) "semantic/bovine/el"
+;;;;;;  "bovine/el.el" (20831 38598))
+;;; Generated autoloads from bovine/el.el
+
+(autoload 'semantic-default-elisp-setup "semantic/bovine/el" "\
+Setup hook function for Emacs Lisp files and Semantic.
+
+\(fn)" nil nil)
+
+;;;***
+
 ;;;### (autoloads (semantic-default-f90-setup) "semantic/bovine/f90"
-;;;;;;  "bovine/f90.el" (20605 46656))
+;;;;;;  "bovine/f90.el" (20810 7850))
 ;;; Generated autoloads from bovine/f90.el
 
 (autoload 'semantic-default-f90-setup "semantic/bovine/f90" "\
@@ -349,7 +360,7 @@ will perform the completion.
 ;;;***
 
 ;;;### (autoloads (semantic-ctxt-current-mode) "semantic/ctxt" "ctxt.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20827 33737))
 ;;; Generated autoloads from ctxt.el
 
 (autoload 'semantic-ctxt-current-mode "semantic/ctxt" "\
@@ -411,7 +422,7 @@ If TAG is not provided, then the tag under point is used.
 ;;;***
 
 ;;;### (autoloads (semanticdb-file-table-object) "semantic/db" "db.el"
-;;;;;;  (20779 52264))
+;;;;;;  (20810 25851))
 ;;; Generated autoloads from db.el
 
 (defvar semanticdb-current-database nil "\
@@ -1248,7 +1259,7 @@ list of possible completions.
 ;;;***
 
 ;;;### (autoloads (global-semantic-idle-scheduler-mode semantic-idle-scheduler-mode)
-;;;;;;  "semantic/idle" "idle.el" (20746 56154))
+;;;;;;  "semantic/idle" "idle.el" (20827 34935))
 ;;; Generated autoloads from idle.el
 
 (autoload 'semantic-idle-scheduler-mode "semantic/idle" "\
@@ -2065,7 +2076,7 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads (wisent-python-default-setup) "semantic/wisent/python"
-;;;;;;  "wisent/python.el" (20746 56154))
+;;;;;;  "wisent/python.el" (20810 25851))
 ;;; Generated autoloads from wisent/python.el
 
 (autoload 'wisent-python-default-setup "semantic/wisent/python" "\
@@ -2078,13 +2089,17 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads nil nil ("analyze/debug.el" "analyze/fcn.el" "ast.el"
-;;;;;;  "bovine/debug.el" "bovine/el.el" "bovine/erlang.el" "bovine/grammar-macros.el"
-;;;;;;  "canned-configs.el" "chart.el" "db-debug.el" "db-ebrowse.el"
-;;;;;;  "db-el.el" "db-javascript.el" "db-mk.el" "db-ref.el" "decorate.el"
-;;;;;;  "ede-grammar.el" "fw.el" "gram-wy-fallback.el" "grammar.el"
-;;;;;;  "java.el" "sb.el" "symref/filter.el" "util.el" "wisent.el"
+;;;;;;  "bovine/c-by.el" "bovine/debug.el" "bovine/erlang-by.el"
+;;;;;;  "bovine/erlang.el" "bovine/f90-by.el" "bovine/grammar-macros.el"
+;;;;;;  "bovine/make-by.el" "bovine/scm-by.el" "canned-configs.el"
+;;;;;;  "chart.el" "db-debug.el" "db-ebrowse.el" "db-el.el" "db-javascript.el"
+;;;;;;  "db-mk.el" "db-ref.el" "decorate.el" "ede-grammar.el" "fw.el"
+;;;;;;  "gram-wy-fallback.el" "grammar-wy.el" "grammar.el" "java.el"
+;;;;;;  "sb.el" "symref/filter.el" "util.el" "wisent.el" "wisent/calc-wy.el"
 ;;;;;;  "wisent/comp.el" "wisent/expr.el" "wisent/grammar-macros.el"
-;;;;;;  "wisent/java.el" "wisent/wisent.el") (20792 41361 549948))
+;;;;;;  "wisent/java-tags-wy.el" "wisent/java-wy.el" "wisent/java.el"
+;;;;;;  "wisent/javascript-wy.el" "wisent/python-wy.el" "wisent/wisent.el")
+;;;;;;  (20874 4672 617245))
 
 ;;;***
 
