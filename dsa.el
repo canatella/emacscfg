@@ -21,7 +21,7 @@
 ;;                :spp-table '(("isUnix" . "")
 ;;                             ("BOOST_TEST_DYN_LINK" . "")))
 
-(setq dsa/develop (file-name-as-directory "/home/dam/Build/develop/fisgate/"))
+(setq dsa/develop (file-name-as-directory "/home/dam/Build/develop/"))
 (setq dsa/tcl-major "8.5")
 (setq dsa/tcl-minor "8.5.9")
 (setq dsa/libc-projects '("aes" "des" "gaf" "mqs" "rtx" "xml" "anet" "calc" "cont" "file" "link" 
@@ -62,6 +62,43 @@
                       :spp-table '(("HAVE_CONFIG_H" . "")
                                    ("LINUX" . "")
                                    ("FISGATE_LX" . "")))
+
+(ede-cpp-root-project "redcat" 
+                      :name "Redcat"
+                      :version "1.71"
+                      :file (concat dsa/develop "app/tools/redcat/redcat.spec")
+                      :include-path (list "/")
+                      :system-include-path (list "/usr/include" 
+                                                 (format "%slib/libc/include" dsa/develop)
+                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor)
+                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor))
+                      :spp-table '(("HAVE_CONFIG_H" . "")
+                                   ("LINUX" . "")))
+
+(ede-cpp-root-project "mdimanager" 
+                      :name "MDIManager"
+                      :version "1.4.25"
+                      :file (concat dsa/develop "app/tester/vci_update/mdimanager/mdimanager.spec")
+                      :include-path (list "/common" "/lib")
+                      :system-include-path (list "/usr/include" 
+                                                 (format "%slib/libc/include" dsa/develop)
+                                                 (format "%sapp/tools/redcat" dsa/develop)
+                                                 (format "%sextern/tcl%s/tcl%s/generic" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor)
+                                                 (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
+                                                         dsa/tcl-major dsa/tcl-minor))
+                      :spp-table '(("HAVE_CONFIG_H" . "")
+                                   ("LINUX" . "")))
+
+;; distribution testing
+(ede-cpp-root-project "prosh" 
+                      :name "Prosh"
+                      :file (concat dsa/develop "app/tools/prosh/prosh.spec")
+                      :include-path (list "/")
+                      :system-include-path (list "/usr/include" 
+                                                 (format "%slib/libc/include" dsa/develop)))
 
 ;(ede-cpp-root-project "poci" 
 ;                      :name "Poci"
