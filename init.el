@@ -24,6 +24,8 @@
  '(ac-use-fuzzy nil)
  '(c-basic-offset 4)
  '(ediff-split-window-function (quote split-window-horizontally))
+ '(custom-safe-themes (quote ("9bbcab6ecf2622cf7bd613cf1ce5478f6c3ab135f933d3b48d2594edbafb9503" default)))
+ '(diff-switches "-u")
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(espresso-enabled-frameworks (quote (javascript prototype)))
  '(espresso-indent-level 2)

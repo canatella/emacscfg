@@ -16,10 +16,7 @@
 (tool-bar-mode -1)
 
 ;;; colors
-(require 'color-theme)
-(require 'color-theme-tango)
-(setq color-theme-is-global t)
-(color-theme-tango)
+(load-theme 'my-tango-dark t)
 
 ;; calendar starts on monday
 (setq calendar-week-start-day 1)
