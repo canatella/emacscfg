@@ -41,3 +41,8 @@
 (global-set-key (kbd "H-g") 'keyboard-quit)
 (global-set-key (kbd "s-g") 'keyboard-quit)
 
+(global-set-key (kbd "C-©") 'comment-or-uncomment-region)
+
+(fset 'comment-or-uncomment-paragraph
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217832 67109033 134217853] 0 "%d")) arg)))
+(global-set-key (kbd "©") 'comment-or-uncomment-paragraph)
