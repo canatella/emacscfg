@@ -47,8 +47,7 @@
   (local-set-key (kbd "H-t") 'my-speedbar-toggle)
   (local-set-key (kbd "s-j") 'semantic-analyze-proto-impl-toggle)
   (local-set-key (kbd "s-q") 'semantic-symref)
-)
-;;  ;;
+  (local-set-key (kbd "H-h") 'semantic-complete-analyze-inline))
 
 (add-hook 'speedbar-reconfigure-keymaps-hook 'my-speedbar-toggle)
 
