@@ -23,6 +23,7 @@
 (global-set-key (kbd "M-e") 'yank-pop)
 (global-set-key (kbd "H-u") 'kill-region)
 (global-set-key (kbd "H-k") 'ido-kill-buffer)
+(global-set-key (kbd "H-é") 'rgrep)
 (global-set-key (kbd "s-d") 'previous-line)
 (global-set-key (kbd "s-s") 'next-line)
 (global-set-key (kbd "s-r") 'right-char)
