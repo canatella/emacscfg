@@ -8,6 +8,9 @@
 (setq auto-save-file-name-transforms
           `((".*" ,temporary-file-directory t)))
 
+;;; use ssh for tramp
+(setq tramp-default-method "ssh")
+
 ;;; remeber opened files
 (savehist-mode 1)
 
