@@ -65,7 +65,7 @@
 (add-hook 'lisp-mode-hook 'my/cedet-hook)
 ;;(add-hook 'scheme-mode-hook 'alexott/cedet-hook)
 (add-hook 'emacs-lisp-mode-hook 'my/cedet-hook)
-
+(add-hook 'tcl-mode-hook 'my/cedet-hook)
  
 ;;(defun my/c-mode-cedet-hook ()
 ;;  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
