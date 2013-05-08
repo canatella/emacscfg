@@ -64,3 +64,11 @@
 
 ;;; shebang are executable
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;;; yasnippet
+(require 'yasnippet)
+(yas/initialize)
+(setq yas/root-directory "~/.emacs.d/yasnippets")
+(yas/load-directory yas/root-directory)
+
+
