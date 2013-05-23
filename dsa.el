@@ -81,7 +81,8 @@
                       :name "MDIManager"
                       :version "1.4.25"
                       :file (concat dsa/develop "app/tester/vci_update/mdimanager/mdimanager.spec")
-                      :include-path (list "/common" "/lib")
+                      :include-path (list "/common" "/lib" "/server" "/sysupdater"
+                                          "/sysupdater/mtd" "/client" "/tools" "/mdiclient")
                       :system-include-path (list "/usr/include" 
                                                  (format "%slib/libc/include" dsa/develop)
                                                  (format "%sapp/tools/redcat" dsa/develop)
@@ -90,7 +91,8 @@
                                                  (format "%sextern/tcl%s/tcl%s/unix" dsa/develop 
                                                          dsa/tcl-major dsa/tcl-minor))
                       :spp-table '(("HAVE_CONFIG_H" . "")
-                                   ("LINUX" . "")))
+                                   ("LINUX" . "")
+                                   ("CONFIG_REDCAT" . "")))
 
 ;; distribution testing
 (ede-cpp-root-project "prosh" 
