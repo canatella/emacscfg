@@ -5,6 +5,7 @@
 (global-set-key [f5]   'quick-calc)
 (global-set-key [f6]   'revert-buffer)
 (global-set-key [f7]   'my-file-reopen-as-root)
+(global-set-key [f8]   'vc-dir)
 
 (global-set-key (kbd "H-\"") 'delete-other-windows)
 (global-set-key (kbd "H-<") 'split-window-below)
@@ -12,7 +13,6 @@
 (global-set-key (kbd "H-f") 'ido-find-file)
 (global-set-key (kbd "H-s") 'save-buffer)
 (global-set-key (kbd "H-b") 'ido-switch-buffer)
-(global-set-key (kbd "H-B") 'semantic-mrub-switch-tags)
 (global-set-key (kbd "H-o") 'other-window)
 (global-set-key (kbd "H-SPC") 'set-mark-command)
 (global-set-key (kbd "H-a") 'set-mark-command)
@@ -46,3 +46,5 @@
 (fset 'comment-or-uncomment-paragraph
    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217832 67109033 134217853] 0 "%d")) arg)))
 (global-set-key (kbd "©") 'comment-or-uncomment-paragraph)
+
+(global-set-key (kbd "H-/") 'er/expand-region)

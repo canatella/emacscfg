@@ -77,4 +77,18 @@
 (setq yas/root-directory "~/.emacs.d/yasnippets")
 (yas/load-directory yas/root-directory)
 
+;;; rainbow mode
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
 
+;;; expand region
+(add-to-list 'load-path "~/.emacs.d/site-lisp/expand-region.el")
+(require 'expand-region)
+
+
+(setq package-archives '(("ELPA" . "http://tromey.com/elpa/") 
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("SC"   . "http://joseito.republika.pl/sunrise-commander/")))
+
+(setq stack-trace-on-error t)
