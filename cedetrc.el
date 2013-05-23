@@ -47,9 +47,11 @@
   (local-set-key (kbd "H-t") 'my-speedbar-toggle)
   (local-set-key (kbd "s-j") 'semantic-analyze-proto-impl-toggle)
   (local-set-key (kbd "s-q") 'semantic-symref)
-  (local-set-key (kbd "H-h") 'semantic-complete-analyze-inline))
+  (local-set-key (kbd "H-h") 'semantic-complete-analyze-inline)
+  (local-set-key (kbd "H-B") 'semantic-mrub-switch-tags)
+  (local-set-key (kbd "s--") 'pop-global-mark))
 
-(add-hook 'speedbar-reconfigure-keymaps-hook 'my-speedbar-toggle)
+(add-hook 'speedbar-reconfigure-keymaps-hook (lambda () (message "test") (local-set-key (kbd "H-t") 'my-speedbar-toggle)))
 
 ;;  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
 ;;  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
@@ -134,7 +136,10 @@
 (global-ede-mode 1)
 (ede-enable-generic-projects)
 
- 
+;; ECB
+(add-to-list 'load-path "~/.emacs.d/site-lisp/ecb")
+(require 'ecb)
+
 ;; Setup JAVA....
 ;;(require 'cedet-java)
  
