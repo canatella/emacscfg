@@ -83,7 +83,7 @@ ROOTPROJ is nil, sinc there is only one project for a directory tree.
 ;;;***
 
 ;;;### (autoloads (ede-cpp-root-project ede-cpp-root-project-root)
-;;;;;;  "ede/cpp-root" "cpp-root.el" (20824 29944))
+;;;;;;  "ede/cpp-root" "cpp-root.el" (20908 48525))
 ;;; Generated autoloads from cpp-root.el
 
 (autoload 'ede-cpp-root-project-root "ede/cpp-root" "\
@@ -229,7 +229,7 @@ ROOTPROJ is nil, since there is only one project.
 ;;;***
 
 ;;;### (autoloads (ede-enable-locate-on-project) "ede/locate" "locate.el"
-;;;;;;  (20779 52264))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from locate.el
 
 (autoload 'ede-enable-locate-on-project "ede/locate" "\
@@ -290,7 +290,7 @@ ROOTPROJ is nil, since there is only one project.
 ;;;***
 
 ;;;### (autoloads (ede-speedbar-file-setup) "ede/speedbar" "speedbar.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from speedbar.el
 
 (autoload 'ede-speedbar-file-setup "ede/speedbar" "\
@@ -353,7 +353,7 @@ Argument NEWVERSION is the version number to use in the current project.
 ;;;;;;  "proj-aux.el" "proj-comp.el" "proj-elisp.el" "proj-info.el"
 ;;;;;;  "proj-misc.el" "proj-obj.el" "proj-prog.el" "proj-scheme.el"
 ;;;;;;  "proj-shared.el" "proj.el" "project-am.el" "shell.el" "source.el"
-;;;;;;  "srecode.el") (20883 21541 182559))
+;;;;;;  "srecode.el") (20954 31487 430835))
 
 ;;;***
 

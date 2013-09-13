@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# name: test-file
+# key: test-file
+# --
+# -*-Tcl-*-
+#===============================================================================
+#       ___    ____   ___           (C)Copyright by
+#      |   \  / ___| / _ \          Daten- und Systemtechnik Aachen GmbH
+#      | |\ \( (__  / /_\ \         Pascalstrasse 28
+#      | | ) )\__ \ | ___ |         52076 Aachen-Oberforstbach, Germany
+#      | |/ / ___) )| | | |         Phone: +49 (0) 2408 / 9492-0
+#  www.|___/ |____/ |_| |_|.de      Fax:   +49 (0) 2408 / 9492-92
+#===============================================================================
+#  $Source$
+#  $Revision$
+#  $Author$
+#  $Date$
+#===============================================================================
+
+$0
+
+##
+# global setup
+source setup.tcl
+
+##
+# Common basic setup commands
+set SETUP {
+    global CFG
+}
+
+##
+# Common basic cleanup commands
+set CLEANUP {
+    global CFG
+}
+
+##
+# global cleanup
+source cleanup.tcl

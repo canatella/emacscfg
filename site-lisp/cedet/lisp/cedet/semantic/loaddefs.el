@@ -267,7 +267,7 @@ Setup hook function for Emacs Lisp files and Semantic.
 ;;;;;;  semantic-complete-analyze-and-replace semantic-complete-jump-local-members
 ;;;;;;  semantic-complete-jump semantic-complete-jump-local semantic-displayor-tooltip-initial-max-tags
 ;;;;;;  semantic-displayor-tooltip-mode) "semantic/complete" "complete.el"
-;;;;;;  (20779 52264))
+;;;;;;  (20881 28799))
 ;;; Generated autoloads from complete.el
 
 (defvar semantic-displayor-tooltip-mode 'standard "\
@@ -477,7 +477,7 @@ values.
 ;;;;;;  semanticdb-find-adebug-lost-includes semanticdb-find-test-translate-path
 ;;;;;;  semanticdb-find-table-for-include semanticdb-find-translate-path
 ;;;;;;  semanticdb-find-default-throttle) "semantic/db-find" "db-find.el"
-;;;;;;  (20779 52264))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from db-find.el
 
 (defvar semanticdb-find-default-throttle '(local project unloaded system recursive) "\
@@ -864,7 +864,7 @@ Do a reset of unparsed includes in the current buffer.
 ;;;***
 
 ;;;### (autoloads (global-semantic-decoration-mode) "semantic/decorate/mode"
-;;;;;;  "decorate/mode.el" (20746 56154))
+;;;;;;  "decorate/mode.el" (20879 57273))
 ;;; Generated autoloads from decorate/mode.el
 
 (defvar global-semantic-decoration-mode nil "\
@@ -1006,7 +1006,7 @@ return nil.
 ;;;***
 
 ;;;### (autoloads (semantic-edits-incremental-parser semantic-change-function)
-;;;;;;  "semantic/edit" "edit.el" (20746 56154))
+;;;;;;  "semantic/edit" "edit.el" (20880 54729))
 ;;; Generated autoloads from edit.el
 
 (autoload 'semantic-change-function "semantic/edit" "\
@@ -1259,7 +1259,7 @@ list of possible completions.
 ;;;***
 
 ;;;### (autoloads (global-semantic-idle-scheduler-mode semantic-idle-scheduler-mode)
-;;;;;;  "semantic/idle" "idle.el" (20883 21507))
+;;;;;;  "semantic/idle" "idle.el" (20954 31434))
 ;;; Generated autoloads from idle.el
 
 (autoload 'semantic-idle-scheduler-mode "semantic/idle" "\
@@ -1710,7 +1710,7 @@ Returns an object of class `semantic-symref-result'.
 
 ;;;### (autoloads (semantic-symref-regexp semantic-symref-symbol
 ;;;;;;  semantic-symref) "semantic/symref/list" "symref/list.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from symref/list.el
 
 (autoload 'semantic-symref "semantic/symref/list" "\
@@ -1782,7 +1782,7 @@ Depends on `semantic-dependency-include-path' for searching.  Always searches
 ;;;***
 
 ;;;### (autoloads (semantic-tag-prototype-p) "semantic/tag-ls" "tag-ls.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from tag-ls.el
 
 (autoload 'semantic-tag-prototype-p "semantic/tag-ls" "\
@@ -2099,7 +2099,7 @@ Setup buffer for parse.
 ;;;;;;  "wisent/comp.el" "wisent/expr.el" "wisent/grammar-macros.el"
 ;;;;;;  "wisent/java-tags-wy.el" "wisent/java-wy.el" "wisent/java.el"
 ;;;;;;  "wisent/javascript-wy.el" "wisent/python-wy.el" "wisent/wisent.el")
-;;;;;;  (20883 21540 780463))
+;;;;;;  (20954 31486 975711))
 
 ;;;***
 

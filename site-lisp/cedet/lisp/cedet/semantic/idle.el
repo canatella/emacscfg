@@ -291,11 +291,13 @@ And also manages services that depend on tag values."
   "Function run when after `semantic-idle-scheduler-idle-time'.
 This function will reparse the current buffer, and if successful,
 call additional functions registered with the timer calls."
-  (when (<= 2 (recursion-depth))
+  ;; (when (<= 2 (recursion-depth))
+  (when (zerop (recursion-depth))
     (let ((debug-on-error nil))
       (save-match-data (semantic-idle-core-handler))
       )))
 
+
 ;;; WORK FUNCTION
 ;;
 ;; Unlike the shorter timer, the WORK timer will kick of tasks that

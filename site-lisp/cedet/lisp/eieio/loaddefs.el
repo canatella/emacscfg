@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (eieio-defclass-autoload) "eieio-core" "eieio-core.el"
-;;;;;;  (20813 60452))
+;;;;;;  (20881 39619))
 ;;; Generated autoloads from eieio-core.el
 
 (autoload 'eieio-defclass-autoload "eieio-core" "\
@@ -33,7 +33,7 @@ Optional argument GROUP is the sub-group of slots to display.
 
 ;;;### (autoloads (eieio-describe-generic eieio-describe-constructor
 ;;;;;;  eieio-describe-class eieio-browse) "eieio-opt" "eieio-opt.el"
-;;;;;;  (20778 32961))
+;;;;;;  (20908 48525))
 ;;; Generated autoloads from eieio-opt.el
 
 (autoload 'eieio-browse "eieio-opt" "\
@@ -104,8 +104,8 @@ Bind the viss bookmark functions to F2 related keys.
 ;;;***
 
 ;;;### (autoloads nil nil ("chart.el" "eieio-base.el" "eieio-datadebug.el"
-;;;;;;  "eieio-doc.el" "eieio-speedbar.el" "eieio.el") (20883 21540
-;;;;;;  326567))
+;;;;;;  "eieio-doc.el" "eieio-speedbar.el" "eieio.el") (20954 31486
+;;;;;;  504699))
 
 ;;;***
 

@@ -12,7 +12,10 @@
  
 (load-file (concat cedet-root-path "cedet-devel-load.el"))
 (add-to-list 'load-path (concat cedet-root-path "contrib"))
- 
+(load-file "~/.emacs.d/site-lisp/cedet/contrib/cedet-contrib-load.el")
+;(load-library "wisent-ruby")
+;(add-hook 'ruby-mode-hook #'wisent-ruby-default-setup)
+
 ;; select which submodes we want to activate
 (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
@@ -30,37 +33,7 @@
 ;; load contrib library
 (require 'eassist)
  
-;; load the sr speedbar stuff
-(require 'sr-speedbar)
-
-;; toggle and select speedbar
-(defun my-speedbar-toggle () 
-  (interactive) 
-  (if (sr-speedbar-exist-p)
-      (sr-speedbar-close)
-     (sr-speedbar-open) (sr-speedbar-select-window)))
-
 ;; customisation of modes
-(defun my/cedet-hook ()
-  (interactive)
-  (local-set-key (kbd "H-j") 'semantic-ia-fast-jump)
-  (local-set-key (kbd "H-t") 'my-speedbar-toggle)
-  (local-set-key (kbd "s-j") 'semantic-analyze-proto-impl-toggle)
-  (local-set-key (kbd "s-q") 'semantic-symref)
-  (local-set-key (kbd "H-h") 'semantic-complete-analyze-inline)
-  (local-set-key (kbd "H-B") 'semantic-mrub-switch-tags)
-  (local-set-key (kbd "s--") 'pop-global-mark))
-
-(add-hook 'speedbar-reconfigure-keymaps-hook (lambda () (message "test") (local-set-key (kbd "H-t") 'my-speedbar-toggle)))
-
-;;  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-;;  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
-;; 
-;;  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
-;;  (local-set-key "\C-cq" 'semantic-ia-show-doc)
-;;  (local-set-key "\C-cs" 'semantic-ia-show-summary)
-;;  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
-;;  )
 
 (add-hook 'c-mode-common-hook 'my/cedet-hook)
 (add-hook 'lisp-mode-hook 'my/cedet-hook)
@@ -79,9 +52,9 @@
 (semanticdb-enable-gnu-global-databases 'c-mode t)
 (semanticdb-enable-gnu-global-databases 'c++-mode t)
  
-(when (cedet-ectag-version-check t)
-  (semantic-load-enable-primary-ectags-support))
- 
+(semantic-load-enable-all-ectags-support)
+;;(semantic-load-enable-secondary-exuberent-ctags-support)
+
 ;; SRecode
 (global-srecode-minor-mode 1)
  

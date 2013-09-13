@@ -21,4 +21,3 @@
 ;; hyper plane, tango 2, zen-and-art, solarized-dark, subatomic, dotshare
 
 (setq calendar-week-start-day 1)
-
