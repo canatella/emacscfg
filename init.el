@@ -9,8 +9,6 @@
 (load-library "editing")
 (load-library "bindings")
 (load-library "cedetrc")
-(if (equal 0 (call-process-shell-command "/sbin/ip route list 10.0.2.0/24 | grep 10.0.2.0"))
-    (load-library "dsa"))
 
 (defun byte-recompile-world ()
   "recompile emacs.d"
