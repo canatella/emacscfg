@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004 David Ponce
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-03-07 15:18:23+0100
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:35:03+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -445,16 +445,6 @@
     ("}" RBRACE))
   )
 
-(define-lex-string-type-analyzer semantic-grammar-wy--<punctuation>-string-analyzer
-  "string analyzer for <punctuation> tokens."
-  "\\(\\s.\\|\\s$\\|\\s'\\)+"
-  '((GT . ">")
-    (LT . "<")
-    (OR . "|")
-    (SEMI . ";")
-    (COLON . ":"))
-  'punctuation)
-
 (define-lex-regex-type-analyzer semantic-grammar-wy--<char>-regexp-analyzer
   "regexp analyzer for <char> tokens."
   semantic-grammar-lex-c-char-re
@@ -476,6 +466,16 @@
   "sexp analyzer for <string> tokens."
   "\\s\""
   'STRING)
+
+(define-lex-string-type-analyzer semantic-grammar-wy--<punctuation>-string-analyzer
+  "string analyzer for <punctuation> tokens."
+  "\\(\\s.\\|\\s$\\|\\s'\\)+"
+  '((GT . ">")
+    (LT . "<")
+    (OR . "|")
+    (SEMI . ";")
+    (COLON . ":"))
+  'punctuation)
 
 (define-lex-keyword-type-analyzer semantic-grammar-wy--<keyword>-keyword-analyzer
   "keyword analyzer for <keyword> tokens."

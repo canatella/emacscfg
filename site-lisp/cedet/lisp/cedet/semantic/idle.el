@@ -291,7 +291,6 @@ And also manages services that depend on tag values."
   "Function run when after `semantic-idle-scheduler-idle-time'.
 This function will reparse the current buffer, and if successful,
 call additional functions registered with the timer calls."
-  ;; (when (<= 2 (recursion-depth))
   (when (zerop (recursion-depth))
     (let ((debug-on-error nil))
       (save-match-data (semantic-idle-core-handler))
@@ -579,7 +578,7 @@ This routine creates the following functions and variables:"
 	(setup	(intern (concat (symbol-name name) "-mode-setup")))
 	(func	(intern (concat (symbol-name name) "-idle-function"))))
 
-    `(eval-and-compile
+    `(progn
        (define-minor-mode ,global
 	 ,(concat "Toggle " (symbol-name global) ".
 With ARG, turn the minor mode on if ARG is positive, off otherwise.

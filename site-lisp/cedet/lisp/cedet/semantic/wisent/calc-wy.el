@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2009 David Ponce
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-03-07 15:18:25+0100
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:35:06+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

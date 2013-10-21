@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002-2012 Free Software Foundation, Inc.
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-03-07 15:18:33+0100
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:35:15+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -730,6 +730,18 @@
     ("]" RBRACK))
   )
 
+(define-lex-regex-type-analyzer wisent-python-wy--<symbol>-regexp-analyzer
+  "regexp analyzer for <symbol> tokens."
+  "\\(\\sw\\|\\s_\\)+"
+  nil
+  'NAME)
+
+(define-lex-regex-type-analyzer wisent-python-wy--<number>-regexp-analyzer
+  "regexp analyzer for <number> tokens."
+  semantic-lex-number-expression
+  nil
+  'NUMBER_LITERAL)
+
 (define-lex-string-type-analyzer wisent-python-wy--<punctuation>-string-analyzer
   "string analyzer for <punctuation> tokens."
   "\\(\\s.\\|\\s$\\|\\s'\\)+"
@@ -773,18 +785,6 @@
     (GTGTEQ . ">>=")
     (LTLTEQ . "<<="))
   'punctuation)
-
-(define-lex-regex-type-analyzer wisent-python-wy--<symbol>-regexp-analyzer
-  "regexp analyzer for <symbol> tokens."
-  "\\(\\sw\\|\\s_\\)+"
-  nil
-  'NAME)
-
-(define-lex-regex-type-analyzer wisent-python-wy--<number>-regexp-analyzer
-  "regexp analyzer for <number> tokens."
-  semantic-lex-number-expression
-  nil
-  'NUMBER_LITERAL)
 
 (define-lex-keyword-type-analyzer wisent-python-wy--<keyword>-keyword-analyzer
   "keyword analyzer for <keyword> tokens."

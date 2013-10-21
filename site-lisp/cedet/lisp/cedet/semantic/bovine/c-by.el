@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 1999-2012 Free Software Foundation, Inc.
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-03-07 15:18:40+0100
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:35:25+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -1470,10 +1470,13 @@
       cv-declmods
       opt-ref
       variablearg-opt-name
+      opt-assign
       ,(semantic-lambda
 	(semantic-tag-new-variable
 	 (list
-	  (nth 4 vals))
+	  (append
+	   (nth 4 vals)
+	   (nth 5 vals)))
 	 (nth 1 vals) nil :constant-flag
 	 (if
 	     (member
@@ -1495,6 +1498,19 @@
      (varname
       ,(semantic-lambda
 	(nth 0 vals))
+      )
+     (semantic-list
+      arg-list
+      ,(semantic-lambda
+	(list
+	 (car
+	  (semantic-bovinate-from-nonterminal
+	   (car
+	    (nth 0 vals))
+	   (cdr
+	    (nth 0 vals))
+	   'function-pointer))
+	 (nth 1 vals)))
       )
      (opt-stars
       ,(semantic-lambda
@@ -1521,7 +1537,9 @@
       varnamelist
       ,(semantic-lambda
 	(cons
-	 (nth 1 vals)
+	 (append
+	  (nth 1 vals)
+	  (nth 2 vals))
 	 (nth 4 vals)))
       )
      (opt-ref
@@ -1529,7 +1547,9 @@
       varname-opt-initializer
       ,(semantic-lambda
 	(list
-	 (nth 1 vals)))
+	 (append
+	  (nth 1 vals)
+	  (nth 2 vals))))
       )
      ) ;; end varnamelist
 
@@ -2093,30 +2113,28 @@
       close-paren)
      ) ;; end type-cast-list
 
-    (opt-stuff-after-symbol
+    (brackets-after-symbol
      (semantic-list
       "^(")
      (semantic-list
       "\\[.*\\]$")
-     ( ;;EMPTY
-      )
-     ) ;; end opt-stuff-after-symbol
+     ) ;; end brackets-after-symbol
 
     (multi-stage-dereference
      (namespace-symbol
-      opt-stuff-after-symbol
+      brackets-after-symbol
       punctuation
       "\\`[.]\\'"
       multi-stage-dereference)
      (namespace-symbol
-      opt-stuff-after-symbol
+      brackets-after-symbol
       punctuation
       "\\`[-]\\'"
       punctuation
       "\\`[>]\\'"
       multi-stage-dereference)
      (namespace-symbol
-      opt-stuff-after-symbol)
+      brackets-after-symbol)
      ) ;; end multi-stage-dereference
 
     (string-seq
@@ -2168,6 +2186,8 @@
       "\\`[|]\\'")
      (punctuation
       "\\`[|]\\'")
+     (punctuation
+      "\\`[%]\\'")
      ) ;; end expr-binop
 
     (expression
@@ -2195,7 +2215,7 @@
      (NEW
       builtintype-types
       semantic-list)
-     (namespace-symbol)
+     (symbol)
      (string-seq)
      (type-cast
       expression)

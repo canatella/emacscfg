@@ -1701,8 +1701,8 @@ equivalent Wisent lexical tokens is straightforward:
 
 File: wisent.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Wisent Semantic,  Up: Top
 
-Appendix A GNU Free Documentation License
-*****************************************
+Annexe A GNU Free Documentation License
+***************************************
 
                      Version 1.3, 3 November 2008
 
@@ -2320,6 +2320,6 @@ Node: Start nonterminals52542
 Node: Useful functions55391
 Node: Wisent Lex55944
 Node: GNU Free Documentation License57377
-Node: Index82552
+Node: Index82548
 
 End Tag Table

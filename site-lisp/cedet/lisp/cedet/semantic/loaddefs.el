@@ -77,7 +77,7 @@ Report debug info for checking STARTFILE for up-to-date tags.
 ;;;***
 
 ;;;### (autoloads (semantic-analyze-current-context) "semantic/analyze"
-;;;;;;  "analyze.el" (20779 52264))
+;;;;;;  "analyze.el" (20988 3394))
 ;;; Generated autoloads from analyze.el
 
 (autoload 'semantic-analyze-current-context "semantic/analyze" "\
@@ -96,8 +96,8 @@ if a cached copy of the return object is found.
 ;;;***
 
 ;;;### (autoloads (semantic-analyze-possible-completions semantic-analyze-type-constants)
-;;;;;;  "semantic/analyze/complete" "analyze/complete.el" (20746
-;;;;;;  56154))
+;;;;;;  "semantic/analyze/complete" "analyze/complete.el" (20981
+;;;;;;  1996))
 ;;; Generated autoloads from analyze/complete.el
 
 (autoload 'semantic-analyze-type-constants "semantic/analyze/complete" "\
@@ -132,7 +132,7 @@ in a buffer.
 ;;;***
 
 ;;;### (autoloads (semantic-analyze-proto-impl-toggle semantic-analyze-current-tag)
-;;;;;;  "semantic/analyze/refs" "analyze/refs.el" (20746 56154))
+;;;;;;  "semantic/analyze/refs" "analyze/refs.el" (21053 42602))
 ;;; Generated autoloads from analyze/refs.el
 
 (autoload 'semantic-analyze-current-tag "semantic/analyze/refs" "\
@@ -166,7 +166,7 @@ list of semantic tokens found.
 ;;;***
 
 ;;;### (autoloads (semantic-c-add-preprocessor-symbol semantic-default-c-setup)
-;;;;;;  "semantic/bovine/c" "bovine/c.el" (20836 52920))
+;;;;;;  "semantic/bovine/c" "bovine/c.el" (21090 29767))
 ;;; Generated autoloads from bovine/c.el
 
 (autoload 'semantic-default-c-setup "semantic/bovine/c" "\
@@ -182,7 +182,7 @@ Add a preprocessor symbol SYM with a REPLACEMENT value.
 ;;;***
 
 ;;;### (autoloads (semantic-clang-activate) "semantic/bovine/clang"
-;;;;;;  "bovine/clang.el" (20580 44388))
+;;;;;;  "bovine/clang.el" (21072 25015))
 ;;; Generated autoloads from bovine/clang.el
 
 (autoload 'semantic-clang-activate "semantic/bovine/clang" "\
@@ -193,7 +193,7 @@ Activate clang completions for C/C++.
 ;;;***
 
 ;;;### (autoloads (semantic-default-elisp-setup) "semantic/bovine/el"
-;;;;;;  "bovine/el.el" (20831 38598))
+;;;;;;  "bovine/el.el" (20979 61065))
 ;;; Generated autoloads from bovine/el.el
 
 (autoload 'semantic-default-elisp-setup "semantic/bovine/el" "\
@@ -267,7 +267,7 @@ Setup hook function for Emacs Lisp files and Semantic.
 ;;;;;;  semantic-complete-analyze-and-replace semantic-complete-jump-local-members
 ;;;;;;  semantic-complete-jump semantic-complete-jump-local semantic-displayor-tooltip-initial-max-tags
 ;;;;;;  semantic-displayor-tooltip-mode) "semantic/complete" "complete.el"
-;;;;;;  (20881 28799))
+;;;;;;  (20981 1996))
 ;;; Generated autoloads from complete.el
 
 (defvar semantic-displayor-tooltip-mode 'standard "\
@@ -360,7 +360,7 @@ will perform the completion.
 ;;;***
 
 ;;;### (autoloads (semantic-ctxt-current-mode) "semantic/ctxt" "ctxt.el"
-;;;;;;  (20827 33737))
+;;;;;;  (20991 62651))
 ;;; Generated autoloads from ctxt.el
 
 (autoload 'semantic-ctxt-current-mode "semantic/ctxt" "\
@@ -665,7 +665,7 @@ values.
 ;;;***
 
 ;;;### (autoloads (semanticdb-javap-get-java-lang-classes) "semantic/db-javap"
-;;;;;;  "db-javap.el" (20678 9021))
+;;;;;;  "db-javap.el" (21076 65273))
 ;;; Generated autoloads from db-javap.el
 
 (autoload 'semanticdb-javap-get-java-lang-classes "semantic/db-javap" "\
@@ -848,7 +848,7 @@ Class to create when building a debug parser object.")
 
 ;;;### (autoloads (semantic-decoration-unparsed-include-do-reset
 ;;;;;;  semantic-decoration-include-visit) "semantic/decorate/include"
-;;;;;;  "decorate/include.el" (20779 52264))
+;;;;;;  "decorate/include.el" (20981 1996))
 ;;; Generated autoloads from decorate/include.el
 
 (autoload 'semantic-decoration-include-visit "semantic/decorate/include" "\
@@ -864,7 +864,7 @@ Do a reset of unparsed includes in the current buffer.
 ;;;***
 
 ;;;### (autoloads (global-semantic-decoration-mode) "semantic/decorate/mode"
-;;;;;;  "decorate/mode.el" (20879 57273))
+;;;;;;  "decorate/mode.el" (20981 34394))
 ;;; Generated autoloads from decorate/mode.el
 
 (defvar global-semantic-decoration-mode nil "\
@@ -980,7 +980,7 @@ Any mode that has been tested to work will be added to this function.
 ;;;***
 
 ;;;### (autoloads (semantic-ectags-parse-buffer) "semantic/ectags/parse"
-;;;;;;  "ectags/parse.el" (20580 44388))
+;;;;;;  "ectags/parse.el" (20981 1996))
 ;;; Generated autoloads from ectags/parse.el
 
 (autoload 'semantic-ectags-parse-buffer "semantic/ectags/parse" "\
@@ -992,7 +992,7 @@ Convert the output tags into Semantic tags.
 ;;;***
 
 ;;;### (autoloads (cedet-ectag-version-check) "semantic/ectags/util"
-;;;;;;  "ectags/util.el" (20580 44388))
+;;;;;;  "ectags/util.el" (21093 19364))
 ;;; Generated autoloads from ectags/util.el
 
 (autoload 'cedet-ectag-version-check "semantic/ectags/util" "\
@@ -1006,7 +1006,7 @@ return nil.
 ;;;***
 
 ;;;### (autoloads (semantic-edits-incremental-parser semantic-change-function)
-;;;;;;  "semantic/edit" "edit.el" (20880 54729))
+;;;;;;  "semantic/edit" "edit.el" (20976 32674))
 ;;; Generated autoloads from edit.el
 
 (autoload 'semantic-change-function "semantic/edit" "\
@@ -1134,7 +1134,7 @@ TABLE is a tag table.  See `semantic-something-to-tag-table'.
 
 ;;;### (autoloads (semantic-format-tag-concise-prototype semantic-format-tag-prototype
 ;;;;;;  semantic-format-tag-summarize semantic-format-tag-name) "semantic/format"
-;;;;;;  "format.el" (20746 56154))
+;;;;;;  "format.el" (21052 43337))
 ;;; Generated autoloads from format.el
 
 (autoload 'semantic-format-tag-name "semantic/format" "\
@@ -1259,7 +1259,7 @@ list of possible completions.
 ;;;***
 
 ;;;### (autoloads (global-semantic-idle-scheduler-mode semantic-idle-scheduler-mode)
-;;;;;;  "semantic/idle" "idle.el" (20954 31434))
+;;;;;;  "semantic/idle" "idle.el" (20979 61065))
 ;;; Generated autoloads from idle.el
 
 (autoload 'semantic-idle-scheduler-mode "semantic/idle" "\
@@ -1331,7 +1331,7 @@ Optional argument STREAM is an optional stream of tags used to create menus.
 
 ;;;***
 
-;;;### (autoloads (semantic-lex) "semantic/lex" "lex.el" (20746 56154))
+;;;### (autoloads (semantic-lex) "semantic/lex" "lex.el" (20979 61065))
 ;;; Generated autoloads from lex.el
 
 (autoload 'semantic-lex "semantic/lex" "\
@@ -1413,7 +1413,7 @@ If ARG is positive or nil, enable, if it is negative, disable.
 ;;;***
 
 ;;;### (autoloads (semantic-calculate-scope) "semantic/scope" "scope.el"
-;;;;;;  (20746 56154))
+;;;;;;  (21045 32291))
 ;;; Generated autoloads from scope.el
 
 (autoload 'semantic-calculate-scope "semantic/scope" "\
@@ -1432,7 +1432,7 @@ The class returned from the scope calculation is variable
 ;;;;;;  senator-completion-menu-popup senator-complete-symbol senator-jump-regexp
 ;;;;;;  senator-jump senator-previous-tag senator-next-tag senator-step-at-start-end-tag-classes
 ;;;;;;  senator-step-at-tag-classes) "semantic/senator" "senator.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20981 1996))
 ;;; Generated autoloads from senator.el
 
 (defvar senator-step-at-tag-classes nil "\
@@ -1614,7 +1614,7 @@ include the default behavior, and merely extend your own.
 ;;;### (autoloads (semantic-symref-find-text semantic-symref-find-file-references-by-name
 ;;;;;;  semantic-symref-find-tags-by-completion semantic-symref-find-tags-by-regexp
 ;;;;;;  semantic-symref-find-tags-by-name semantic-symref-find-references-by-name)
-;;;;;;  "semantic/symref" "symref.el" (20746 56154))
+;;;;;;  "semantic/symref" "symref.el" (20981 1996))
 ;;; Generated autoloads from symref.el
 
 (autoload 'semantic-symref-find-references-by-name "semantic/symref" "\
@@ -1996,7 +1996,7 @@ Deletes all actions, replacing them with small comments.
 ;;;***
 
 ;;;### (autoloads (wisent-calc-utest wisent-calc) "semantic/wisent/calc"
-;;;;;;  "wisent/calc.el" (20580 44388))
+;;;;;;  "wisent/calc.el" (20981 1996))
 ;;; Generated autoloads from wisent/calc.el
 
 (autoload 'wisent-calc "semantic/wisent/calc" "\
@@ -2076,7 +2076,7 @@ Setup buffer for parse.
 ;;;***
 
 ;;;### (autoloads (wisent-python-default-setup) "semantic/wisent/python"
-;;;;;;  "wisent/python.el" (20810 25851))
+;;;;;;  "wisent/python.el" (20981 1996))
 ;;; Generated autoloads from wisent/python.el
 
 (autoload 'wisent-python-default-setup "semantic/wisent/python" "\
@@ -2099,7 +2099,7 @@ Setup buffer for parse.
 ;;;;;;  "wisent/comp.el" "wisent/expr.el" "wisent/grammar-macros.el"
 ;;;;;;  "wisent/java-tags-wy.el" "wisent/java-wy.el" "wisent/java.el"
 ;;;;;;  "wisent/javascript-wy.el" "wisent/python-wy.el" "wisent/wisent.el")
-;;;;;;  (20954 31486 975711))
+;;;;;;  (21093 19370 74189))
 
 ;;;***
 

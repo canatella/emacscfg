@@ -877,6 +877,24 @@ For more information, *note the Grammar Framework Manual:
 (grammar-fw)top.
 
 
+File: semantic-langdev.info,  Node: Parser Backend Support,  Prev: Grammar Programming Environment,  Up: Writing Parsers
+
+4.3 Parser Backend Support
+==========================
+
+Once you have written a grammar file that has been compiled into Emacs
+Lisp code, additional glue needs to be written to finish connecting the
+generated parser into the Emacs framework.
+
+Large portions of this glue is automatically generated, but will
+probably need additional modification to get things to work properly.
+
+Typically, a grammar file `foo.wy' will create the file `foo-wy.el'.
+It is then useful to also create a file `wisent-foo.el' (or
+`semantic-foo.el') to contain the parser back end, or the glue that
+completes the semantic support for the language.
+
+
 File: semantic-langdev.info,  Node: Parsing a language file,  Next: Debugging,  Prev: Writing Parsers,  Up: Top
 
 5 Parsing a language file
@@ -916,34 +934,16 @@ tags when they become available.
      cache will force a complete reparse next time a token stream is
      requested.
 
-
-File: semantic-langdev.info,  Node: Parser Backend Support,  Prev: Grammar Programming Environment,  Up: Writing Parsers
-
-5.1 Parser Backend Support
-==========================
-
-Once you have written a grammar file that has been compiled into Emacs
-Lisp code, additional glue needs to be written to finish connecting the
-generated parser into the Emacs framework.
-
-Large portions of this glue is automatically generated, but will
-probably need additional modification to get things to work properly.
-
-Typically, a grammar file `foo.wy' will create the file `foo-wy.el'.
-It is then useful to also create a file `wisent-foo.el' (or
-`semantic-foo.el') to contain the parser back end, or the glue that
-completes the semantic support for the language.
-
 * Menu:
 
 * Example Backend File::
 * Tag Expansion::
 
 
-File: semantic-langdev.info,  Node: Example Backend File,  Next: Tag Expansion,  Up: Parser Backend Support
+File: semantic-langdev.info,  Node: Example Backend File,  Next: Tag Expansion,  Up: Parsing a language file
 
-5.1.1 Example Backend File
---------------------------
+5.1 Example Backend File
+========================
 
 Typical structure for this file is:
 
@@ -1017,10 +1017,10 @@ Typical structure for this file is:
      ;;; semantic-foo.el ends here
 
 
-File: semantic-langdev.info,  Node: Tag Expansion,  Prev: Example Backend File,  Up: Parser Backend Support
+File: semantic-langdev.info,  Node: Tag Expansion,  Prev: Example Backend File,  Up: Parsing a language file
 
-5.1.2 Tag Expansion
--------------------
+5.2 Tag Expansion
+=================
 
 In any language with compound tag types, you will need to implement an
 _expand function_.  Once written, assign it to this variable.
@@ -1421,8 +1421,8 @@ NOTE: Write Me
 
 File: semantic-langdev.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Parser Error Handling,  Up: Top
 
-Appendix A GNU Free Documentation License
-*****************************************
+Annexe A GNU Free Documentation License
+***************************************
 
                         Version 1.1, March 2000
 
@@ -1915,34 +1915,34 @@ Node: Keyword Properties31073
 Node: Writing Parsers31953
 Node: External Parsers33437
 Node: Grammar Programming Environment34036
-Node: Parsing a language file34590
-Ref: semantic-fetch-tags34964
-Ref: semantic-fetch-available-tags35734
-Ref: semantic-clear-toplevel-cache36184
-Node: Parser Backend Support36342
+Node: Parser Backend Support34590
+Node: Parsing a language file35339
+Ref: semantic-fetch-tags35713
+Ref: semantic-fetch-available-tags36483
+Ref: semantic-clear-toplevel-cache36933
 Node: Example Backend File37144
-Node: Tag Expansion39424
-Ref: semantic-tag-expand-function39753
-Node: Debugging41404
-Node: Lexical Debugging41908
-Ref: semantic-lex-debug42324
-Node: Parser Output tools42799
-Ref: semantic-show-unmatched-syntax-mode43298
-Ref: semantic-show-tag-boundaries-mode44233
-Ref: semantic-highlight-by-attribute-mode44871
-Ref: bovinate45581
-Node: Bovine Parser Debugging45815
-Ref: semantic-debug46289
-Node: Wisent Parser Debugging47801
-Node: Overlay Debugging48191
-Ref: semantic-tag-components-with-overlays48912
-Node: Incremental Parser Debugging49656
-Ref: semantic-highlight-edits-mode50425
-Ref: semantic-show-parser-state-mode51160
-Ref: semantic-edits-verbose-flag52177
-Node: Semantic 1.4 Doc52312
-Node: Parser Error Handling54083
-Node: GNU Free Documentation License54276
-Node: Index74017
+Node: Tag Expansion39421
+Ref: semantic-tag-expand-function39747
+Node: Debugging41398
+Node: Lexical Debugging41902
+Ref: semantic-lex-debug42318
+Node: Parser Output tools42793
+Ref: semantic-show-unmatched-syntax-mode43292
+Ref: semantic-show-tag-boundaries-mode44227
+Ref: semantic-highlight-by-attribute-mode44865
+Ref: bovinate45575
+Node: Bovine Parser Debugging45809
+Ref: semantic-debug46283
+Node: Wisent Parser Debugging47795
+Node: Overlay Debugging48185
+Ref: semantic-tag-components-with-overlays48906
+Node: Incremental Parser Debugging49650
+Ref: semantic-highlight-edits-mode50419
+Ref: semantic-show-parser-state-mode51154
+Ref: semantic-edits-verbose-flag52171
+Node: Semantic 1.4 Doc52306
+Node: Parser Error Handling54077
+Node: GNU Free Documentation License54270
+Node: Index74007
 
 End Tag Table

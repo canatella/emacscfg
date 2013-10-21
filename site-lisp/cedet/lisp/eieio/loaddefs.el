@@ -20,7 +20,7 @@ It creates an autoload function for CNAME's constructor.
 ;;;***
 
 ;;;### (autoloads (customize-object) "eieio-custom" "eieio-custom.el"
-;;;;;;  (20778 32961))
+;;;;;;  (20979 61065))
 ;;; Generated autoloads from eieio-custom.el
 
 (autoload 'customize-object "eieio-custom" "\
@@ -33,7 +33,7 @@ Optional argument GROUP is the sub-group of slots to display.
 
 ;;;### (autoloads (eieio-describe-generic eieio-describe-constructor
 ;;;;;;  eieio-describe-class eieio-browse) "eieio-opt" "eieio-opt.el"
-;;;;;;  (20908 48525))
+;;;;;;  (20981 1996))
 ;;; Generated autoloads from eieio-opt.el
 
 (autoload 'eieio-browse "eieio-opt" "\
@@ -66,46 +66,8 @@ Also extracts information about all methods specific to this generic.
 
 ;;;***
 
-;;;### (autoloads nil "eieio-xml" "eieio-xml.el" (20797 46268))
-;;; Generated autoloads from eieio-xml.el
-
-(defmethod object-write-xml ((this eieio-default-superclass) &optional comment) "\
-Write object THIS out to the current stream as XML.
-  If optional COMMENT is non-nil, include comments when outputting
-this object.
-@todo - support arbitrary schema output" (when comment (princ "<!-- Object ") (princ (object-name-string this)) (princ " -->
-<!-- ") (princ comment) (princ " -->
-")) (let* ((cl (object-class this)) (cv (class-v cl))) (princ (make-string (* eieio-print-depth 2) 32)) (princ "<object>
-") (let ((eieio-print-depth (+ eieio-print-depth 1))) (princ (make-string (* eieio-print-depth 2) 32)) (princ "<name>") (princ (object-name-string this)) (princ "</name>
-") (princ (make-string (* eieio-print-depth 2) 32)) (princ "<class>") (princ (symbol-name (class-constructor (object-class this)))) (princ "</class>
-") (let ((publa (aref cv class-public-a)) (publd (aref cv class-public-d))) (while publa (when (slot-boundp this (car publa)) (let ((i (class-slot-initarg cl (car publa))) (v (eieio-oref this (car publa)))) (unless (or (not i) (equal v (car publd))) (princ (make-string (* eieio-print-depth 2) 32)) (princ "<slot>
-") (princ (make-string (+ (* eieio-print-depth 2) 2) 32)) (princ "<name>") (princ (symbol-name i)) (princ "</name>
-") (princ (make-string (+ (* eieio-print-depth 2) 2) 32)) (princ "<value>") (let ((eieio-print-depth (+ eieio-print-depth 2)) (o (eieio-oref this (car publa)))) (eieio-xml-override-prin1 o)) (princ "</value>
-") (princ (make-string (* eieio-print-depth 2) 32)) (princ "</slot>
-")))) (setq publa (cdr publa) publd (cdr publd))))) (princ (make-string (* eieio-print-depth 2) 32)) (princ "</object>
-")))
-
-;;;***
-
-;;;### (autoloads (enable-visual-studio-bookmarks) "linemark" "linemark.el"
-;;;;;;  (20580 44388))
-;;; Generated autoloads from linemark.el
-
-(autoload 'enable-visual-studio-bookmarks "linemark" "\
-Bind the viss bookmark functions to F2 related keys.
-\\<global-map>
-\\[viss-bookmark-toggle]     - To=ggle a bookmark on this line.
-\\[viss-bookmark-next-buffer]   - Move to the next bookmark.
-\\[viss-bookmark-prev-buffer]   - Move to the previous bookmark.
-\\[viss-bookmark-clear-all-buffer] - Clear all bookmarks.
-
-\(fn)" t nil)
-
-;;;***
-
 ;;;### (autoloads nil nil ("chart.el" "eieio-base.el" "eieio-datadebug.el"
-;;;;;;  "eieio-doc.el" "eieio-speedbar.el" "eieio.el") (20954 31486
-;;;;;;  504699))
+;;;;;;  "eieio-speedbar.el" "eieio.el") (21093 19369 354604))
 
 ;;;***
 

@@ -27,10 +27,10 @@ File: eieio.info,  Node: Top,  Next: Quick Start,  Prev: (dir),  Up: (dir)
 EIEIO
 *****
 
-EIEIO ("Enhanced Implementation of Emacs Interpreted Objects") is a
-CLOS (Common Lisp Object System) compatibility layer for Emacs Lisp.
-It provides a framework for writing object-oriented applications in
-Emacs.
+EIEIO ("Enhanced Implementation of Emacs Interpreted Objects") provides
+an Object Oriented layer for Emacs Lisp, following the basic concepts
+of the Common Lisp Object System (CLOS).  It provides a framework for
+writing object-oriented applications in Emacs.
 
    This manual documents EIEIO, an object framework for Emacs Lisp.
 
@@ -181,38 +181,43 @@ setf.
 
   8. Help system extensions for classes and methods.
 
-  9. Automatic texinfo documentation generator.
+  9. Several base classes for interesting tasks.
 
- 10. Several base classes for interesting tasks.
+ 10. Simple test suite.
 
- 11. Simple test suite.
+ 11. Public and private classifications for slots (extensions to CLOS)
 
- 12. Public and private classifications for slots (extensions to CLOS)
+ 12. Customization support in a class (extension to CLOS)
 
- 13. Customization support in a class (extension to CLOS)
+   Here are some important CLOS features that EIEIO presently lacks:
 
-   Here are some CLOS features that EIEIO presently lacks:
+Method dispatch
+     EIEO does not support method dispatch for built-in types and
+     multiple arguments types.  In other words, method dispatch only
+     looks at the first argument, and this one must be an EIEIO type.
 
-Complete `defclass' tag support
-     All CLOS tags are currently supported, but the following are not
-     currently implemented correctly:
+Support for metaclasses
+     There is just one default metaclass, `eieio-default-superclass',
+     and you cannot define your own.  The `:metaclass' tag in
+     `defclass' is ignored.  Also, functions like `class-of' and
+     `find-class', which should return instances of the metaclass,
+     behave differently in EIEIO in that they return symbols or plain
+     structures instead.
 
-    `:metaclass'
-          There is only one base superclass for all EIEIO classes,
-          which is the `eieio-default-superclass'.
+EQL specialization
+     EIEIO does not support it.
 
-    `:default-initargs'
-          Each slot has an `:initarg' tag, so this is not really
-          necessary.
+`:around' method tag
+     This CLOS method tag is non-functional.
+
+:default-initargs in `defclass'
+     Each slot has an `:initarg' tag, so this is not really necessary.
 
 Mock object initializers
      Each class contains a mock object used for fast initialization of
      instantiated objects.  Using functions with side effects on object
      slot values can potentially cause modifications in the mock
      object.  EIEIO should use a deep copy but currently does not.
-
-`:around' method tag
-     This CLOS method tag is non-functional.
 
 
 
@@ -221,8 +226,19 @@ File: eieio.info,  Node: Building Classes,  Next: Making New Objects,  Prev: Int
 3 Building Classes
 ******************
 
-A "class" is a definition for organizing data and methods together.  An
-EIEIO class has structures similar to the classes found in other
+First off, please note that this manual cannot serve as a complete
+introduction to object oriented programming and generic functions in
+LISP.  Although EIEIO is not a complete CLOS implementation and also
+differs from CLOS in several aspects, it follows the same basic
+concepts.  Therefore, it is highly recommended to learn these from a
+textbook or tutorial first, especially if you only know OOP from
+languages like C++ or Java.  If on the other hand you are already
+familiar with CLOS, you should be aware that EIEIO does not implement
+the full CLOS specificiation and also differs in some other aspects
+(*Note Introduction::, and *note CLOS compatibility::).
+
+   A "class" is a definition for organizing data and methods together.
+An EIEIO class has structures similar to the classes found in other
 object-oriented (OO) languages.
 
    To create a new class, use the `defclass' macro:
@@ -1781,13 +1797,15 @@ Emacs.
 
    Some important compatibility features that would be good to add are:
 
-  1. `:around' method key.
+  1. Support for metaclasses and EQL specialization.
 
-  2. Method dispatch for built-in types.
+  2. `:around' method key.
 
-  3. Method dispatch for multiple argument typing.
+  3. Method dispatch for built-in types.
 
-  4. Improve integration with the `cl' package.
+  4. Method dispatch for multiple argument typing.
+
+  5. Improve integration with the `cl' package.
 
    There are also improvements to be made to allow EIEIO to operate
 better in the Emacs environment.
@@ -1812,8 +1830,8 @@ Function Index
 * class-children-fast:                   Predicates.           (line 80)
 * class-constructor:                     Predicates.           (line 39)
 * class-name:                            Predicates.           (line 27)
-* CLASS-NAME-child-p:                    Building Classes.     (line 45)
-* CLASS-NAME-p:                          Building Classes.     (line 42)
+* CLASS-NAME-child-p:                    Building Classes.     (line 56)
+* CLASS-NAME-p:                          Building Classes.     (line 53)
 * class-of:                              Predicates.           (line 56)
 * class-option:                          Predicates.           (line 32)
 * class-p:                               Predicates.           (line 16)
@@ -1822,7 +1840,7 @@ Function Index
 * class-parents-fast:                    Predicates.           (line 70)
 * class-slot-initarg:                    Introspection.        (line 16)
 * clone:                                 Basic Methods.        (line  9)
-* defclass:                              Building Classes.     (line 14)
+* defclass:                              Building Classes.     (line 25)
 * defgeneric:                            Generics.             (line 11)
 * defmethod:                             Methods.              (line 15)
 * delete-instance on eieio-instance-tracker: eieio-instance-tracker.
@@ -1898,62 +1916,62 @@ Function Index
 
 Tag Table:
 Node: Top994
-Node: Quick Start3261
-Node: Introduction6437
-Node: Building Classes8235
-Node: Inheritance10712
-Node: Slot Options13008
-Node: Class Options18467
-Node: Making New Objects21154
-Ref: make-instance22582
-Node: Accessing Slots23254
-Ref: oref24394
-Ref: oref-default24604
-Ref: slot-value25027
-Ref: set-slot-value25192
-Ref: object-add-to-list25649
-Ref: object-remove-from-list26041
-Ref: with-slots26290
-Node: Writing Methods27276
-Node: Generics28020
-Node: Methods29341
-Ref: call-next-method32188
-Ref: next-method-p32593
-Node: Static Methods32937
-Node: Method Invocation33556
-Node: Predicates34913
-Ref: find-class35314
-Ref: class-p35520
-Ref: slot-exists-p35640
-Ref: slot-boundp35723
-Node: Association Lists38646
-Ref: object-assoc39006
-Node: Customizing39975
-Node: Introspection42434
-Node: Base Classes43111
-Node: eieio-instance-inheritor44067
-Node: eieio-instance-tracker45343
-Node: eieio-singleton46813
-Node: eieio-persistent47253
-Node: eieio-named49370
-Node: eieio-speedbar49708
-Node: Browsing53541
-Node: Class Values54258
-Node: Documentation54748
-Node: Default Superclass56380
-Node: Initialization57519
-Node: Basic Methods58592
-Ref: clone58843
-Ref: object-print59161
-Node: Signal Handling60488
-Ref: slot-missing61024
-Ref: slot-unbound61715
-Ref: no-applicable-method62407
-Ref: no-next-method62772
-Node: Signals63140
-Node: Naming Conventions64757
-Node: CLOS compatibility65884
-Node: Wish List68461
-Node: Function Index69237
+Node: Quick Start3308
+Node: Introduction6484
+Node: Building Classes8617
+Node: Inheritance11760
+Node: Slot Options14056
+Node: Class Options19515
+Node: Making New Objects22202
+Ref: make-instance23630
+Node: Accessing Slots24302
+Ref: oref25442
+Ref: oref-default25652
+Ref: slot-value26075
+Ref: set-slot-value26240
+Ref: object-add-to-list26697
+Ref: object-remove-from-list27089
+Ref: with-slots27338
+Node: Writing Methods28324
+Node: Generics29068
+Node: Methods30389
+Ref: call-next-method33236
+Ref: next-method-p33641
+Node: Static Methods33985
+Node: Method Invocation34604
+Node: Predicates35961
+Ref: find-class36362
+Ref: class-p36568
+Ref: slot-exists-p36688
+Ref: slot-boundp36771
+Node: Association Lists39694
+Ref: object-assoc40054
+Node: Customizing41023
+Node: Introspection43482
+Node: Base Classes44159
+Node: eieio-instance-inheritor45115
+Node: eieio-instance-tracker46391
+Node: eieio-singleton47861
+Node: eieio-persistent48301
+Node: eieio-named50418
+Node: eieio-speedbar50756
+Node: Browsing54589
+Node: Class Values55306
+Node: Documentation55796
+Node: Default Superclass57428
+Node: Initialization58567
+Node: Basic Methods59640
+Ref: clone59891
+Ref: object-print60209
+Node: Signal Handling61536
+Ref: slot-missing62072
+Ref: slot-unbound62763
+Ref: no-applicable-method63455
+Ref: no-next-method63820
+Node: Signals64188
+Node: Naming Conventions65805
+Node: CLOS compatibility66932
+Node: Wish List69509
+Node: Function Index70339
 
 End Tag Table

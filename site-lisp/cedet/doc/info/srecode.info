@@ -1771,8 +1771,8 @@ and then the application specific templates.
 
 File: srecode.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Application Writing,  Up: Top
 
-Appendix A GNU Free Documentation License
-*****************************************
+Annexe A GNU Free Documentation License
+***************************************
 
                      Version 1.3, 3 November 2008
 
@@ -2353,6 +2353,6 @@ Ref: srecode-semantic-insert-tag55625
 Node: Application Writing57309
 Ref: srecode-load-tables-for-mode58263
 Node: GNU Free Documentation License58587
-Node: Index83767
+Node: Index83763
 
 End Tag Table

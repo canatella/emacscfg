@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2005, 2007, 2008, 2009, 2010, 2013 Eric M. Ludlam
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-05-08 10:52:23+0200
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:34:32+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -239,11 +239,11 @@
 
 ;;; Analyzers
 ;;
-(define-lex-string-type-analyzer srecode-template-wy--<punctuation>-string-analyzer
-  "string analyzer for <punctuation> tokens."
-  "\\s.+"
+(define-lex-regex-type-analyzer srecode-template-wy--<property>-regexp-analyzer
+  "regexp analyzer for <property> tokens."
+  ":\\(\\w\\|\\s_\\)*"
   nil
-  'punctuation)
+  'property)
 
 (define-lex-regex-type-analyzer srecode-template-wy--<symbol>-regexp-analyzer
   "regexp analyzer for <symbol> tokens."
@@ -257,6 +257,12 @@
   nil
   'number)
 
+(define-lex-string-type-analyzer srecode-template-wy--<punctuation>-string-analyzer
+  "string analyzer for <punctuation> tokens."
+  "\\s.+"
+  nil
+  'punctuation)
+
 (define-lex-sexp-type-analyzer srecode-template-wy--<string>-sexp-analyzer
   "sexp analyzer for <string> tokens."
   "\\s\""
@@ -265,12 +271,6 @@
 (define-lex-keyword-type-analyzer srecode-template-wy--<keyword>-keyword-analyzer
   "keyword analyzer for <keyword> tokens."
   "\\(\\sw\\|\\s_\\)+")
-
-(define-lex-regex-type-analyzer srecode-template-wy--<property>-regexp-analyzer
-  "regexp analyzer for <property> tokens."
-  ":\\(\\w\\|\\s_\\)*"
-  nil
-  'property)
 
 
 ;;; Epilogue

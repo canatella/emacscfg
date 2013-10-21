@@ -149,7 +149,7 @@ DICT-ENTRIES are additional dictionary values to add.
 ;;;***
 
 ;;;### (autoloads (srecode-semantic-handle-:java) "srecode/java"
-;;;;;;  "java.el" (20745 55688))
+;;;;;;  "java.el" (20979 61065))
 ;;; Generated autoloads from java.el
 
 (autoload 'srecode-semantic-handle-:java "srecode/java" "\
@@ -173,8 +173,8 @@ Return a list of menu items based on SRecode features.
 
 ;;;***
 
-;;;### (autoloads (srecode-get-maps) "srecode/map" "map.el" (20724
-;;;;;;  53144))
+;;;### (autoloads (srecode-get-maps) "srecode/map" "map.el" (20981
+;;;;;;  1996))
 ;;; Generated autoloads from map.el
 
 (autoload 'srecode-get-maps "srecode/map" "\
@@ -281,7 +281,7 @@ Adds the following:
 
 ;;;### (autoloads nil nil ("args.el" "ctxt.el" "dictionary.el" "extract.el"
 ;;;;;;  "fields.el" "filters.el" "find.el" "semantic.el" "srt-wy.el"
-;;;;;;  "table.el") (20954 31487 602143))
+;;;;;;  "table.el") (21093 19370 869950))
 
 ;;;***
 

@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 1999-2012 Free Software Foundation, Inc.
 
-;; Author: Damien Merenne <dam@UBUNTU-DN1>
-;; Created: 2013-03-07 15:18:41+0100
+;; Author: Damien Merenne <dam@desktop>
+;; Created: 2013-10-21 17:35:27+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

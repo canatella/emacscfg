@@ -70,7 +70,7 @@ This function depends on graphviz `dot' program.
 
 ;;;***
 
-;;;### (autoloads (cogre-mode) "cogre/mode" "mode.el" (20779 52264))
+;;;### (autoloads (cogre-mode) "cogre/mode" "mode.el" (20981 1996))
 ;;; Generated autoloads from mode.el
 
 (autoload 'cogre-mode "cogre/mode" "\
@@ -107,7 +107,7 @@ Leaves the region surrounding the rectangle.
 ;;;***
 
 ;;;### (autoloads (cogre-uml-quick-class cogre-export-code cogre-semantic-tag-to-node)
-;;;;;;  "cogre/semantic" "semantic.el" (20580 44388))
+;;;;;;  "cogre/semantic" "semantic.el" (20981 1996))
 ;;; Generated autoloads from semantic.el
 
 (autoload 'cogre-semantic-tag-to-node "cogre/semantic" "\
@@ -158,7 +158,7 @@ Add macros to dictionary DICT based on the current DOT buffer.
 ;;;***
 
 ;;;### (autoloads (cogre-uml-sort-for-lineage cogre-uml-enable-unicode)
-;;;;;;  "cogre/uml" "uml.el" (20580 44388))
+;;;;;;  "cogre/uml" "uml.el" (20981 1996))
 ;;; Generated autoloads from uml.el
 
 (autoload 'cogre-uml-enable-unicode "cogre/uml" "\
@@ -197,7 +197,7 @@ Setup buffer for parse.
 
 ;;;***
 
-;;;### (autoloads nil nil ("wisent-dot-wy.el") (20954 31486 828922))
+;;;### (autoloads nil nil ("wisent-dot-wy.el") (21093 19369 827494))
 
 ;;;***
 

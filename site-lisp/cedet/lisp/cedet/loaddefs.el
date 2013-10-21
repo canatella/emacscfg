@@ -7,7 +7,7 @@
 ;;;;;;  cedet-android-adb-version-check cedet-android-adb-devices
 ;;;;;;  cedet-android-adb-help cedet-android-start-ddms cedet-android-layoutopt
 ;;;;;;  cedet-android-target-list cedet-android-create-project) "cedet-android"
-;;;;;;  "cedet-android.el" (20755 5128))
+;;;;;;  "cedet-android.el" (20981 1996))
 ;;; Generated autoloads from cedet-android.el
 
 (autoload 'cedet-android-create-project "cedet-android" "\
@@ -66,17 +66,6 @@ Update the classpath for `cedet-java' to include the android compile-time librar
 
 ;;;***
 
-;;;### (autoloads (cedet-compat-utest) "cedet-compat" "cedet-compat.el"
-;;;;;;  (20588 41924))
-;;; Generated autoloads from cedet-compat.el
-
-(autoload 'cedet-compat-utest "cedet-compat" "\
-Test compatability functions.
-
-\(fn)" t nil)
-
-;;;***
-
 ;;;### (autoloads nil "cedet-edebug" "cedet-edebug.el" (20580 44388))
 ;;; Generated autoloads from cedet-edebug.el
 
@@ -87,7 +76,7 @@ Test compatability functions.
 ;;;***
 
 ;;;### (autoloads (cedet-gnu-global-version-check) "cedet-global"
-;;;;;;  "cedet-global.el" (20745 54487))
+;;;;;;  "cedet-global.el" (20981 1996))
 ;;; Generated autoloads from cedet-global.el
 
 (autoload 'cedet-gnu-global-version-check "cedet-global" "\
@@ -102,7 +91,7 @@ return nil.
 
 ;;;### (autoloads (cedet-graphviz-dot-version-check cedet-graphviz-neato-command
 ;;;;;;  cedet-graphviz-dot-command) "cedet-graphviz" "cedet-graphviz.el"
-;;;;;;  (20580 44388))
+;;;;;;  (20981 1996))
 ;;; Generated autoloads from cedet-graphviz.el
 
 (defvar cedet-graphviz-dot-command "dot" "\
@@ -126,7 +115,7 @@ return nil.
 ;;;***
 
 ;;;### (autoloads (cedet-javap-dump-class cedet-java-version-check)
-;;;;;;  "cedet-java" "cedet-java.el" (20606 54808))
+;;;;;;  "cedet-java" "cedet-java.el" (20981 1996))
 ;;; Generated autoloads from cedet-java.el
 
 (autoload 'cedet-java-version-check "cedet-java" "\
@@ -177,7 +166,7 @@ If ARG is nil, then toggle.
 ;;;***
 
 ;;;### (autoloads (cogre cogre-arrow cogre-link cogre-node cogre-base-graph
-;;;;;;  cogre-graph-element) "cogre" "cogre.el" (20779 52264))
+;;;;;;  cogre-graph-element) "cogre" "cogre.el" (20981 1996))
 ;;; Generated autoloads from cogre.el
 
 (eieio-defclass-autoload 'cogre-graph-element '(eieio-named) "cogre" "A Graph Element.\nGraph elements are anything that is drawn into a `cogre-base-graph'.\nGraph elements have a method for marking themselves dirty.")
@@ -200,7 +189,7 @@ Optional argument GRAPH-CLASS indicates the type of graph to create.
 ;;;***
 
 ;;;### (autoloads (data-debug-new-buffer) "data-debug" "data-debug.el"
-;;;;;;  (20746 56154))
+;;;;;;  (20979 61065))
 ;;; Generated autoloads from data-debug.el
 
 (autoload 'data-debug-new-buffer "data-debug" "\
@@ -268,7 +257,7 @@ Only checks one based on which kind of Emacs is being run.
 
 ;;;***
 
-;;;### (autoloads nil "mode-local" "mode-local.el" (20746 56154))
+;;;### (autoloads nil "mode-local" "mode-local.el" (20981 1996))
 ;;; Generated autoloads from mode-local.el
 
 (put 'define-overloadable-function 'doc-string-elt 3)
@@ -362,9 +351,9 @@ Semantic mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("cedet-cscope.el" "cedet-files.el" "cedet-idutils.el"
-;;;;;;  "cedet.el" "pulse.el" "srecode.el" "working.el") (20954 31486
-;;;;;;  278977))
+;;;### (autoloads nil nil ("cedet-compat.el" "cedet-cscope.el" "cedet-files.el"
+;;;;;;  "cedet-idutils.el" "cedet.el" "pulse.el" "srecode.el" "working.el")
+;;;;;;  (21093 19369 99132))
 
 ;;;***
 

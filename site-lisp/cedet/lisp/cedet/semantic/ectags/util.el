@@ -137,7 +137,7 @@ The returned buffer will be recycled in future calls to this function."
 	  nil)
       (setq str (with-current-buffer b
 		  (goto-char (point-min))
-		  (if (re-search-forward "Exuberant Ctags \\([0-9.]+\\)\\(~svn[0-9]+\\)?," nil t)
+		  (if (re-search-forward "Exuberant Ctags \\(\\([0-9.]+\\)\\(~svn[0-9]+\\)?\\|Development\\)," nil t)
 		      (match-string 1)
 		    nil)
 		  )
@@ -157,7 +157,7 @@ The returned buffer will be recycled in future calls to this function."
 		   )))
 	    (message "Exuberant CTags not found.  Found %s" whatver)
 	    nil)
-	(when (cedet-called-interactively-p 'interactive)
+	(when (called-interactively-p 'interactive)
 	  (message "Detected Exuberant CTags version : %s %s"
 		   str
 		   (if ropt
@@ -177,9 +177,9 @@ The returned buffer will be recycled in future calls to this function."
     (require 'inversion)
     (when (not v)
       (error "Exuberant CTags not found.  Use M-x semantic-ectags-version RET"))
-    (when (inversion-check-version v nil semantic-ectags-min-version)
-      (error "Version of CTags is %s.  Need at least %s"
-	     v semantic-ectags-min-version))
+;    (when (and (inversion-check-version v nil semantic-ectags-min-version) (not (string= v "Development")))
+;      (error "Version of CTags is %s.  Need at least %s"
+;	     v semantic-ectags-min-version))
     (when (not r)
       (error "CTags was not compiled with +regex support"))
     t))
@@ -196,7 +196,7 @@ return nil."
 		     (semantic-ectags-test-version)
 		   (error nil))
 	       (semantic-ectags-test-version))))
-    (when (and res (cedet-called-interactively-p 'interactive))
+    (when (and res (called-interactively-p 'interactive))
       (message "Exuberent CTags %s  - Good enough for CEDET." (car (semantic-ectags-version))))))
 
 (provide 'semantic/ectags/util)

@@ -11,8 +11,8 @@
 (setq cedet-root-path (file-name-as-directory "~/.emacs.d/site-lisp/cedet/"))
  
 (load-file (concat cedet-root-path "cedet-devel-load.el"))
-(add-to-list 'load-path (concat cedet-root-path "contrib"))
-(load-file "~/.emacs.d/site-lisp/cedet/contrib/cedet-contrib-load.el")
+;;(add-to-list 'load-path (concat cedet-root-path "contrib"))
+;;(load-file "~/.emacs.d/site-lisp/cedet/contrib/cedet-contrib-load.el")
 ;(load-library "wisent-ruby")
 ;(add-hook 'ruby-mode-hook #'wisent-ruby-default-setup)
 
@@ -31,7 +31,7 @@
 (semantic-mode 1)
  
 ;; load contrib library
-(require 'eassist)
+;;(require 'eassist)
  
 ;; customisation of modes
 
