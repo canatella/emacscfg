@@ -67,7 +67,8 @@
 (add-hook 'c-mode-common-hook 
   (lambda()
     (require 'dtrt-indent)
-    (dtrt-indent-mode t)))
+    (dtrt-indent-mode t)
+    (c-set-offset 'inextern-lang 0)))
 
 ;;; c-mode
 (font-lock-add-keywords 'c-mode
@@ -144,3 +145,13 @@
 ;; vc
 (eval-after-load "vc-hooks"
   '(define-key vc-prefix-map "=" 'ediff-revision))
+
+;; auto-fill mode
+(dolist (hook (list
+               'org-mode-hook
+               'text-mode-hook
+               'message-mode-hook
+               'magit-log-mode
+               'LaTeX-mode-hook
+               'erc-mode-hook))
+  (add-hook hook 'turn-on-auto-fill))
