@@ -5,7 +5,7 @@
 (global-set-key [f5]                    'quick-calc)
 (global-set-key [f6]                    'revert-buffer)
 (global-set-key [f7]                    'make-directory)
-(global-set-key [f8]                    'vc-dir)
+(global-set-key [f8]                    'magit-status)
 (global-set-key [H-f8]                  (lambda () (interactive) (find-file "~/Mind")))
 (global-set-key [f9]                    'rgrep)
 (global-set-key [f10]                   'recompile)
@@ -56,3 +56,10 @@
   (local-set-key [f10]                   'dsa/org-compile)
   (local-set-key [H-f10]                 'dsa/org-rpm-files)
   (local-set-key [f8]                    'dsa/org-vc-dir))
+
+(defun my/flymake-hook ()
+  (local-set-key (kbd "H-e")            '(lambda () (interactive)
+                                           (if flymake-err-info
+                                               (flymake-goto-next-error)
+                                             (next-error)))))
+                                           

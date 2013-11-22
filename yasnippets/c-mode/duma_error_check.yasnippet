@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: duma error check
+# key: ife
+# --
+if ($1) {
+   tr_${2:emerg}(`(duma/trace-group)`, "$3");
+   goto error_$4;
+}
+$0

@@ -17,7 +17,7 @@
 ;;; enable ido
 (setq ido-enable-flex-matching t)
 (ido-mode 1)
-(ido-ubiquitous t) 
+(ido-ubiquitous t)
 
 ;;; html-mode
 (add-hook 'sgml-mode-hook
@@ -46,14 +46,32 @@
   (backward-char))
 
 (add-hook 'ruby-mode-hook
-          (lambda () 
+          (lambda ()
             (local-set-key (kbd "\C-c \C-e") 'ruby-close-block)
             (local-set-key (kbd "H-,") 'ruby-string-interp)
             (subword-mode 't)))
 
 ;;; flymake
-;;(require 'flymake)
-(setq flymake-run-in-place nil)
+(require 'flymake-cursor)
+(setq flymake-run-in-place t)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
+(add-hook 'flymake-mode-hook 'my/flymake-hook)
+(defadvice semantic-idle-summary-idle-function (around my/show-flymake-error activate)
+  (if (flyc/-get-error-at-point)
+      (flyc/show-fly-error-at-point-now)
+    ad-do-it))
+
+
+(defadvice flyc/maybe-fixup-message (around my/change-flymake-error-face activate)
+  ad-do-it
+  (setq ad-return-value
+        (let ((line-err-info-list (flyc/-get-error-at-point)))
+          (propertize ad-return-value 'face
+                      (cond ((string= (aref line-err-info-list 3) "e")
+                             'flymake-errline)
+                            ((string= (aref line-err-info-list 3) "w")
+                             'flymake-warnline)
+                            (t 'flymake-infoline))))))
 
 (defun my-toggle-fullscreen (&optional f)
   (interactive)
@@ -64,7 +82,7 @@
                            (progn (setq old-fullscreen current-value)
                                   'fullboth)))))
 ;;; guess offset
-(add-hook 'c-mode-common-hook 
+(add-hook 'c-mode-common-hook
   (lambda()
     (require 'dtrt-indent)
     (dtrt-indent-mode t)
@@ -89,12 +107,12 @@
 (global-rainbow-delimiters-mode)
 
 ;;; expand region
-(add-to-list 'load-path "~/.emacs.d/site-lisp/expand-region.el")
-(require 'expand-region)
+;;(add-to-list 'load-path "~/.emacs.d/site-lisp/expand-region.el")
+;;(require 'expand-region)
 
 
 (setq package-archives '(
-                         ;;("ELPA" . "http://tromey.com/elpa/") 
+                         ;;("ELPA" . "http://tromey.com/elpa/")
                          ;;("gnu" . "http://elpa.gnu.org/packages/")
                          ;;("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")
@@ -111,7 +129,7 @@
 (add-hook 'shell-mode-hook 'my-dirtrack-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(autoload 'bash-completion-dynamic-complete 
+(autoload 'bash-completion-dynamic-complete
   "bash-completion"
   "BASH completion hook")
 (add-hook 'shell-dynamic-complete-functions
@@ -153,5 +171,17 @@
                'message-mode-hook
                'magit-log-mode
                'LaTeX-mode-hook
+               'c-mode-common-hook
                'erc-mode-hook))
   (add-hook hook 'turn-on-auto-fill))
+
+(setq comment-auto-fill-only-comments t)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)

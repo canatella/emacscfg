@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: variadic-body
+# key: va
+# --
+va_list ap;
+va_start(ap, $1);
+
+$0
+
+va_end(ap);

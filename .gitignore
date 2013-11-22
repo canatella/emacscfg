@@ -10,3 +10,5 @@ srecode-map.el
 .emacs.desktop*
 ede-projects.el
 tramp
+/elpa/archives/melpa/archive-contents
+session.*
