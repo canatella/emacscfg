@@ -1,20 +1,36 @@
-;;; configure load path
-(add-to-list 'load-path "~/.emacs.d")
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-;;; initialize packages
+(require 'appearance)
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-recipes")
+(setq el-get-user-package-directory "~/.emacs.d/el-get-init-files")
+(setq el-get-sources '((:name flycheck
+			      :type github
+			      :pkgname "lunaryorn/flycheck"
+			      :description "On-the-fly syntax checking extension"
+			      )))
 (package-initialize)
-(load-library "appearance")
-(load-library "behaviour")
-(load-library "editing")
-(load-library "bindings")
-(load-library "cedetrc")
-(load-library "duma")
+(setq my-packages
+      (append
+       '(yasnippet color-theme-solarized ido-ubiquitous cedet sr-speedbar rainbow-delimiters
+		   ri org-mode)
+            (mapcar 'el-get-source-name el-get-sources)))
+(el-get 'sync my-packages)
 
-(defun byte-recompile-world ()
-  "recompile emacs.d"
-  (interactive)
-  (byte-recompile-directory "~/.emacs.d/site-lisp" 0))
+(require 'behaviour)
+(require 'editing)
+(require 'bindings)
+
+;; (toggle-frame-fullscreen)
+;; dired-hide-details-mode
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -23,6 +39,7 @@
  ;; If there is more than one, they won't work right.
  '(ac-auto-show-menu nil)
  '(ac-use-fuzzy nil)
+ '(auto-save-list-file-prefix "~/.emacs.d/var/auto-save-list/.saves-")
  '(browse-url-browser-function (quote browse-url-chromium))
  '(c-basic-offset 4)
  '(comint-buffer-maximum-size 20000)
@@ -34,7 +51,7 @@
  '(comint-prompt-read-only t)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
- '(comint-scroll-to-bottom-on-output nil)
+ '(comment-auto-fill-only-comments t)
  '(compilation-ask-about-save nil)
  '(custom-safe-themes
    (quote
@@ -46,6 +63,7 @@
       (ecb-speedbar-buffer-name 0.1638655462184874 . 0.6842105263157895)
       (ecb-history-buffer-name 0.1638655462184874 . 0.2982456140350877)))))
  '(ecb-options-version "2.40")
+ '(ede-project-placeholder-cache-file "~/.emacs.d/var/ede-projects.el")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(espresso-enabled-frameworks (quote (javascript prototype)))
@@ -53,8 +71,12 @@
  '(flymake-compilation-prevents-syntax-check nil)
  '(flymake-gui-warnings-enabled nil)
  '(flymake-no-changes-timeout 0.3)
+ '(global-font-lock-mode t)
  '(global-semantic-idle-completions-mode nil nil (semantic/idle))
+ '(ido-enable-flex-matching t)
+ '(ido-mode (quote both) nil (ido))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
  '(js-enabled-frameworks (quote (javascript prototype)))
  '(js-indent-level 2)
  '(js2-basic-offset 2)
@@ -68,16 +90,22 @@
  '(midnight-mode t nil (midnight))
  '(mutt-alias-file-list (quote ("~/.mutt_aliases")))
  '(protect-buffer-bury-p nil)
+ '(savehist-file "~/.emacs.d/var/history")
+ '(savehist-mode t)
+ '(scroll-bar-mode nil)
  '(semantic-complete-inline-analyzer-displayor-class (quote semantic-displayor-ghost))
  '(semantic-complete-inline-analyzer-idle-displayor-class (quote semantic-displayor-ghost))
  '(semantic-displayor-tooltip-mode (quote standard))
  '(semantic-mode t)
+ '(semanticdb-default-save-directory "~/.emacs.d/var/semanticdb")
  '(sr-speedbar-width-x 48)
+ '(srecode-map-save-file "~/.emacs.d/var/srecode-map.el")
  '(tail-hide-delay 2)
  '(tail-max-size 10)
  '(tail-volatile nil)
  '(text-scale-mode-step 1.02)
- '(tramp-default-method "ssh")
+ '(tool-bar-mode nil)
+ '(tramp-default-method "ssh" t)
  '(vc-cvs-diff-switches "-u")
  '(woman-cache-level 3)
  '(woman-imenu t)
