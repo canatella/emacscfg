@@ -21,7 +21,7 @@
 (setq my-packages
       (append
        '(yasnippet color-theme-solarized ido-ubiquitous cedet sr-speedbar rainbow-delimiters
-		   ri org-mode)
+		   ri org-mode rnc-mode)
             (mapcar 'el-get-source-name el-get-sources)))
 (el-get 'sync my-packages)
 
