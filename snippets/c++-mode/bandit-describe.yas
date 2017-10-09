@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: bandit describe
+# key: desc
+# --
+describe("$1", [&]() {
+  $0
+});

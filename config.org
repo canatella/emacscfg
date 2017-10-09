@@ -1,0 +1,886 @@
+#+TITLE: Emacs configuration
+#+AUTHOR: Damien Merenne
+
+* Environment
+
+** Shell integration
+
+   Make sure our bash configured environment variables are correctly setup in
+   Emacs.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package exec-path-from-shell
+       :ensure t
+       :customize
+       (exec-path-from-shell-variables
+        '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME"))
+       :config
+       (when (memq window-system '(mac ns x))
+         (exec-path-from-shell-initialize)))
+   #+end_src
+
+** Keyboard
+
+   Setup modifiers key for MacOS
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ns-win
+       :if (string= system-type "darwin")
+       :customize
+       (mac-right-command-modifier 'hyper)
+       (mac-right-option-modifier '())
+       (mac-option-modifier 'meta)
+       (mac-command-modifier 'hyper))
+   #+end_src
+
+   I'm using a Bépo layout, fix up some keys.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package bepo
+       :config
+       (bepo-global-mode))
+   #+end_src
+
+** Display
+
+   Hide tool bar and scroll bar.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package scroll-bar
+       :customize
+       (scroll-bar-mode '() "No scroll bar."))
+
+     (use-package tool-bar
+       :customize
+       (tool-bar-mode '() "No tool bar."))
+   #+end_src
+
+   Setup our frame layout.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package frame
+       :customize
+       (frame-background-mode 'dark "Using a dark theme.")
+       (initial-frame-alist '((vertical-scroll-bars) (fullscreen . maximized)))
+       (display-buffer-alist
+        '((".*" display-buffer-reuse-window (reusable-frames . t)))
+        "Do not always create a new window, reuse old ones.")
+       :config
+       (toggle-frame-fullscreen)
+       (set-frame-parameter nil 'fullscreen 'fullboth)
+       (set-frame-parameter (selected-frame) 'alpha '(100 100))
+       (add-to-list 'default-frame-alist '(alpha 100 100)))
+   #+end_src
+
+   Use Ubuntu monospaced font.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package faces
+       :config
+       (when (member "Ubuntu Mono" (font-family-list))
+         (set-face-attribute 'default nil :font "Ubuntu Mono-16")))
+   #+end_src
+
+   Setup theme.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package solarized-theme
+       :disabled
+       :ensure t
+       :customize
+       (solarized-distinct-fring-background '())
+       (solarized-use-less-bold t)
+       (solarized-use-variable-pitch '())
+       :config
+       (load-theme 'solarized-dark t))
+
+     (use-package color-theme-sanityinc-tomorrow
+       :ensure t
+       :init
+       (add-to-list 'custom-safe-themes "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a")
+       :config
+       (color-theme-sanityinc-tomorrow-night))
+   #+end_src
+
+
+   Pimp up my modeline. This needs to be loaded after solarized otherwise the color
+   won't match.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package powerline
+       :ensure t
+       :after color-theme-sanityinc-tomorrow
+       :customize
+       (powerline-default-separator 'arrow-fade)
+       (powerline-image-apple-rgb t "Fix separator image color on MacOS.")
+       :config
+       (cl-flet ((no-decoration
+                  (lambda (face)
+                    (set-face-attribute face nil :box nil :overline nil :underline nil))))
+         (no-decoration 'mode-line)
+         (no-decoration 'mode-line-inactive)
+         (no-decoration 'mode-line-highlight)
+         (no-decoration 'mode-line-emphasis))
+       (powerline-default-theme))
+   #+end_src
+
+* Basic Emacs setup
+
+  This configures the most basic Emacs functionalities as I like them.
+
+  Make use of the hyper key for some common operation and setup basic behaviour.
+
+  #+begin_src emacs-lisp :tangle yes
+    (use-package emacs
+      :bind (("H-s" . save-buffer)
+             ("H-k" . kill-buffer)
+             ("H-o" . other-window)
+             ("H-i" . pop-global-mark))
+      :customize
+      (inhibit-startup-screen t "No startup screen.")
+      (ctl-arrow '() "Display octal value for control chars.")
+      (fill-column 80 "Auto fill at 80 chars.")
+      :config
+      (defun my-push-mark ()
+        (interactive)
+        (push-mark))
+      (add-hook 'before-save-hook 'delete-trailing-whitespace))
+  #+end_src
+
+  Make `revert-buffer' and `make-directory' more accessible. Save all backup files
+  in the Emacs config directory.
+
+** Files
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package files
+       :bind (([f6] . revert-buffer)
+              ([f7] . make-directory))
+       :customize
+       (backup-directory-alist
+        '(("." . "~/.emacs.d/backup-filesd"))
+        "Do no clutter file system with emacs backup files."))
+   #+end_src
+
+
+** Browse URL
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package osx-browse
+       :ensure t
+       :if (string= system-type "darwin"))
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package browse-url
+       :customize
+       (browse-url-browser-function #'osx-browse-url-firefox))
+   #+end_src
+
+   Use universal diff style.
+
+** Diff
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package diff
+       :customize
+       (diff-switches "-u" "Use universal diff format."))
+   #+end_src
+
+   Enable syntax highlighting by default.
+
+** Font
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package font-core
+       :customize
+       (global-font-lock-mode t  "Enable syntax highlighting."))
+   #+end_src
+
+** Diminish
+
+   Unclutter mode-line for Emacs native modes.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package autorevert
+       :customize
+       (auto-revert-mode-text '() "No lighter for autorevert"))
+
+     (use-package abbrev
+       :diminish abbrev-mode)
+
+     (use-package subword
+       :diminish subword-mode)
+   #+end_src
+
+** Simple
+
+   Bind goto-line to a function key and use unicode for `auto-fill-mode' mode-line
+   lighter.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package simple
+       :bind (([f4] . goto-line))
+       :diminish auto-fill-function "↵")
+   #+end_src
+
+** Indent
+
+   Add a function to reindent whole buffer.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package emacs
+       :bind (([f2] . my-indent-buffer))
+       :customize
+       (indent-tabs-mode '() "Use spaces for indentation.")
+       :config
+       (defun my-indent-buffer ()
+         "Re-indent current buffer."
+         (interactive)
+         (delete-trailing-whitespace)
+         (indent-region (point-min) (point-max))
+         (untabify (point-min) (point-max))))
+   #+end_src
+
+   Add a function to reopen a file as root using tramp.
+
+** Tramp
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package tramp
+       :bind (([f3] . my-file-reopen-as-root))
+       :config
+       (defun my-file-reopen-as-root ()
+         "Re-open current file as root using `tramp' and sudo."
+         (interactive)
+         (when buffer-file-name
+           (find-alternate-file
+            (concat "/sudo:root@localhost:"
+                    buffer-file-name)))))
+   #+end_src
+
+** Calendar
+
+   Calendar starts on Monday in Europe.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package calendar
+       :customize
+       (calendar-week-start-day 1
+                                "In Europe, the week starts on Monday."))
+
+   #+end_src
+
+** Calc
+
+   Ease access to the calculator.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package calc
+       :bind (([f5] . quick-calc)))
+
+   #+end_src
+
+** Save history
+
+   Save history file in one place.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package savehist
+       :customize
+       (savehist-file "~/.emacs.d/var/history"
+                      "Do not clutter file system with history save files.")
+       (savehist-mode t
+                      "Save minibuffer history."))
+   #+end_src
+
+   Remember history.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package recentf)
+   #+end_src
+
+** Ido setup
+
+   I do enjoy ido.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ido
+       :bind (("H-b" . ido-switch-buffer))
+       :customize
+       (ido-file-extensions-order
+        '(".cpp" ".m" ".h" ".java" ".c" ".el" ".rb" "CMakeLists.txt")
+        "Put source file first.")
+       (ido-enable-flex-matching t
+                                 "Allow flex maching.")
+       (ido-everywhere t
+                       "Always use ido.")
+       :config
+       (ido-mode 1))
+   #+end_src
+
+   Enable smex for ido like alternative to M-x.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package smex
+       :ensure t
+       :bind (("H-x" . smex)
+              ("H-X" . smex-major-mode-commands)))
+   #+end_src
+
+** Common interpreter setup
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package comint
+       :customize
+       (comint-buffer-maximum-size 20000
+                                   "Increase make comint buffer size.")
+       (comint-prompt-read-only t
+                                "The prompt is read only.")
+       (comint-scroll-to-bottom-on-input t
+                                         "Scroll all buffer window.")
+       (comint-scroll-show-maximum-output t
+                                          "Point to end after insertion.")
+       (comint-move-point-for-output t
+                                     "Move point after output."))
+   #+end_src
+
+   Interpret ANSI escape color code in comint buffers.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ansi-color
+       :after comint
+       :config
+       (defun my-colorize-compilation-buffer ()
+         "Use ascii color to colorize the compilation buffer"
+         (toggle-read-only)
+         (ansi-color-apply-on-region compilation-filter-start (point))
+         (toggle-read-only))
+       (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+   #+end_src
+
+** Which key
+
+   Use which key to discover new keys.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package which-key
+       :ensure t
+       :diminish which-key-mode
+       :config
+       (which-key-mode))
+   #+end_src
+
+** Org
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org
+       :customize
+       (org-src-fontify-natively t "Fontify code blocks.")
+       (org-src-tab-acts-natively t "Ident using language behaviour in code blocks.")
+       :config
+       (add-hook 'org-mode 'turn-on-auto-fill)
+       (add-hook 'org-shiftup-final-hook 'windmove-up)
+       (add-hook 'org-shiftleft-final-hook 'windmove-left)
+       (add-hook 'org-shiftdown-final-hook 'windmove-down)
+       (add-hook 'org-shiftright-final-hook 'windmove-right))
+   #+end_src
+
+** Windmove
+
+   Use windwove to switch between windows.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package windmove
+       :bind (("S-<left>" . windmove-left)
+              ("S-<right>" . windmove-right)
+              ("S-<up>" . windmove-up)
+              ("S-<down>" . windmove-down)))
+   #+end_src
+
+* Documentation
+
+** Woman
+
+   Use woman for reading man pages.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package woman
+       :bind ([f11] . woman))
+   #+end_src
+
+** Dash
+
+   Use dash docsets.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package helm-dash
+       :ensure t
+       :customize
+       (helm-dash-browser-func #'osx-browse-url-firefox)
+       :config
+       (seq-do (lambda (docset)
+                 (helm-dash-ensure-docset-installed docset)
+                 (add-to-list 'helm-dash-common-docsets docset))
+               '("Cordova")))
+   #+end_src
+
+* Programming language
+
+** Common configuration
+
+   I could not live without magit.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package magit
+       :ensure t
+       :bind (([f8] . magit-status))
+       :after ediff
+       :customize
+       (magit-save-repository-buffers 'dontask
+                                      "Do not ask to save buffer when refreshing.")
+       (magit-wip-after-apply-mode-lighter '()
+                                           "No indicator for work in progress in modline.")
+       (magit-wip-after-save-mode-lighter '()
+                                          "No indicator for work in progress in modline.")
+       (magit-wip-after-save-local-mode-lighter '()
+                                                "No indicator for work in progress in modline.")
+       (magit-wip-after-apply-mode t
+                                   "Track work in progress in a git branch.")
+       (magit-wip-after-save-mode t
+                                  "Track work in progress in a git branch."))
+   #+end_src
+
+   Timemachine is a nice feat.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package git-timemachine
+       :ensure t)
+   #+end_src
+
+   I use ediff for my diffing/merging need.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ediff
+       :ensure t
+       :customize
+       (ediff-split-window-function #'split-window-horizontally
+                                    "Split window horizontaly in Ediff.")
+       (ediff-window-setup-function #'ediff-setup-windows-plain
+                                    "Put all Ediff buffers in the same frame."))
+   #+end_src
+
+   Use flycheck for inline error highlighting.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flycheck
+       :ensure t
+       :customize
+       (flycheck-mode-line-prefix "ⓕ"
+                                  "Change lighter.")
+       (flycheck-mode-line '(:eval (my-flycheck-mode-line-status-text)))
+       :config
+       (defun my-flycheck-mode-line-status-text (&optional status)
+         (let ((text (pcase (or status flycheck-last-status-change)
+                       (`not-checked "")
+                       (`no-checker "")
+                       (`running (propertize "ⓕ" 'font-lock-face
+                                             '(:foreground "#aaaaaa")))
+                       (`errored (propertize "ⓕ" 'font-lock-face
+                                             '(:strike-through t)))
+                       (`finished
+                        (let-alist (flycheck-count-errors flycheck-current-errors)
+                          (if (or .error .warning)
+                              (propertize "ⓕ" 'font-lock-face
+                                          '(:foreground "red"))
+                            "ⓕ")))
+                       (`interrupted ".")
+                       (`suspicious "?"))))
+           text))
+       (global-flycheck-mode))
+   #+end_src
+
+   Use auto-complete for completion.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package auto-complete
+       :ensure t
+       :after yasnippet ; Avoid conflicts on TAB key.
+       :diminish auto-complete-mode "ⓐ"
+       :config
+       (ac-config-default)
+       (ac-set-trigger-key "TAB")
+       (ac-set-trigger-key "<tab>")
+       )
+   #+end_src
+
+   Use projectile.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package projectile
+       :ensure t
+       :bind (([f9] . maybe-projectile-grep)
+              ("H-f" . maybe-projectile-find-file))
+       :customize
+       (projectile-switch-project-action 'projetile-vc
+                                         "Open `magit' when switching to a project.")
+       (projectile-mode-line '(:eval (if (projectile-project-p) "ⓟ" ""))
+                             "Use a smaller unicode modeline indicator.")
+       :config
+       (projectile-mode t)
+       (defun maybe-projectile-find-file ()
+         "Call projectile grep when in a managed project, rgrep otherwise."
+         (interactive)
+         (call-interactively
+          (if (projectile-project-p)
+              #'projectile-find-file #'find-file)))
+       (defun maybe-projectile-grep ()
+         "Call projectile grep when in a managed project, rgrep otherwise."
+         (interactive)
+         (call-interactively
+          (if (projectile-project-p)
+              #'projectile-grep #'rgrep)))
+       (projectile-mode t))
+   #+end_src
+
+   I use yasnippets for my templating needs.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet
+       :ensure t
+       :diminish yas-minor-mode "ⓨ"
+       :bind (("H-," . yas-expand))
+       :config
+       (add-to-list 'load-path "~/emacs.d/plugins/yasnippet")
+       (yas-global-mode t))
+   #+end_src
+
+   Setup compilation mode.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package compile
+       :bind (("H-e" . next-error)
+              ([f10] . recompile)
+              ([H-f10] . compile)
+              ([s-f10] . kill-compilation))
+       :diminish '(compilation-in-progress . "⚙")
+       :customize
+       (compilation-ask-about-save '()
+                                   "Do not ask for save when compiling.")
+       (compilation-scroll-output 'first-error
+                                  "Scroll down with output, but stop at first error."))
+   #+end_src
+
+   Automatically setup indentation level.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dtrt-indent
+       :ensure t
+       :customize
+       (dtrt-indent-mode t
+                         "Guess indentation.")
+       (dtrt-indent-active-mode-line-info ""
+                                          "Remove mode line info."))
+   #+end_src
+
+** C/C++/Java
+
+   Use clang format for identation based on google style.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package clang-format
+       :ensure t
+       :config
+       (defun my-clang-format-setup ()
+         "Reindent buffer or region with clang."
+         (local-set-key [C-M-tab] #'clang-format-region)
+         (local-set-key [f2] #'clang-format-buffer))
+       (add-hook 'c-mode-common-hook #'my-clang-format-setup))
+
+     (use-package google-c-style
+       :config
+       (add-hook 'c-mode-common-hook #'google-set-c-style))
+   #+end_src
+
+   Setup cc-mode.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package cc-mode
+       :customize
+       (c-basic-offset 2 "Use 2 spaces for indentation.")
+       :dash
+       (c++-mode "C++")
+       (c++-mode "C++")
+       (java-mode "Android")
+       :config
+       (defun my-c-mode-common-setup ()
+         "Use auto fill and subword mode."
+         (turn-on-auto-fill)
+         (subword-mode t))
+       (add-hook 'c-mode-common-hook #'my-c-mode-common-setup)
+       (add-hook 'c++-mode-hook #'my-c++-mode-setup))
+   #+end_src
+
+   Use rtags.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rtags
+       :customize
+       (rtags-enabled '() "Use rtags only for code navigation.")
+       :ensure t)
+
+     (use-package ac-rtags
+       :ensure t
+       :after rtags)
+
+     (use-package flycheck-rtags
+       :disabled
+       :ensure t
+       :after rtags)
+   #+end_src
+
+   Use flycheck clang-tidy checker.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flycheck-clang-tidy
+       :after flycheck
+       :load-path "~/.emacs.d/packages/flycheck-clang-tidy"
+       :config
+       (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
+   #+end_src
+
+   Enable GUD with LLDB support
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package gud)
+   #+end_src
+
+** Ruby
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ruby-mode
+       :customize
+       (ruby-indent-level 2
+                          "Use 2 space for indenting ruby code.")
+       :config
+       (defun ruby-close-block ()
+         "Close ruby block."
+         (interactive)
+         (unless (string-match "^[[:blank:]]*$" (buffer-substring (line-beginning-position) (line-end-position)))
+           (newline))
+         (insert "end")
+         (ruby-indent-line))
+       (defun my-ruby-mode-hook ()
+         (interactive)
+         (helm-dash-activate-docset "Ruby_2")
+         (helm-dash-activate-docset "Ruby_on_Rails_4")
+         (local-set-key (kbd "C-c C-e") #'ruby-close-block)
+         (turn-on-auto-fill)
+         (subword-mode t))
+       (add-hook 'ruby-mode-hook #'my-ruby-mode-hook))
+   #+end_src
+
+   Use robe.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package robe
+       :ensure t
+       :after ruby-mode
+       :diminish robe-mode
+       :config
+       (defun my-robe-setup ()
+         (local-set-key (kbd "H-j") #'robe-jump)
+         (robe-mode))
+       (add-hook 'ruby-mode-hook #'my-robe-setup))
+   #+end_src
+
+   Add minitest integration package.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ruby-minitest
+       :after ruby-mode
+       :customize
+       (ruby-minitest-file-match "\\(Minitest::Test\\|HlsTestCase\\)"
+                                 "Detect our test cases")
+       :config
+       (defun my-ruby-minitest-setup ()
+         (interactive)
+         (local-set-key (kbd "H-t") #'ruby-minitest-run-dwim)
+         (local-set-key (kbd "S-H-t") #'ruby-minitest-run-test-at-point)
+         (local-set-key (quote [f10]) #'ruby-minitest-run-suite))
+       (add-hook 'ruby-mode-hook #'my-ruby-minitest-setup))
+   #+end_src
+
+   Support erb and yaml.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package eruby-mode
+       :diminish eruby-mode
+       :custom-faces
+       (eruby-standard-face ((t (:slant italic)))))
+
+     (use-package yaml-mode
+       :ensure t
+       :mode (("\\.yml\\'" . yaml-mode)))
+
+     (use-package rhtml-mode
+       :ensure t)
+   #+end_src
+
+   Use projectile rails integration package.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package projectile-rails
+       :ensure t
+       :after projectile
+       :customize
+       (projectile-rails-keymap-prefix (kbd "C-c r")
+                                       "Map `projectile-rails' key map to C-c r.")
+       :config
+       (projectile-rails-global-mode))
+   #+end_src
+
+** HTML/SGML
+
+   Fix Bépo key bingding for < and >. Add a method to close current tag.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package sgml-mode
+       :bind (:map sgml-mode-map
+                   ("«" . my-sgml-mode-insert-less-then)
+                   ("»" . my-sgml-mode-insert-greater-then))
+       :config
+       (defun my-sgml-mode-insert-less-then ()
+         "Insert < at current point in buffer."
+         (interactive)
+         (insert "<"))
+
+       (defun my-sgml-mode-insert-greater-then ()
+         "Insert > at current point in buffer."
+         (interactive)
+         (insert ">"))
+
+       (defun my-sgml-close-tag (orig-fun &rest args)
+         (interactive)
+         "Close current element, possibly ending ruby block."
+         (if (and
+              (string= "text" (car (sgml-lexical-context)))
+              (let ((context (save-excursion (sgml-get-context))))
+                (if context
+                    (let ((tag-name (sgml-tag-name (car (last context)))))
+                      (or
+                       (string= "erb-multi-block" tag-name)
+                       (string= "erb-block" tag-name))))))
+             (progn
+               (insert "<% end %>")
+               (indent-according-to-mode))
+           (apply orig-fun args)))
+       (advice-add 'sgml-close-tag :around #'my-sgml-close-tag))
+   #+end_src
+
+** Elisp
+
+   Setup elisp mode.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package elisp-mode
+       :dash (emacs-lisp-mode "Emacs_Lisp"))
+   #+end_src
+
+   Add a function to evaluate the current buffer and run ert test suite.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ert
+       :config
+       (defun my-ert-mode-setup ()
+         (local-set-key (kbd "H-j") #'find-function))
+       (add-hook 'emacs-lisp-mode-hook #'my-ert-mode-setup)
+       (defun ert-eval-buffer-and-run ()
+         "Evaluate the current buffer and run ert"
+         (interactive)
+         (eval-buffer (current-buffer))
+         (call-interactively #'ert)))
+   #+end_src
+
+** Scala
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package scala-mode
+       :ensure t)
+   #+end_src
+
+** CMake
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package cmake-mode
+       :ensure t
+       :dash (cmake-mode "CMake"))
+   #+end_src
+* Veygo
+
+** Build system integration
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package vip-build
+       :after magit
+       :after repo
+       :after flycheck
+       :after flycheck-clang-tidy
+       :config
+       (defun my-vip-find-symbol-at-point ()
+         "Set mark at point and jump to symbol."
+         (interactive)
+         (push-mark nil t)
+         (call-interactively #'rtags-find-symbol-at-point))
+       (defun my-vip-build-hook ()
+         (interactive)
+         (let ((cmd (vip-project-compile-commands-file (vip-current-workspace)
+                                                       (vip-current-project))))
+           (when cmd
+             (setq-local flycheck-clang-tidy-build-path
+                         (file-name-directory cmd))
+             (setq-local flycheck-disabled-checkers '(rtags c/c++-clang c/c++-gcc)))
+           (when buffer-file-name
+             (flycheck-mode t))
+           (local-set-key (kbd "H-j") #'my-vip-find-symbol-at-point)
+           (local-set-key (kbd "H-f") #'vip-maybe-find-file)
+           (local-set-key (kbd "H-F") #'vip-find-other-project-file)))
+       (add-hook 'vip-build-minor-mode-hook #'my-vip-build-hook)
+       (vip-build-global-mode t)
+       (add-hook 'magit-status-mode-hook 'vip-maybe-turn-on-vip-build-mode)
+       (add-hook 'repo-mode-hook 'vip-maybe-turn-on-vip-build-mode))
+
+     (use-package veygo)
+   #+end_src
+
+** Tools
+
+   HLS Smpt-ETT support.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package hls-smptett)
+   #+end_src
+
+   Android integration.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package android
+       :after vip-build
+       :customize
+       (android-ndk-addr2line-find-binary 'vip-ndk-addr2line-find-binary
+                                          "Android addr2line binary path."))
+   #+end_src
+
+   Repo integration.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package repo
+       :ensure t
+       :config
+       (repo-status "~/Desktop/Veygo/vip/"))
+   #+end_src
+
+   Djinni integration.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package djinni-mode)
+   #+end_src

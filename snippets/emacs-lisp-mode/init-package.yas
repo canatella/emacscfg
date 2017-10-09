@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Emacs init package
+# key: ;;;init
+# --
+;;; init-`(setq name (substring (file-name-sans-extension (file-name-nondirectory (file-name-sans-extension (buffer-file-name)))) 5))`.el -- Customization for `name`
+
+;;; Commentary:
+
+;; Customize `name`
+
+;;; Code:
+
+$0
+
+(provide 'init-`name`)
+
+;;; init-`name`.el ends here

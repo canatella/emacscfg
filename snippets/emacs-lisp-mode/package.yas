@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Emacs package
+# key: ;;;
+# --
+;;; ${1:`(file-name-sans-extension (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`}.el -- $2
+
+;;; Commentary:
+
+;; $3
+
+;;; Code:
+
+$0
+
+(provide '$1)
+
+;;; $1.el ends here

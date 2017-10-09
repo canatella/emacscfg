@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: bandit spec
+# key: it
+# --
+it("$1", [&]() {
+  $0
+});
