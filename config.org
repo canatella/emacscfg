@@ -162,6 +162,16 @@
         "Do no clutter file system with emacs backup files."))
    #+end_src
 
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dired
+       :customize
+       (dired-always-read-filesystem t "Revert buffers before searching them.")
+       (dire-auto-revert-buffer-t "Reload dired buffer when revisiting.")
+       :config
+       (defun my-dired-setup ()
+         (dired-hide-details-mode t))
+       (add-hook 'dired-mode-hook #'my-dired-setup))
+   #+end_src
 
 ** Browse URL
 
