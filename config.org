@@ -258,7 +258,6 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package tramp
-       :bind (([f3] . my-file-reopen-as-root))
        :config
        (defun my-file-reopen-as-root ()
          "Re-open current file as root using `tramp' and sudo."
@@ -439,6 +438,8 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package helm-dash
        :ensure t
+       :bind (("<f3>" . helm-dash)
+              ("<H-f3>" . helm-dash-at-point))
        :customize
        (helm-dash-browser-func #'osx-browse-url-firefox)
        :config
