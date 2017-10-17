@@ -70,6 +70,13 @@
   :group 'vip-build
   :type '(repeat string))
 
+(defcustom vip-completion-system 'helm
+  "The completion system to be used by Projectile."
+  :group 'projectile
+  :type '(radio
+          (const :tag "Ido" ido)
+          (const :tag "Helm" helm)))
+
 
 (defvar vip-last-workspace nil "The last workspace used in an interactive command.")
 (defvar vip-last-project nil "The last project used in an interactive command.")
@@ -195,9 +202,28 @@ Use `default-directory' if DIRECTORY is nil."
   "Find the first item in `vip-project-history' that is not PROJECT."
   (--first (not (string= project it)) vip-project-history))
 
+(defun vip-helm-completing-read (prompt collection &optional predicate require-match
+                                        initial-input hist def inherit-input-method)
+  "Present a vip tailored PROMPT with COLLECTION choices."
+  (helm-completing-read-default-1 prompt collection predicate require-match
+                                  initial-input hist def inherit-input-method
+                                  "vip" "*helm vip*" t))
+
+(defun vip-completing-read (prompt collection &optional predicate require-match
+                                   initial-input hist def inherit-input-method)
+  "Present a vip tailored PROMPT with COLLECTION choices."
+  (funcall (cond
+            ((eq projectile-completion-system 'ido)
+             #'ido-completing-read)
+            ((eq projectile-completion-system 'helm)
+             #'vip-helm-completing-read)
+             (t #'completing-read))
+           prompt collection predicate require-match
+           initial-input hist def inherit-input-method))
+
 (defun vip-read-project (workspace &optional default)
   "Prompt for a project name in WORKSPACE, defaulting to DEFAULT or current project."
-  (ido-completing-read "Project: " (vip-project-names-manifest workspace) nil t nil
+  (vip-completing-read "Project: " (vip-project-names-manifest workspace) nil t nil
                        'vip-project-history (or default (vip-current-project))))
 
 (defun vip-target-names ()
@@ -206,7 +232,7 @@ Use `default-directory' if DIRECTORY is nil."
 
 (defun vip-read-target (workspace project)
   "Prompt for a target name in WORKSPACE PROJECT."
-  (ido-completing-read "Target: " (vip-target-names) nil t "build"))
+  (vip-completing-read "Target: " (vip-target-names) nil t "build"))
 
 (defun vip-fetch-workspace (&optional ask)
   "Fetch a workspace, prompting if ASK is not nil."
@@ -424,7 +450,7 @@ Look into PLATFORMS or `vip-platforms' if it is nil, look into vip-platforms."
 
 (defun vip-read-platform (workspace)
   "Prompt for a platform in WORKSPACE."
-  (ido-completing-read "Platform: " (vip-platforms workspace) nil t nil nil "all"))
+  (vip-completing-read "Platform: " (vip-platforms workspace) nil t nil nil "all"))
 
 (defmacro vip-with-project (workspace project &rest body)
   "Go into WORKSPACE PROJECT directory and evaluate BODY like nprog."
@@ -529,7 +555,7 @@ Prompt with project DEFAULT if not nil."
          (history-add-new-input nil)
          (def (or default (car history)))
          (ido-setup-hook #'vip-read-project-file-ido)
-         (file (ido-completing-read "Find file: " files nil t nil 'history def)))
+         (file (vip-completing-read "Find file: " files nil t nil 'history def)))
     (if (eq ido-exit 'fallback)
         (ido-find-file)
       (vip-project-file-add-to-history workspace project file)

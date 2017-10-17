@@ -270,16 +270,6 @@
 
    #+end_src
 
-** Calc
-
-   Ease access to the calculator.
-
-   #+begin_src emacs-lisp :tangle yes
-     (use-package calc
-       :bind (([f5] . quick-calc)))
-
-   #+end_src
-
 ** Save history
 
    Save history file in one place.
@@ -299,32 +289,55 @@
      (use-package recentf)
    #+end_src
 
-** Ido setup
-
-   I do enjoy ido.
+** Helm setup
 
    #+begin_src emacs-lisp :tangle yes
-     (use-package ido
-       :bind (("H-b" . ido-switch-buffer))
+     (use-package helm
+       :ensure t
+       :diminish helm-mode
+       :bind (("C-x C-f" . helm-find-files)
+              ("H-b" . helm-buffers-list)
+              ("<f5>" . helm-calcul-expression)
+              ("M-x" . helm-M-x))
        :customize
-       (ido-file-extensions-order
-        '(".cpp" ".m" ".h" ".java" ".c" ".el" ".rb" "CMakeLists.txt")
-        "Put source file first.")
-       (ido-enable-flex-matching t
-                                 "Allow flex maching.")
-       (ido-everywhere t
-                       "Always use ido.")
+       (helm-buffer-max-length 70 "display more of buffer names")
        :config
-       (ido-mode 1))
+       (require 'helm-config)
+       (helm-mode t))
+
+     (use-package helm-flx
+       :ensure t
+       :config
+       (helm-flx-mode t))
+
+     (use-package helm-fuzzier
+       :ensure t
+       :config
+       (helm-fuzzier-mode t))
+
+     (use-package helm-ido-like
+       :customize
+       (helm-adaptive-enabled-sources
+        ("describe-function" "describe-variable" "buffers")
+        "Puts last match on top for those sources")
+       :config
+       (helm-ido-like-load-ido-like-bottom-buffer)
+       (helm-ido-like-hide-modelines)
+       (helm-ido-like-hide-helm-modeline)
+       (helm-ido-like-header-lines-maybe)
+       (helm-ido-like-setup-bg-color)
+       (helm-ido-like-load-file-nav)
+       ;;(helm-ido-like-no-dots)
+       (helm-ido-like-load-fuzzy-enhancements)
+       (helm-ido-like-fix-fuzzy-files))
    #+end_src
 
-   Enable smex for ido like alternative to M-x.
+** Ag setup
 
    #+begin_src emacs-lisp :tangle yes
-     (use-package smex
+     (use-package helm-ag
        :ensure t
-       :bind (("H-x" . smex)
-              ("H-X" . smex-major-mode-commands)))
+       :after helm)
    #+end_src
 
 ** Common interpreter setup
@@ -506,11 +519,17 @@
        :ensure t
        :after yasnippet ; Avoid conflicts on TAB key.
        :diminish auto-complete-mode "ⓐ"
+       :customize
+       (ac-auto-start '())
        :config
        (ac-config-default)
-       (ac-set-trigger-key "TAB")
-       (ac-set-trigger-key "<tab>")
-       )
+       (ac-set-trigger-key '())
+       (ac-set-trigger-key '()))
+     (use-package ac-helm
+       :ensure t
+       :bind (("H-a" . ac-complete-with-helm)
+              :map ac-complete-mode-map
+              ("H-a" . ac-complete-with-helm)))
    #+end_src
 
    Use projectile.
@@ -518,13 +537,14 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package projectile
        :ensure t
-       :bind (([f9] . maybe-projectile-grep)
+       :bind (([f9] . maybe-projectile-ag)
               ("H-f" . maybe-projectile-find-file))
        :customize
        (projectile-switch-project-action 'projetile-vc
                                          "Open `magit' when switching to a project.")
        (projectile-mode-line '(:eval (if (projectile-project-p) "ⓟ" ""))
                              "Use a smaller unicode modeline indicator.")
+       (projectile-completion-system 'helm)
        :config
        (projectile-mode t)
        (defun maybe-projectile-find-file ()
@@ -533,12 +553,12 @@
          (call-interactively
           (if (projectile-project-p)
               #'projectile-find-file #'find-file)))
-       (defun maybe-projectile-grep ()
-         "Call projectile grep when in a managed project, rgrep otherwise."
+       (defun maybe-projectile-ag ()
+         "Call projectile ag when in a managed project, rgrep otherwise."
          (interactive)
          (call-interactively
           (if (projectile-project-p)
-              #'projectile-grep #'rgrep)))
+              #'helm-do-ag-project-root #'helm-do-ag)))
        (projectile-mode t))
    #+end_src
 
