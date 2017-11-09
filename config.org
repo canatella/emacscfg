@@ -800,11 +800,13 @@
        (ruby-minitest-file-match "\\(Minitest::Test\\|HlsTestCase\\)"
                                  "Detect our test cases")
        :config
+       (add-to-list 'safe-local-variable-values
+               '(ruby-minitest-file-match . "require 'test_helper'"))
        (defun my-ruby-minitest-setup ()
          (interactive)
          (local-set-key (kbd "H-t") #'ruby-minitest-run-dwim)
          (local-set-key (kbd "S-H-t") #'ruby-minitest-run-test-at-point)
-         (local-set-key (quote [f10]) #'ruby-minitest-run-suite))
+         (local-set-key (kbd "C-H-t") #'ruby-minitest-run-suite))
        (add-hook 'ruby-mode-hook #'my-ruby-minitest-setup))
    #+end_src
 
