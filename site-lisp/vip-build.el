@@ -217,6 +217,8 @@ Use `default-directory' if DIRECTORY is nil."
              #'ido-completing-read)
             ((eq projectile-completion-system 'helm)
              #'vip-helm-completing-read)
+            ((eq projectile-completion-system 'ivy)
+             #'ivy-completing-read)
              (t #'completing-read))
            prompt collection predicate require-match
            initial-input hist def inherit-input-method))
