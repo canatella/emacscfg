@@ -1008,3 +1008,13 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package djinni-mode)
    #+end_src
+
+*** Redmine integration
+
+    #+begin_src emacs-lisp :tangle yes
+      (use-package org-redmine
+        :ensure t
+        :customize
+        (org-redmine-uri "https://redmine.veygo.co")
+        (org-redmine-auth-api-key my-secrets-veygo-redmine-key))
+    #+end_src
