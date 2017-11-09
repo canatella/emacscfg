@@ -322,6 +322,11 @@ If LOCAL is not nl, build for local host."
   (let ((command (vip-build-command workspace project target t)))
     (compile command)))
 
+(defun vip-build-current ()
+  "Build current project."
+  (interactive)
+  (vip-build-no-dep (vip-current-workspace) (vip-current-project) "config build install"))
+
 (defun vip-build-modified (workspace project target)
   "Run vip builder in WORKSPACE for PROJECT TARGET, rebuilding only modified projects."
   (interactive (vip-build-parameters current-prefix-arg))
@@ -655,7 +660,7 @@ Prompt with project DEFAULT if not nil."
 (when (not vip-build-minor-mode-map)
   (setq vip-build-minor-mode-map (make-sparse-keymap))
   (define-key vip-build-minor-mode-map (kbd "<f10>") #'vip-build-modified)
-  (define-key vip-build-minor-mode-map (kbd "H-<f10>") #'vip-build)
+  (define-key vip-build-minor-mode-map (kbd "H-<f10>") #'vip-build-current)
   (define-key vip-build-minor-mode-map (kbd "H-t") #'vip-build-test-dwim))
 
 
