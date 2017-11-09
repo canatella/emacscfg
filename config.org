@@ -670,7 +670,7 @@
                                           "Remove mode line info."))
    #+end_src
 
-** C/C++/Java
+** C/C++/Java/Objective-C
 
    Use clang format for identation based on google style.
 
@@ -697,13 +697,13 @@
        (c-basic-offset 2 "Use 2 spaces for indentation.")
        :dash
        (c++-mode "C++")
-       (c++-mode "C++")
        (java-mode "Android")
        :config
        (defun my-c-mode-common-setup ()
          "Use auto fill and subword mode."
          (turn-on-auto-fill)
          (subword-mode t))
+       (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
        (add-hook 'c-mode-common-hook #'my-c-mode-common-setup)
        (add-hook 'c++-mode-hook #'my-c++-mode-setup))
    #+end_src
