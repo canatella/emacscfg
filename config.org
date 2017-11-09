@@ -324,6 +324,21 @@
 
    #+end_src
 
+   And we have 24 hours in a day
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package time
+       :bind (("H-t" . time))
+       :customize
+       (display-time-24hr-format t)
+       :config
+       (defun time ()
+         "Display current time."
+         (interactive)
+         (message (format-time-string "%F, %T"))))
+
+   #+end_src
+
 ** Save history
 
    Save history file in one place.
