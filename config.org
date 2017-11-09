@@ -150,6 +150,7 @@
   #+begin_src emacs-lisp :tangle yes
     (use-package emacs
       :bind (("H-s" . save-buffer)
+             ("<f12>" . my-visit-config)
              ("H-k" . kill-buffer)
              ("H-o" . other-window)
              ("H-i" . pop-global-mark))
@@ -159,7 +160,9 @@
       (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
       (fill-column 80 "Auto fill at 80 chars.")
       :config
+      (defun my-visit-config ()
         (interactive)
+        (find-file "~/.emacs.d/config.org"))
       (add-hook 'before-save-hook 'delete-trailing-whitespace))
   #+end_src
 
