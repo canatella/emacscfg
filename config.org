@@ -455,6 +455,14 @@
               ("S-<down>" . windmove-down)))
    #+end_src
 
+** PDF Tools
+   #+begin_src emacs-lisp :tangle yes
+     (use-package pdf-tools
+       :ensure t
+       :config
+       (pdf-tools-install))
+   #+end_src
+
 * Documentation
 
 ** Woman
