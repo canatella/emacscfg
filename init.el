@@ -27,10 +27,11 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;(unless (package-installed-p 'use-package)
+;  (package-install 'use-package))
 
 (eval-when-compile
+  (add-to-list 'load-path (concat user-emacs-directory "packages/use-package/"))
   (require 'use-package)
 
   (defun seq-insert-after (element place-holder sequence)
@@ -41,62 +42,6 @@
               (if (equal place-holder e)
                   (cons element (cdr sequence))
                 (seq-insert-after element place-holder (cdr sequence)))))))
-
-  (unless (seq-contains use-package-keywords :customize)
-    (setq use-package-keywords
-          (seq-insert-after :customize :init use-package-keywords)))
-
-  (defun use-package-normalize/:customize (name-symbol keyword arg)
-    "Normalize use-package customize keyword."
-    (let ((error-msg (format  "%s wants a (<symbol> <form> <optional string comment>) or list of these" name-symbol)))
-      (unless (listp arg)
-        (use-package-error error-msg))
-      (dolist (def arg arg)
-        (unless (listp def)
-          (use-package-error error-msg))
-        (seq-let [variable value comment] def
-            (when (or (not variable)
-                      (not value)
-                      (> (length def) 3)
-                      (and comment (not (stringp comment))))
-              (use-package-error error-msg))))))
-
-  (defun use-package-handler/:customize (name keyword arg rest state)
-    "Generate use-package customize keyword code."
-    (let ((body (use-package-process-keywords name rest state)))
-      (dolist (def arg body)
-        (seq-let [variable value comment] def
-          (unless comment
-            (setq comment (format "Customized with use-package %s" name)))
-          (use-package-concat
-           body
-           `((customize-set-variable (quote ,variable) ,value ,comment)))))))
-
-  (unless (seq-contains use-package-keywords :custom-faces)
-    (setq use-package-keywords
-          (seq-insert-after :custom-faces :customize use-package-keywords)))
-
-  (defun use-package-normalize/:custom-faces (name-symbol keyword arg)
-    "Normalize use-package custom-faces keyword."
-    (let ((error-msg (format  "%s wants a (<symbol> <face-spec>) or list of these" name-symbol)))
-      (unless (listp arg)
-        (use-package-error error-msg))
-      (dolist (def arg arg)
-        (unless (listp def)
-          (use-package-error error-msg))
-        (seq-let [face spec] def
-            (when (or (not face)
-                      (not spec)
-                      (> (length arg) 2))
-              (use-package-error error-msg))))))
-
-  (defun use-package-handler/:custom-faces (name keyword arg rest state)
-    "Generate use-package custom-faces keyword code."
-    (let ((body (use-package-process-keywords name rest state)))
-      (dolist (def arg body)
-        (use-package-concat
-         body
-         `((custom-set-faces (quote ,def)))))))
 
   ;; make sure we enable dash
   (use-package helm-dash
@@ -134,17 +79,14 @@
                                  (quote ,docsets)))
                        (add-hook (quote ,mode) (function ,hook)))))
                 args)
-       body)))
-
-
-
-  )
+       body))))
 
 (require 'diminish)
-
+(require 'my-secrets)
 
 (org-babel-load-file (concat user-emacs-directory "config.org"))
 
 (setq gc-cons-threshold 800000)
 
 ;;; init.el ends here
+(put 'dired-find-alternate-file 'disabled nil)
