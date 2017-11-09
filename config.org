@@ -185,6 +185,15 @@
   Make `revert-buffer' and `make-directory' more accessible. Save all backup files
   in the Emacs config directory.
 
+  [[http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/][Do not gc]] while using minibuffer.
+  #+begin_src emacs-lisp :tangle yes
+    (use-package emacs
+      :config
+      (add-hook 'minibuffer-setup-hook #'gc-cons-threshold-max)
+      (add-hook 'minibuffer-exit-hook #'gc-cons-threshold-normal))
+  #+end_src
+
+
 ** Files
 
    #+begin_src emacs-lisp :tangle yes
