@@ -30,6 +30,14 @@
           (insert-image img (s-trim txt))
           (insert "\n"))))))
 
+(defun hls-smptett-save-image-at-point (file)
+  "Write image at point to FILE."
+  (interactive "F")
+  (let ((b (plist-get (cdr (get-text-property (point) 'display)) :data)))
+    (with-temp-file file
+      (let ((coding-system-for-write 'no-conversion))
+        (insert b)))))
+
 (defun hls-smptett-parse-time (time-string)
   "Parse the smptett TIME-STRING."
   (when (string-match "\\([0-9]+\\):\\([0-9]+\\):\\([0-9]+\.[0-9]+\\)" time-string)
