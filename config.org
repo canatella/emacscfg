@@ -770,7 +770,15 @@
          (turn-on-auto-fill)
          (ruby-block-mode t)
          (subword-mode t))
-       (add-hook 'ruby-mode-hook #'my-ruby-mode-hook))
+       (add-hook 'ruby-mode-hook #'my-ruby-mode-hook)
+       (defun my-ruby-toggle-string-quotes-advise (orig-fun &rest args)
+         (let ((orig-point (point)))
+           (backward-char)
+           (apply orig-fun args)
+           (goto-char orig-point)))
+
+       (add-function :around (symbol-function 'ruby-toggle-string-quotes)
+                     #'my-ruby-toggle-string-quotes-advise))
 
      (use-package ruby-additional
        :ensure t)
