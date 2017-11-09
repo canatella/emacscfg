@@ -806,6 +806,13 @@ the mode, `toggle' toggles the state."
   (vip-build-test workspace project
                   (or (vip-bandit-test-at-point) vip-bandit-last-test)))
 
+(defun vip-current-position ()
+  "Return the relative filename and current line."
+  (format "%s:%s"
+          (replace-regexp-in-string (regexp-quote (vip-current-workspace))
+                                    "" (buffer-file-name))
+          (count-lines (point-min) (point))))
+
 (with-eval-after-load 'magit-mode
   (define-key magit-mode-map "e" #'vip-magit-ediff-dwim))
 
