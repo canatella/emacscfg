@@ -611,16 +611,12 @@
        :after yasnippet ; Avoid conflicts on TAB key.
        :diminish auto-complete-mode "ⓐ"
        :customize
-       (ac-auto-start '())
+       (ac-auto-start t)
        :config
        (ac-config-default)
        (ac-set-trigger-key '())
        (ac-set-trigger-key '()))
-     (use-package ac-helm
-       :ensure t
-       :bind (("H-a" . ac-complete-with-helm)
-              :map ac-complete-mode-map
-              ("H-a" . ac-complete-with-helm)))
+
    #+end_src
 
    Use projectile.
