@@ -8,7 +8,19 @@
 
 
 ;; collect garbage after loading the config file.
-(setq gc-cons-threshold 400000000)
+(defvar gc-cons-threshold-default gc-cons-threshold
+  "Default value fo `gc-cons-threshold'.")
+
+(defun gc-cons-threshold-max ()
+  "Disable gc."
+  (setq gc-cons-threshold-default gc-cons-threshold)
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun gc-cons-threshold-normal ()
+  "Enable gc."
+  (setq gc-cons-threshold gc-cons-threshold-default))
+
+(gc-cons-threshold-max)
 
 ;; Custom variables are setup using use-package.
 (customize-set-variable 'custom-file "/dev/null")
@@ -86,7 +98,7 @@
 
 (org-babel-load-file (concat user-emacs-directory "config.org"))
 
-(setq gc-cons-threshold 800000)
+(gc-cons-threshold-normal)
 
 ;;; init.el ends here
 (put 'dired-find-alternate-file 'disabled nil)
