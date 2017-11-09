@@ -39,8 +39,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;(unless (package-installed-p 'use-package)
-;  (package-install 'use-package))
+                                        ;(unless (package-installed-p 'use-package)
+                                        ;  (package-install 'use-package))
 
 (eval-when-compile
   (add-to-list 'load-path (concat user-emacs-directory "packages/use-package/"))
@@ -56,10 +56,11 @@
                 (seq-insert-after element place-holder (cdr sequence)))))))
 
   ;; make sure we enable dash
-  (use-package helm-dash
+  (use-package counsel-dash
     :ensure t
     :config
-    (setq helm-dash-docsets '()))
+    (mkdir "~/.docsets" t)
+    (setq counsel-dash-docsets '()))
 
   (unless (seq-contains use-package-keywords :dash)
     (setq use-package-keywords
@@ -85,9 +86,9 @@
                     `(progn
                        (seq-do #'helm-dash-ensure-docset-installed (quote ,docsets))
                        (defun ,hook ,()
-                         (make-local-variable 'helm-dash-docsets)
+                         (make-local-variable 'counsel-dash-docsets)
                          (seq-do (lambda (docset)
-                                   (add-to-list 'helm-dash-docsets docset))
+                                   (add-to-list 'counsel-dash-docsets docset))
                                  (quote ,docsets)))
                        (add-hook (quote ,mode) (function ,hook)))))
                 args)

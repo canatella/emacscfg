@@ -358,55 +358,37 @@
      (use-package recentf)
    #+end_src
 
-** Helm setup
+** Ivy setup
 
    #+begin_src emacs-lisp :tangle yes
-     (use-package helm
+     (use-package flx
+       :ensure t)
+
+     (use-package ivy
        :ensure t
-       :diminish helm-mode
-       :bind (("C-x C-f" . helm-find-files)
-              ("H-b" . helm-buffers-list)
-              ("<f5>" . helm-calcul-expression)
-              ("M-x" . helm-M-x))
+       :bind (("C-x b" . ivy-switch-buffer)
+              ("H-b" . ivy-switch-buffer))
        :customize
-       (helm-buffer-max-length 70 "display more of buffer names")
+       (ivy-magic-slash-non-match-action
+        #'ivy-magic-slish-non-match-create
+        "Create directory when hitting / without matches")
+       :init
+       (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
        :config
-       (require 'helm-config)
-       (helm-mode t))
+       (ivy-mode t))
 
-     (use-package helm-flx
+     (use-package counsel
        :ensure t
-       :config
-       (helm-flx-mode t))
+       :bind (("C-x C-f" . counsel-find-file)
+              ("C-h f" . counsel-describe-function)
+              ("C-h v" . counsel-describe-variable)
+              ([f9] . counsel-ag)))
 
-     (use-package helm-fuzzier
-       :ensure t
-       :config
-       (helm-fuzzier-mode t))
+     (use-package counsel-osx-app
+       :ensure t)
 
-     (use-package helm-ido-like
-       :customize
-       (helm-adaptive-enabled-sources
-        ("describe-function" "describe-variable" "buffers")
-        "Puts last match on top for those sources")
-       :config
-       (helm-ido-like-load-ido-like-bottom-buffer)
-       (helm-ido-like-hide-modelines)
-       (helm-ido-like-hide-helm-modeline)
-       (helm-ido-like-header-lines-maybe)
-       (helm-ido-like-setup-bg-color)
-       (helm-ido-like-load-file-nav)
-       ;;(helm-ido-like-no-dots)
-       (helm-ido-like-load-fuzzy-enhancements)
-       (helm-ido-like-fix-fuzzy-files))
-   #+end_src
-
-** Ag setup
-
-   #+begin_src emacs-lisp :tangle yes
-     (use-package helm-ag
-       :ensure t
-       :after helm)
+     (use-package counsel-projectile
+       :ensure t)
    #+end_src
 
 ** Common interpreter setup
@@ -503,16 +485,17 @@
    Use dash docsets.
 
    #+begin_src emacs-lisp :tangle yes
-     (use-package helm-dash
+     (use-package counsel-dash
        :ensure t
-       :bind (("<f3>" . helm-dash)
+       :bind (("<f3>" . counsel-dash)
               ("<H-f3>" . helm-dash-at-point))
        :customize
-       (helm-dash-browser-func #'eww-browse-url)
+       (counsel-dash-browser-func #'eww-browse-url)
        :config
        (seq-do (lambda (docset)
                  (helm-dash-ensure-docset-installed docset)
-                 (add-to-list 'helm-dash-common-docsets docset))
+                 (add-to-list 'helm-dash-common-docsets docset)
+                 (add-to-list 'counsel-dash-common-docsets docset))
                '("Cordova")))
    #+end_src
 
@@ -631,7 +614,7 @@
                                          "Open `magit' when switching to a project.")
        (projectile-mode-line '(:eval (if (projectile-project-p) "ⓟ" ""))
                              "Use a smaller unicode modeline indicator.")
-       (projectile-completion-system 'helm)
+       (projectile-completion-system 'ivy)
        :config
        (projectile-mode t)
        (defun maybe-projectile-find-file ()
