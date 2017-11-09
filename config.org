@@ -947,25 +947,33 @@
          (interactive)
          (push-mark nil t)
          (call-interactively #'rtags-find-symbol-at-point))
-       (defun my-vip-build-hook ()
-         (interactive)
+       (defun my-vip-flycheck-setup ()
+         "Configure flycheck."
          (let ((cmd (vip-project-compile-commands-file (vip-current-workspace)
                                                        (vip-current-project))))
            (when cmd
              (setq-local flycheck-clang-tidy-build-path
-                         (file-name-directory cmd))
-             (setq-local flycheck-disabled-checkers '(rtags c/c++-clang c/c++-gcc)))
-           (when buffer-file-name
-             (flycheck-mode t))
-           (local-set-key (kbd "H-j") #'my-vip-find-symbol-at-point)
-           (local-set-key (kbd "H-f") #'vip-maybe-find-file)
-           (local-set-key (kbd "H-F") #'vip-find-other-project-file)))
+                         (file-name-directory cmd)))))
+       (defun my-vip-build-hook ()
+         (interactive)
+         (setq-local flycheck-disabled-checkers '(rtags c/c++-clang c/c++-gcc))
+         (when buffer-file-name
+           (add-hook 'flycheck-before-syntax-check-hook #'my-vip-flycheck-setup)
+           (flycheck-mode t))
+         (local-set-key (kbd "H-j") #'my-vip-find-symbol-at-point)
+         (local-set-key (kbd "H-f") #'vip-maybe-find-file)
+         (local-set-key (kbd "H-F") #'vip-find-other-project-file))
        (add-hook 'vip-build-minor-mode-hook #'my-vip-build-hook)
        (vip-build-global-mode t)
        (add-hook 'magit-status-mode-hook 'vip-maybe-turn-on-vip-build-mode)
        (add-hook 'repo-mode-hook 'vip-maybe-turn-on-vip-build-mode))
 
-     (use-package veygo)
+     (use-package veygo
+       :config
+       (defun veygo-todo ()
+         "Open Veygo todo file"
+         (interactive)
+         (find-file "~/Dropbox (Personal)/Org/veygo.org")))
    #+end_src
 
 ** Tools
