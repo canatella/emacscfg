@@ -637,6 +637,20 @@ Prompt with project DEFAULT if not nil."
   (when (vip-toplevel)
     (vip-build-minor-mode t)))
 
+(defun vip-build-setup-compilation ()
+  "Setup the compilation buffer if it is a vip buffer."
+  (interactive)
+  (when (vip-toplevel)
+    (vip-build-minor-mode t)
+    (setq-local compilation-error-regexp-alist '(vip bandit xcpretty))))
+
+(defun vip-clang-tidy ()
+  "Run clang format on current project."
+  (interactive)
+  (let* ((workspace (vip-current-workspace))
+         (project (vip-current-project)))
+    (vip-build workspace project "clang-tidy" t nil nil nil t)))
+
 (defvar vip-build-minor-mode-map nil "Keymap for vip-build-mode.")
 (when (not vip-build-minor-mode-map)
   (setq vip-build-minor-mode-map (make-sparse-keymap))
@@ -644,12 +658,13 @@ Prompt with project DEFAULT if not nil."
   (define-key vip-build-minor-mode-map (kbd "H-<f10>") #'vip-build)
   (define-key vip-build-minor-mode-map (kbd "H-t") #'vip-build-test-dwim))
 
-(defun vip-build-setup-compilation ()
-  "Setup the compilation buffer if it is a vip buffer."
+
+(defun vip-clang-format ()
+  "Run clang format on current project."
   (interactive)
-  (when (vip-toplevel)
-    (vip-build-minor-mode t)
-    (setq-local compilation-error-regexp-alist '(vip bandit xcpretty))))
+  (let* ((workspace (vip-current-workspace))
+         (project (vip-current-project)))
+    (vip-build workspace project "clang-format" t nil nil nil t)))
 
 (define-minor-mode vip-build-minor-mode
   "Toggle vip build mode.
