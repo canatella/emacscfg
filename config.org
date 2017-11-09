@@ -903,7 +903,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package elisp-mode
-       :dash (emacs-lisp-mode "Emacs_Lisp"))
+       :dash (emacs-lisp-mode "Emacs Lisp"))
    #+end_src
 
    Add a function to evaluate the current buffer and run ert test suite.
