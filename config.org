@@ -484,12 +484,24 @@
        :bind (("<f3>" . helm-dash)
               ("<H-f3>" . helm-dash-at-point))
        :customize
-       (helm-dash-browser-func #'osx-browse-url-firefox)
+       (helm-dash-browser-func #'eww-browse-url)
        :config
        (seq-do (lambda (docset)
                  (helm-dash-ensure-docset-installed docset)
                  (add-to-list 'helm-dash-common-docsets docset))
                '("Cordova")))
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package language-detection
+            :ensure t)
+
+     (use-package eww-language-detection)
+
+     (use-package shr
+       :customize
+       (shr-bullet "• " "Use uincode bullet")
+       (shr-hr-line "⎯" "Use unicode line"))
    #+end_src
 
 * Programming language
@@ -634,6 +646,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package compile
        :bind (("H-e" . next-error)
+              ("H-i" . previous-error)
               ([f10] . recompile)
               ([H-f10] . compile)
               ([s-f10] . kill-compilation))
