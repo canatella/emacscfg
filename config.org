@@ -12,12 +12,11 @@
      (use-package exec-path-from-shell
        :ensure t
        :customize
+       (exec-path-from-shell-variables
+        '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME"))
        :config
-       (when (memq window-system '(mac ns x))
-         (let ((exec-path-from-shell-variables
-                '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME")))
-
-           (exec-path-from-shell-initialize))))
+       (when (memq window-system '(mac ns))
+         (exec-path-from-shell-initialize)))
    #+end_src
 
 ** Keyboard
