@@ -214,6 +214,8 @@
        (defun my-dired-setup ()
          (dired-hide-details-mode t))
        (add-hook 'dired-mode-hook #'my-dired-setup))
+
+     (use-package dired-aux)
    #+end_src
 
 ** Browse URL
