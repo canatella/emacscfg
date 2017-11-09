@@ -673,6 +673,7 @@ the mode, `toggle' toggles the state."
   :lighter nil
   :group 'vip-build
   :global t
+  (add-hook 'eshell-mode-hook 'vip-maybe-turn-on-vip-build-mode)
   (add-hook 'find-file-hook 'vip-maybe-turn-on-vip-build-mode)
   (add-hook 'compilation-mode-hook 'vip-build-setup-compilation))
 
