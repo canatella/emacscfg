@@ -92,14 +92,31 @@
        (solarized-use-less-bold t)
        (solarized-use-variable-pitch '())
        :config
-       (load-theme 'solarized-dark t))
+       (load-theme 'solarized-dark))
 
      (use-package color-theme-sanityinc-tomorrow
+       :disabled
        :ensure t
        :init
        (add-to-list 'custom-safe-themes "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a")
        :config
-       (color-theme-sanityinc-tomorrow-night))
+       (color-theme-sanityinc-tomorrow-eighties))
+
+     (use-package arjen-grey-theme
+       :disabled
+       :ensure t
+       :init
+       (add-to-list 'custom-safe-themes "83db918b06f0b1df1153f21c0d47250556c7ffb5b5e6906d21749f41737babb7")
+       :config
+       (load-theme 'arjen-grey))
+
+     (use-package sunburn-theme
+       :ensure t
+       :init
+       (add-to-list 'custom-safe-themes "425362b45c18e2d018d38843c7119f7265ed42a4939dc070a272bdbd8936987e")
+       :config
+       (load-theme 'sunburn))
+
    #+end_src
 
 
@@ -109,7 +126,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package powerline
        :ensure t
-       :after color-theme-sanityinc-tomorrow
+       :after sunburn-theme
        :customize
        (powerline-default-separator 'arrow-fade)
        (powerline-image-apple-rgb t "Fix separator image color on MacOS.")
