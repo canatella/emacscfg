@@ -159,9 +159,7 @@
       (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
       (fill-column 80 "Auto fill at 80 chars.")
       :config
-      (defun my-push-mark ()
         (interactive)
-        (push-mark))
       (add-hook 'before-save-hook 'delete-trailing-whitespace))
   #+end_src
 
