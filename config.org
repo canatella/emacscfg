@@ -746,6 +746,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package ruby-mode
+       :ensure t
        :customize
        (ruby-indent-level 2
                           "Use 2 space for indenting ruby code.")
@@ -763,8 +764,17 @@
          (helm-dash-activate-docset "Ruby_on_Rails_4")
          (local-set-key (kbd "C-c C-e") #'ruby-close-block)
          (turn-on-auto-fill)
+         (ruby-block-mode t)
          (subword-mode t))
        (add-hook 'ruby-mode-hook #'my-ruby-mode-hook))
+
+     (use-package ruby-additional
+       :ensure t)
+
+     (use-package ruby-block
+       :ensure t
+       :diminish ruby-block-mode)
+
    #+end_src
 
    Use robe.
