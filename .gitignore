@@ -7,3 +7,9 @@ projectile-bookmarks.eld
 /lisp/custom.el
 /config.el
 /network-security.data
+/packages
+/eshell
+/rake.cache
+/request
+/site-lisp/my-secrets.el
+/tramp

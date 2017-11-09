@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: android log
+# key: log
+# --
+android.util.Log.d("veygo", "trace `(vip-current-position)`");
