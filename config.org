@@ -166,6 +166,22 @@
       (add-hook 'before-save-hook 'delete-trailing-whitespace))
   #+end_src
 
+  Do not use arrow keys
+  #+begin_src emacs-lisp :tangle yes
+    (progn
+      (global-unset-key (kbd "<left>"))
+      (global-unset-key (kbd "<right>"))
+      (global-unset-key (kbd "<up>"))
+      (global-unset-key (kbd "<down>"))
+      (global-unset-key (kbd "<C-left>"))
+      (global-unset-key (kbd "<C-right>"))
+      (global-unset-key (kbd "<C-up>"))
+      (global-unset-key (kbd "<C-down>"))
+      (global-unset-key (kbd "<M-left>"))
+      (global-unset-key (kbd "<M-right>"))
+      (global-unset-key (kbd "<M-up>"))
+      (global-unset-key (kbd "<M-down>")))
+  #+end_src
   Make `revert-buffer' and `make-directory' more accessible. Save all backup files
   in the Emacs config directory.
 
