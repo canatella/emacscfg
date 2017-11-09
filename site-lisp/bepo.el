@@ -20,10 +20,16 @@
 
   ;; The c-x number shortcuts needs shift so unshift the one I use and use them
   ;; with command to make things even simpler
-  (global-set-key (kbd "H-\"") 'delete-other-windows)
-  (global-set-key (kbd "H-«") 'split-window-below)
-  (global-set-key (kbd "H-»") 'split-window-right)
-  (global-set-key (kbd "H-*") 'delete-window))
+  (global-set-key (kbd "H-\"") #'delete-other-windows)
+  (global-set-key (kbd "H-y") #'backward-paragraph)
+  (global-set-key (kbd "H-x") #'forward-paragraph)
+  (global-set-key (kbd "H-«") #'split-window-below)
+  (global-set-key (kbd "H-»") #'split-window-right)
+  (global-set-key (kbd "M-«") #'beginning-of-buffer)
+  (global-set-key (kbd "M-»") #'end-of-buffer)
+  (global-set-key (kbd "M-à") #'delete-horizontal-space)
+  (global-set-key (kbd "¡") #'delete-indentation)
+  (global-set-key (kbd "H-*") #'delete-window))
 
 (provide 'bepo)
 
