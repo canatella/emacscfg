@@ -915,6 +915,22 @@
        :ensure t
        :dash (cmake-mode "CMake"))
    #+end_src
+
+** Rust
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package cargo
+       :ensure t)
+
+     (use-package flycheck-rust
+       :ensure t)
+
+     (use-package racer
+       :ensure t)
+
+     (use-package rust-mode
+       :ensure t)
+   #+end_srcf
 * Veygo
 
 ** Build system integration
