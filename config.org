@@ -11,7 +11,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package exec-path-from-shell
        :ensure t
-       :customize
+       :custom
        (exec-path-from-shell-variables
         '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME"))
        :config
@@ -25,7 +25,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package ns-win
        :if (string= system-type "darwin")
-       :customize
+       :custom
        (mac-right-command-modifier 'hyper)
        (mac-right-option-modifier '())
        (mac-option-modifier 'meta)
@@ -46,11 +46,11 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package scroll-bar
-       :customize
+       :custom
        (scroll-bar-mode '() "No scroll bar."))
 
      (use-package tool-bar
-       :customize
+       :custom
        (tool-bar-mode '() "No tool bar."))
    #+end_src
 
@@ -58,7 +58,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package frame
-       :customize
+       :custom
        (frame-background-mode 'dark "Using a dark theme.")
        (initial-frame-alist '((vertical-scroll-bars) (fullscreen . maximized)))
        (display-buffer-alist
@@ -86,7 +86,7 @@
      (use-package solarized-theme
        :disabled
        :ensure t
-       :customize
+       :custom
        (solarized-distinct-fring-background '())
        (solarized-use-less-bold t)
        (solarized-use-variable-pitch '())
@@ -126,7 +126,7 @@
      (use-package powerline
        :ensure t
        :after sunburn-theme
-       :customize
+       :custom
        (powerline-default-separator 'arrow-fade)
        (powerline-image-apple-rgb t "Fix separator image color on MacOS.")
        :config
@@ -147,40 +147,23 @@
   Make use of the hyper key for some common operation and setup basic behaviour.
 
   #+begin_src emacs-lisp :tangle yes
-    (use-package emacs
-      :bind (("H-s" . save-buffer)
-             ("<f12>" . my-visit-config)
-             ("H-k" . kill-buffer)
-             ("H-o" . other-window)
-             ("H-i" . pop-global-mark))
-      :customize
-      (inhibit-startup-screen t "No startup screen.")
-      (ctl-arrow '() "Display octal value for control chars.")
-      (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
-      (fill-column 80 "Auto fill at 80 chars.")
-      :config
-      (defun my-visit-config ()
-        (interactive)
-        (find-file "~/.emacs.d/config.org"))
-      (add-hook 'before-save-hook 'delete-trailing-whitespace))
+      (use-package emacs
+        :bind (("H-s" . save-buffer)
+               ("<f12>" . my-visit-config))
+
+        :custom
+        (inhibit-startup-screen t "No startup screen.")
+        (ctl-arrow '() "Display octal value for control chars.")
+        (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
+        (fill-column 80 "Auto fill at 80 chars.")
+        :config
+        (open-dribble-file "~/.emacs.d/dribble")
+        (defun my-visit-config ()
+          (interactive)
+          (find-file "~/.emacs.d/config.org"))
+        (add-hook 'before-save-hook 'delete-trailing-whitespace))
   #+end_src
 
-  Do not use arrow keys
-  #+begin_src emacs-lisp :tangle yes
-    (progn
-      (global-unset-key (kbd "<left>"))
-      (global-unset-key (kbd "<right>"))
-      (global-unset-key (kbd "<up>"))
-      (global-unset-key (kbd "<down>"))
-      (global-unset-key (kbd "<C-left>"))
-      (global-unset-key (kbd "<C-right>"))
-      (global-unset-key (kbd "<C-up>"))
-      (global-unset-key (kbd "<C-down>"))
-      (global-unset-key (kbd "<M-left>"))
-      (global-unset-key (kbd "<M-right>"))
-      (global-unset-key (kbd "<M-up>"))
-      (global-unset-key (kbd "<M-down>")))
-  #+end_src
   Make `revert-buffer' and `make-directory' more accessible. Save all backup files
   in the Emacs config directory.
 
@@ -199,7 +182,7 @@
      (use-package files
        :bind (([f6] . revert-buffer)
               ([f7] . make-directory))
-       :customize
+       :custom
        (backup-directory-alist
         '(("." . "~/.emacs.d/backup-filesd"))
         "Do no clutter file system with emacs backup files."))
@@ -207,7 +190,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package dired
-       :customize
+       :custom
        (dired-always-read-filesystem t "Revert buffers before searching them.")
        (dire-auto-revert-buffer-t "Reload dired buffer when revisiting.")
        :config
@@ -228,7 +211,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package browse-url
-       :customize
+       :custom
        (browse-url-browser-function #'osx-browse-url-firefox))
    #+end_src
 
@@ -238,7 +221,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package diff
-       :customize
+       :custom
        (diff-switches "-u" "Use universal diff format."))
    #+end_src
 
@@ -248,7 +231,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package font-core
-       :customize
+       :custom
        (global-font-lock-mode t  "Enable syntax highlighting."))
    #+end_src
 
@@ -258,7 +241,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package autorevert
-       :customize
+       :custom
        (auto-revert-mode-text '() "No lighter for autorevert"))
 
      (use-package abbrev
@@ -286,7 +269,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package emacs
        :bind (([f2] . my-indent-buffer))
-       :customize
+       :custom
        (indent-tabs-mode '() "Use spaces for indentation.")
        :config
        (defun my-indent-buffer ()
@@ -319,7 +302,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package calendar
-       :customize
+       :custom
        (calendar-week-start-day 1
                                 "In Europe, the week starts on Monday."))
 
@@ -330,7 +313,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package time
        :bind (("H-t" . time))
-       :customize
+       :custom
        (display-time-24hr-format t)
        :config
        (defun time ()
@@ -346,7 +329,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package savehist
-       :customize
+       :custom
        (savehist-file "~/.emacs.d/var/history"
                       "Do not clutter file system with history save files.")
        (savehist-mode t
@@ -367,9 +350,8 @@
 
      (use-package ivy
        :ensure t
-       :bind (("C-x b" . ivy-switch-buffer)
-              ("H-b" . ivy-switch-buffer))
-       :customize
+       :bind (("C-x b" . ivy-switch-buffer))
+       :custom
        (ivy-magic-slash-non-match-action
         #'ivy-magic-slish-non-match-create
         "Create directory when hitting / without matches")
@@ -396,7 +378,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package comint
-       :customize
+       :custom
        (comint-buffer-maximum-size 20000
                                    "Increase make comint buffer size.")
        (comint-prompt-read-only t
@@ -439,7 +421,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package org
-       :customize
+       :custom
        (org-src-fontify-natively t "Fontify code blocks.")
        (org-src-tab-acts-natively t "Ident using language behaviour in code blocks.")
        :config
@@ -490,7 +472,7 @@
        :ensure t
        :bind (("<f3>" . counsel-dash)
               ("<H-f3>" . helm-dash-at-point))
-       :customize
+       :custom
        (counsel-dash-browser-func #'eww-browse-url)
        :config
        (seq-do (lambda (docset)
@@ -507,7 +489,7 @@
      (use-package eww-language-detection)
 
      (use-package shr
-       :customize
+       :custom
        (shr-bullet "• " "Use uincode bullet")
        (shr-hr-line "⎯" "Use unicode line"))
    #+end_src
@@ -523,7 +505,7 @@
        :ensure t
        :bind (([f8] . magit-status))
        :after ediff
-       :customize
+       :custom
        (magit-save-repository-buffers 'dontask
                                       "Do not ask to save buffer when refreshing.")
        (magit-wip-after-apply-mode-lighter '()
@@ -550,7 +532,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package ediff
        :ensure t
-       :customize
+       :custom
        (ediff-split-window-function #'split-window-horizontally
                                     "Split window horizontaly in Ediff.")
        (ediff-window-setup-function #'ediff-setup-windows-plain
@@ -562,7 +544,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package flycheck
        :ensure t
-       :customize
+       :custom
        (flycheck-mode-line-prefix "ⓕ"
                                   "Change lighter.")
        (flycheck-mode-line '(:eval (my-flycheck-mode-line-status-text)))
@@ -594,7 +576,7 @@
        :ensure t
        :after yasnippet ; Avoid conflicts on TAB key.
        :diminish auto-complete-mode "ⓐ"
-       :customize
+       :custom
        (ac-auto-start t)
        :config
        (ac-config-default)
@@ -610,7 +592,7 @@
        :ensure t
        :bind (([f9] . maybe-projectile-ag)
               ("H-f" . maybe-projectile-find-file))
-       :customize
+       :custom
        (projectile-switch-project-action 'projetile-vc
                                          "Open `magit' when switching to a project.")
        (projectile-mode-line '(:eval (if (projectile-project-p) "ⓟ" ""))
@@ -655,7 +637,7 @@
               ([H-f10] . compile)
               ([s-f10] . kill-compilation))
        :diminish '(compilation-in-progress . "⚙")
-       :customize
+       :custom
        (compilation-ask-about-save '()
                                    "Do not ask for save when compiling.")
        (compilation-scroll-output 'first-error
@@ -667,7 +649,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package dtrt-indent
        :ensure t
-       :customize
+       :custom
        (dtrt-indent-mode t
                          "Guess indentation.")
        (dtrt-indent-active-mode-line-info ""
@@ -697,7 +679,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package cc-mode
-       :customize
+       :custom
        (c-basic-offset 2 "Use 2 spaces for indentation.")
        :dash
        (c++-mode "C++")
@@ -716,7 +698,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package rtags
-       :customize
+       :custom
        (rtags-enabled '() "Use rtags only for code navigation.")
        :ensure t)
 
@@ -751,7 +733,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package ruby-mode
        :ensure t
-       :customize
+       :custom
        (ruby-indent-level 2
                           "Use 2 space for indenting ruby code.")
        :config
@@ -808,7 +790,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package ruby-minitest
        :after ruby-mode
-       :customize
+       :custom
        (ruby-minitest-file-match "\\(Minitest::Test\\|HlsTestCase\\)"
                                  "Detect our test cases")
        :config
@@ -827,7 +809,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package eruby-mode
        :diminish eruby-mode
-       :custom-faces
+       :custom-face
        (eruby-standard-face ((t (:slant italic)))))
 
      (use-package yaml-mode
@@ -844,7 +826,7 @@
      (use-package projectile-rails
        :ensure t
        :after projectile
-       :customize
+       :custom
        (projectile-rails-keymap-prefix (kbd "C-c r")
                                        "Map `projectile-rails' key map to C-c r.")
        :config
@@ -1001,7 +983,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package android
        :after vip-build
-       :customize
+       :custom
        (android-ndk-addr2line-find-binary 'vip-ndk-addr2line-find-binary
                                           "Android addr2line binary path."))
    #+end_src
@@ -1026,7 +1008,7 @@
     #+begin_src emacs-lisp :tangle yes
       (use-package org-redmine
         :ensure t
-        :customize
+        :custom
         (org-redmine-uri "https://redmine.veygo.co")
         (org-redmine-auth-api-key my-secrets-veygo-redmine-key))
     #+end_src
