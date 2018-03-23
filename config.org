@@ -460,6 +460,14 @@
        (pdf-tools-install))
    #+end_src
 
+** EPub
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package nov
+       :ensure t
+       :mode ("\\.epub\\'" . nov-mode))
+   #+end_src
+
 * Documentation
 
 ** Woman
