@@ -76,7 +76,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package windows
        :custom
-       (split-height-treshold '() "do not split window verticaly unless I ask for it."))
+       (split-height-threshold '() "do not split window verticaly unless I ask for it."))
    #+end_src
 
    Use Ubuntu monospaced font.
