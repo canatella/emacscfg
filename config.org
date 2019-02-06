@@ -1,5 +1,6 @@
 #+TITLE: Emacs configuration
 #+AUTHOR: Damien Merenne
+#+STARTUP: showall
 
 * Environment
 
@@ -40,6 +41,10 @@
        (bepo-global-mode))
    #+end_src
 
+   #+begin_src emacs-lisp :tangle yes
+     (use-package god-mode
+       :ensure t)
+   #+end_src
 ** Display
 
    Hide tool bar and scroll bar.
@@ -71,21 +76,13 @@
        (add-to-list 'default-frame-alist '(alpha 100 100)))
    #+end_src
 
-   Configure window behaviour.
-
-   #+begin_src emacs-lisp :tangle yes
-     (use-package windows
-       :custom
-       (split-height-threshold '() "do not split window verticaly unless I ask for it."))
-   #+end_src
-
    Use Ubuntu monospaced font.
 
    #+begin_src emacs-lisp :tangle yes
      (use-package faces
        :config
-       (when (member "Ubuntu Mono" (font-family-list))
-         (set-face-attribute 'default nil :font "Ubuntu Mono-16")))
+       (when (member "DejaVu Sans Mono" (font-family-list))
+         (set-face-attribute 'default nil :font "DejaVu Sans Mono-14")))
    #+end_src
 
    Setup theme.
@@ -104,28 +101,42 @@
      (use-package color-theme-sanityinc-tomorrow
        :disabled
        :ensure t
-       :init
-       (add-to-list 'custom-safe-themes "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a")
        :config
        (color-theme-sanityinc-tomorrow-eighties))
 
      (use-package arjen-grey-theme
        :disabled
        :ensure t
-       :init
-       (add-to-list 'custom-safe-themes "83db918b06f0b1df1153f21c0d47250556c7ffb5b5e6906d21749f41737babb7")
        :config
        (load-theme 'arjen-grey))
 
      (use-package sunburn-theme
        :ensure t
-       :init
-       (add-to-list 'custom-safe-themes "425362b45c18e2d018d38843c7119f7265ed42a4939dc070a272bdbd8936987e")
        :config
        (load-theme 'sunburn))
 
    #+end_src
 
+   Titlebar should match light or dark theme on MacOS.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package ns-auto-titlebar
+       :ensure t
+       :custom
+       (ns-auto-titlebar-mode t))
+   #+end_src
+
+   Use icons
+
+  #+begin_src emacs-lisp :tangle yes
+    (use-package all-the-icons
+      :ensure t)
+
+    (use-package all-the-icons-dired
+      :ensure t
+      :after dired
+      :hook (dired-mode . all-the-icons-dired-mode))
+  #+end_src
 
    Pimp up my modeline. This needs to be loaded after solarized otherwise the color
    won't match.
@@ -133,6 +144,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package powerline
        :ensure t
+       :disabled
        :after sunburn-theme
        :custom
        (powerline-default-separator 'arrow-fade)
@@ -146,6 +158,27 @@
          (no-decoration 'mode-line-highlight)
          (no-decoration 'mode-line-emphasis))
        (powerline-default-theme))
+
+     (use-package spaceline
+       :ensure t
+       :after sunburn-theme
+       :config
+       (setq spaceline-minor-modes-separator "")
+       (require 'spaceline-config)
+       (sunburn-with-color-variables
+         (custom-set-faces `(spaceline-highlight-face ((t (:foreground ,sunburn-bg :background ,sunburn-magenta :weight bold)))))))
+
+     (use-package spaceline-all-the-icons
+       :ensure t
+       :after spaceline
+       :custom
+       (spaceline-all-the-icons-slim-render t "Slimer modeline.")
+       (spaceline-all-the-icons-separator-type 'cup "Slimer modeline."))
+
+     (use-package spaceline-addons
+       :disabled
+       :after (spaceline-all-the-icons slack)
+       :config (spaceline-all-the-icons-theme 'slack))
    #+end_src
 
 * Basic Emacs setup
@@ -155,21 +188,22 @@
   Make use of the hyper key for some common operation and setup basic behaviour.
 
   #+begin_src emacs-lisp :tangle yes
-      (use-package emacs
-        :bind (("H-s" . save-buffer)
-               ("<f12>" . my-visit-config))
+    (use-package emacs
+      :bind (("H-s" . save-buffer)
+             ("<f12>" . my-visit-config))
 
-        :custom
-        (inhibit-startup-screen t "No startup screen.")
-        (ctl-arrow '() "Display octal value for control chars.")
-        (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
-        (fill-column 80 "Auto fill at 80 chars.")
-        :config
-        (open-dribble-file "~/.emacs.d/dribble")
-        (defun my-visit-config ()
-          (interactive)
-          (find-file "~/.emacs.d/config.org"))
-        (add-hook 'before-save-hook 'delete-trailing-whitespace))
+      :custom
+      (inhibit-startup-screen t "No startup screen.")
+      (ctl-arrow '() "Display octal value for control chars.")
+      (display-raw-bytes-as-hex t "Use hexadecimal for non printable bytes.")
+      (fill-column 80 "Auto fill at 80 chars.")
+      (split-height-threshold '() "do not split window verticaly unless I ask for it.")
+      :config
+      (open-dribble-file "~/.emacs.d/dribble")
+      (defun my-visit-config ()
+        (interactive)
+        (find-file "~/.emacs.d/config.org"))
+      (add-hook 'before-save-hook 'delete-trailing-whitespace))
   #+end_src
 
   Make `revert-buffer' and `make-directory' more accessible. Save all backup files
@@ -200,13 +234,66 @@
      (use-package dired
        :custom
        (dired-always-read-filesystem t "Revert buffers before searching them.")
-       (dire-auto-revert-buffer-t "Reload dired buffer when revisiting.")
+       (dired-auto-revert-buffer-t "Reload dired buffer when revisiting.")
+       (dired-dwim-target t "do what I mean when copying or moving.")
        :config
        (defun my-dired-setup ()
          (dired-hide-details-mode t))
        (add-hook 'dired-mode-hook #'my-dired-setup))
 
      (use-package dired-aux)
+
+     (use-package dired-filter
+       :after dired
+       :ensure t)
+
+     (use-package dired-subtree
+       :after dired
+       :ensure t
+       :bind (:map dired-mode-map
+                   ("i" . dired-subtree-insert)
+                   (";" . dired-subtree-remove)))
+
+     (use-package dired-ranger
+       :after dired
+       :ensure t
+       :bind (:map dired-mode-map
+                   ("C-w" . dired-ranger-mark-for-move)
+                   ("M-w" . dired-ranger-mark-for-copy)
+                   ("C-y" . dired-ranger-paste-or-move))
+       :config
+       (defvar dired-ranger-next-op nil "If 'move, calling dired-ranger-dwim will call dired-ranger-move, otherwise, call dired-ranger-paste.")
+       (defun dired-ranger-mark-for-copy (arg)
+         "Mark a file for copy."
+         (interactive "P")
+         (setq dired-ranger-next-op 'copy)
+         (dired-ranger-copy arg))
+       (defun dired-ranger-mark-for-move (arg)
+         "Mark a file for move."
+         (interactive "P")
+         (setq dired-ranger-next-op 'move)
+         (dired-ranger-copy arg))
+       (defun dired-ranger-paste-or-move (arg)
+         "Copy or move dired-ranger ring given `dired-ranger-next-op'"
+         (interactive "P")
+         (if (eql dired-ranger-next-op 'move)
+             (dired-ranger-move arg)
+           (dired-ranger-paste arg))
+         (setq dired-ranger-next-op nil)))
+
+     (use-package dired-narrow
+       :after dired
+       :ensure t)
+
+     (use-package dired-rainbow
+       :after dired
+       :ensure t)
+
+     (use-package dired-collapse
+       :after dired
+       :ensure t
+       :config
+       (add-hook 'dired-after-readin-hook 'dired-collapse 'append 'local))
    #+end_src
 
 ** Browse URL
@@ -266,7 +353,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package simple
-       :bind (([f4] . goto-line))
+       :bind (([f4] . goto-line) ("C-," . undo))
        :diminish auto-fill-function "↵")
    #+end_src
 
@@ -359,21 +446,43 @@
      (use-package ivy
        :ensure t
        :bind (("C-x b" . ivy-switch-buffer))
+       :diminish
        :custom
        (ivy-magic-slash-non-match-action
         #'ivy-magic-slish-non-match-create
         "Create directory when hitting / without matches")
        :init
-       (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+       ;;(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
        :config
        (ivy-mode t))
+
+     (use-package prescient
+       :custom
+       (prescient-filter-method "fuzzy")
+       :ensure t)
+
+     (use-package ivy-prescient
+       :ensure t
+       :disabled
+       :config
+       (ivy-prescient-mode t)
+       (setq ivy-re-builders-alist
+        '((swiper . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-rg . ivy--regex-plus)
+          (t      . ivy-prescient-re-builder))))
 
      (use-package counsel
        :ensure t
        :bind (("C-x C-f" . counsel-find-file)
               ("C-h f" . counsel-describe-function)
               ("C-h v" . counsel-describe-variable)
-              ([f9] . counsel-ag)))
+              ([f9] . counsel-ag))
+       :config
+       (let ((done (where-is-internal #'ivy-done     ivy-minibuffer-map t))
+             (alt  (where-is-internal #'ivy-alt-done ivy-minibuffer-map t)))
+         (define-key counsel-find-file-map done #'ivy-alt-done)
+         (define-key counsel-find-file-map alt  #'ivy-done)))
 
      (use-package counsel-osx-app
        :ensure t)
@@ -425,6 +534,17 @@
        (which-key-mode))
    #+end_src
 
+** Helpful
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package helpful
+       :ensure t
+       :bind (("C-h f" . helpful-callable)
+              ("C-h v" . helpful-variable)
+              ("C-h k" . helpful-key)
+              ("C-h F" . helpful-function)
+              ("C-h C" . helpful-command)))
+   #+end_src
 ** Org
 
    #+begin_src emacs-lisp :tangle yes
@@ -432,12 +552,16 @@
        :custom
        (org-src-fontify-natively t "Fontify code blocks.")
        (org-src-tab-acts-natively t "Ident using language behaviour in code blocks.")
+       (org-return-follows-link t "Return key follows link")
        :config
        (add-hook 'org-mode 'turn-on-auto-fill)
        (add-hook 'org-shiftup-final-hook 'windmove-up)
        (add-hook 'org-shiftleft-final-hook 'windmove-left)
        (add-hook 'org-shiftdown-final-hook 'windmove-down)
        (add-hook 'org-shiftright-final-hook 'windmove-right))
+
+     (use-package orgit
+       :ensure t)
    #+end_src
 
 ** Windmove
@@ -487,20 +611,20 @@
      (use-package counsel-dash
        :ensure t
        :bind (("<f3>" . counsel-dash)
-              ("<H-f3>" . helm-dash-at-point))
+              ("<H-f3>" . counsel-dash-at-point))
        :custom
        (counsel-dash-browser-func #'eww-browse-url)
        :config
-       (seq-do (lambda (docset)
-                 (helm-dash-ensure-docset-installed docset)
-                 (add-to-list 'helm-dash-common-docsets docset)
-                 (add-to-list 'counsel-dash-common-docsets docset))
-               '("Cordova")))
+       (defun counsel-dash-at-point ()
+         "Bring up a `counsel-dash' search interface with symbol at point."
+         (interactive)
+         (counsel-dash
+          (substring-no-properties (or (thing-at-point 'symbol) "")))))
    #+end_src
 
    #+begin_src emacs-lisp :tangle yes
      (use-package language-detection
-            :ensure t)
+       :ensure t)
 
      (use-package eww-language-detection)
 
@@ -548,11 +672,23 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package ediff
        :ensure t
+       :hook (ediff-mode . my-ediff-setup)
        :custom
        (ediff-split-window-function #'split-window-horizontally
                                     "Split window horizontaly in Ediff.")
+       (ediff-merge-split-window-function #'my-ediff-split-window
+                                          "Split window A/B horizontally and C/ancestor vertically.")
        (ediff-window-setup-function #'ediff-setup-windows-plain
-                                    "Put all Ediff buffers in the same frame."))
+                                    "Put all Ediff buffers in the same frame.")
+       :config
+       (defun my-ediff-split-window ()
+         "Split window horizontally for A and B, and vertically for merged and ancertor."
+         ;; if current window is window C, split vertically
+         (if (equal "*ediff-merge*" (buffer-name))
+             (split-window-vertically)
+           (split-window-horizontally)))
+       (defun my-ediff-setup ()
+         (setq ediff-merge-window-share 0.65)))
    #+end_src
 
    Use flycheck for inline error highlighting.
@@ -593,11 +729,19 @@
        :after yasnippet ; Avoid conflicts on TAB key.
        :diminish auto-complete-mode "ⓐ"
        :custom
-       (ac-auto-start t)
+       (ac-auto-start 't)
+       (ac-ignore-case '())
        :config
        (ac-config-default)
        (ac-set-trigger-key '())
-       (ac-set-trigger-key '()))
+       (defun yas-format-or-empty (format text &rest args)
+         (if yas-moving-away-p
+             ;; when leaving and not modified, empty, otherwise text
+             (if (not yas-modified-p) "" text))
+         ;; when not leaving and first char input, format string
+         (if (equal 1 (length text))
+             (apply #'format format text args)
+           text)))
 
    #+end_src
 
@@ -606,16 +750,18 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package projectile
        :ensure t
-       :bind (([f9] . maybe-projectile-ag)
-              ("H-f" . maybe-projectile-find-file))
+       :bind (("H-f" . maybe-projectile-find-file))
+       :diminish "ⓟ"
        :custom
        (projectile-switch-project-action 'projetile-vc
                                          "Open `magit' when switching to a project.")
-       (projectile-mode-line '(:eval (if (projectile-project-p) "ⓟ" ""))
-                             "Use a smaller unicode modeline indicator.")
+       (projectile-mode-line-fn #'my-projectile-mode-line-fn
+                                "Use a smaller unicode modeline indicator.")
        (projectile-completion-system 'ivy)
        :config
        (projectile-mode t)
+       (defun my-projectile-mode-line-fn ()
+         (if (projectile-project-p) "ⓟ" ""))
        (defun maybe-projectile-find-file ()
          "Call projectile grep when in a managed project, rgrep otherwise."
          (interactive)
@@ -637,7 +783,8 @@
      (use-package yasnippet
        :ensure t
        :diminish yas-minor-mode "ⓨ"
-       :bind (("H-," . yas-expand))
+       :bind (("C-c <tab>" . yas-expand))
+       :after rust
        :config
        (add-to-list 'load-path "~/emacs.d/plugins/yasnippet")
        (yas-global-mode t))
@@ -647,9 +794,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package compile
-       :bind (("H-e" . next-error)
-              ("H-i" . previous-error)
-              ([f10] . recompile)
+       :bind (([f10] . recompile)
               ([H-f10] . compile)
               ([s-f10] . kill-compilation))
        :diminish '(compilation-in-progress . "⚙")
@@ -671,6 +816,62 @@
        (dtrt-indent-active-mode-line-info ""
                                           "Remove mode line info."))
    #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package cc-mode)
+     (use-package smartparens
+       :ensure t
+       :diminish
+       :bind (("H-<right>" . #'sp-forward-sexp)
+              ("H-M-<right>" . #'sp-next-sexp)
+              ("H-<left>" . #'sp-backward-sexp)
+              ("H-M-<left>" . #'sp-previous-sexp)
+              ("H-<down>" . #'sp-down-sexp)
+              ("H-<up>" . #'sp-up-sexp)
+              ("H-a" . #'sp-beginning-of-sexp)
+              ("H-e" . #'sp-end-of-sexp)
+              ("H-d" . #'sp-kill-sexp)
+              ("H-<backspace>" . #'sp-backward-kill-sexp)
+              ("H-M-d" . #'sp-copy-sexp)
+              ("H-M-<backspace>" . #'sp-backward-copy-sexp)
+              ("H-t" . #'sp-transpose-sexp)
+              ("H-C-<right>" . #'sp-forward-slurp-sexp)
+              ("H-C-<left>" . #'sp-forward-barf-sexp)
+              ("H-'" . #'sp-change-inner)
+              ("H-@" . #'sp-mark-sexp)
+              :map c-mode-map
+              ("H-C-<right>" . #'sp-slurp-hybrid-sexp))
+       :config
+       (smartparens-global-mode t)
+       (require 'smartparens-ruby)
+       (require 'smartparens-config)
+       ;; Add new line after {}
+       (sp-with-modes
+           '(c++-mode objc-mode c-mode java-mode js-mode rust-mode)
+         (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET")))))
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package electric-spacing
+       :ensure t
+       :disabled
+       :hook (c-mode-common . electric-spacing-mode))
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package string-inflection
+       :ensure t)
+   #+end_src
+
+   Use cerbere frontend for testing
+   #+begin_src emacs-lisp :tangle yes
+          (use-package cerbere
+            :load-path "~/.emacs.d/packages/cerbere"
+            :bind (("H-t" . cerbere-test-dwim))
+            :config
+            (cerbere-global-mode 't))
+   #+end_src
+
 
 ** C/C++/Java/Objective-C
 
@@ -733,7 +934,7 @@
    #+begin_src emacs-lisp :tangle yes
      (use-package flycheck-clang-tidy
        :after flycheck
-       :load-path "~/.emacs.d/packages/flycheck-clang-tidy"
+       :ensure t
        :config
        (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
    #+end_src
@@ -744,15 +945,38 @@
      (use-package gud)
    #+end_src
 
+** Java
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package java-imports
+       :ensure t
+       :config
+       (add-hook 'java-mode-hook 'java-imports-scan-file))
+   #+end_src
 ** Ruby
 
    #+begin_src emacs-lisp :tangle yes
      (use-package ruby-mode
        :ensure t
+       :dash
+       (ruby-mode "Ruby_2")
        :custom
        (ruby-indent-level 2
                           "Use 2 space for indenting ruby code.")
+       (ruby-align-chained-calls nil)
        :config
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'ruby-minitest-failure '("\\[\\([^\\]+\\):\\([0-9]+\\)\\]" 1 2 nil nil 1)))
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'ruby-minitest-error '("Error:\n[^\n]+\n[^\n]+\n\\([^/]+\n\\)? *\\([^:]+\\):\\([0-9]+\\)" 2 3 nil nil 2)))
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'ruby-minitest-backtrace '("\n *\\([^:]+\\):\\([0-9]+\\):in" 1 2 nil 0 1)))
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'ruby-minitest-warning '("\\(/[^:]+\\):\\([0-9]+\\): warning" 1 2 nil 1 1)))
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'rails-test-line '("\nbin/rails test \\([^:]+\\):\\([0-9]+\\)" 1 2 nil 0 1)))
+       (add-to-list 'compilation-error-regexp-alist-alist
+                    (cons 'rails-brakeman '("File: \\([^\n]+\\)\nLine: \\([0-9]+\\)" 1 2 nil nil 1)))
        (defun ruby-close-block ()
          "Close ruby block."
          (interactive)
@@ -760,15 +984,29 @@
            (newline))
          (insert "end")
          (ruby-indent-line))
+       (defun my-progmode-equal ()
+         "Insert space equal space."
+         (interactive)
+         (insert " = ")
+         (ruby-indent-line))
        (defun my-ruby-mode-hook ()
          (interactive)
-         (helm-dash-activate-docset "Ruby_2")
-         (helm-dash-activate-docset "Ruby_on_Rails_4")
          (local-set-key (kbd "C-c C-e") #'ruby-close-block)
+         (local-set-key (kbd "«") (lambda () (interactive) (insert "#{}") (left-char)))
+         (setq fill-column 120)
          (turn-on-auto-fill)
          (ruby-block-mode t)
          (subword-mode t))
        (add-hook 'ruby-mode-hook #'my-ruby-mode-hook)
+       (defun my-ruby-compilation-hook ()
+         (when (and
+                (not (projectile-rails--ignore-buffer-p))
+                (projectile-project-p)
+                (projectile-rails-root)))
+         (setq-local compilation-error-regexp-alist
+                     '(ruby-minitest-failure ruby-minitest-error ruby-minitest-backtrace rails-test-line ruby-minitest-warning
+                                             rails-brakeman)))
+       (add-hook 'compilation-mode-hook #'my-ruby-compilation-hook)
        (defun my-ruby-toggle-string-quotes-advise (orig-fun &rest args)
          (let ((orig-point (point)))
            (backward-char)
@@ -781,10 +1019,15 @@
      (use-package ruby-additional
        :ensure t)
 
+     (use-package rbenv
+       :ensure t)
+
+     (use-package ruby-additions
+       :after (projectile-rails))
+
      (use-package ruby-block
        :ensure t
        :diminish ruby-block-mode)
-
    #+end_src
 
    Use robe.
@@ -800,18 +1043,26 @@
          (robe-mode))
        (add-hook 'ruby-mode-hook #'my-robe-setup))
    #+end_src
+   Use rupocop.
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package rubocop
+       :ensure t)
+     ;;:hook (rubocop-mode . ruby-mode))
+   #+end_src
 
    Add minitest integration package.
 
    #+begin_src emacs-lisp :tangle yes
      (use-package ruby-minitest
+       :disabled
        :after ruby-mode
        :custom
-       (ruby-minitest-file-match "\\(Minitest::Test\\|HlsTestCase\\)"
+       (ruby-minitest-file-match "< \\(Minitest::Test\\|[a-zA-Z0-9:]+::[a-zA-Z0-9:]*\\(TestCase\\|IntegrationTest\\)\\)"
                                  "Detect our test cases")
        :config
        (add-to-list 'safe-local-variable-values
-               '(ruby-minitest-file-match . "require 'test_helper'"))
+                    '(ruby-minitest-file-match . "require 'test_helper'"))
        (defun my-ruby-minitest-setup ()
          (interactive)
          (local-set-key (kbd "H-t") #'ruby-minitest-run-dwim)
@@ -842,10 +1093,15 @@
      (use-package projectile-rails
        :ensure t
        :after projectile
+       :diminish
+       :dash
+       (projectile-rails-mode "Ruby_2" "Ruby_on_Rails_4")
        :custom
        (projectile-rails-keymap-prefix (kbd "C-c r")
                                        "Map `projectile-rails' key map to C-c r.")
        :config
+       (defun projectile-rails--snippet-for-module (last-part name)
+         nil)
        (projectile-rails-global-mode))
    #+end_src
 
@@ -893,7 +1149,7 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package elisp-mode
-       :dash (emacs-lisp-mode "Emacs Lisp"))
+       :dash (emacs-lisp-mode "Emacs_Lisp"))
    #+end_src
 
    Add a function to evaluate the current buffer and run ert test suite.
@@ -939,8 +1195,10 @@
        :ensure t)
 
      (use-package rust-mode
-       :ensure t)
-   #+end_srcf
+       :ensure t
+       :hook subword)
+   #+end_src
+
 * Veygo
 
 ** Build system integration
@@ -986,6 +1244,20 @@
          (find-file "~/Dropbox (Personal)/Org/veygo.org")))
    #+end_src
 
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-vip
+       :after vip-build)
+   #+end_src
+
+** Lisp
+   #+begin_src emacs-lisp :tangle yes
+     (use-package eldoc
+       :ensure t
+       :diminish
+       :custom
+       (global-eldoc-mode -1 "disable eldoc in every buffer"))
+   #+end_src
+
 ** Tools
 
    HLS Smpt-ETT support.
@@ -1008,9 +1280,12 @@
 
    #+begin_src emacs-lisp :tangle yes
      (use-package repo
-       :ensure t
-       :config
-       (repo-status "~/Desktop/Veygo/vip/"))
+       :ensure t)
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-repo
+       :after repo)
    #+end_src
 
    Djinni integration.
@@ -1022,9 +1297,39 @@
 *** Redmine integration
 
     #+begin_src emacs-lisp :tangle yes
-      (use-package org-redmine
-        :ensure t
+      (use-package org-sync
+        :load-path "~/.emacs.d/packages/org-sync"
+        :config
+        (load "org-sync-redmine")
+        (add-to-list 'org-sync-backend-alist (cons "redmine.veygo.co" 'org-sync-rmine-backend))
+        (setq org-sync-rmine-auth '("damien.merenne@veygo.co" . "zJgFrtUuHtZwpGjX63gn3AQjvqGZ3Vvt")))
+    #+end_src
+
+    #+begin_src emacs-lisp :tangle yes
+      (use-package orgmine
+        :load-path "~/.emacs.d/packages/orgmine"
+        :disabled
         :custom
-        (org-redmine-uri "https://redmine.veygo.co")
-        (org-redmine-auth-api-key my-secrets-veygo-redmine-key))
+        (orgmine-servers '(("veygo"
+                            (host . "https://redmine.veygo.co")
+                            (api-key . "f8079442d8298a9ea49b5801a7d268adce61b792")
+                            (issue-title-format . "[[redmine:issues/%{id}][#%{id}]] %{subject}")
+                            (journal-title-format . "[[redmine:issues/%{id}#note-%{count}][V#%{id}-%{count}]] %{created_on} %{author}")
+                            (version-title-format . "[[redmine:versions/%{id}][V#%{id}]] %{name}")
+                            (tracker-title-format . "%{name}")
+                            (project-title-format . "[[redmine:projects/%{identifier}][%{identifier}]] %{name}")
+                            (user-name-format . "%{firstname} %{lastname}")
+                            (default-todo-keyword . "NEW"))))
+        :config
+        (defun my-orgmine-hook () (if (assoc "om_project" org-file-properties (orgmine-mode))))
+        (add-hook 'org-mode-hook #'my-orgmine-hook))
+        #+end_src
+
+*** Open dashboard
+
+    #+begin_src emacs-lisp :tangle yes
+      (let ((left (selected-window))
+            (right (split-window-right)))
+        (with-selected-window left
+          (find-file "~/Desktop/Veygo/dashboard.org")))
     #+end_src

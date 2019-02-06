@@ -1,0 +1,6 @@
+# key: method
+# name: method
+# --
+fn $1(&self${2:$$(yas-format-or-empty ", %s" yas-text)})${3:$$(yas-format-or-empty " -> %s" yas-text)} {
+  $0
+}

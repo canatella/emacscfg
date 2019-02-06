@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# name: module
+# key: module
+# --
+# frozen_string_literal: true
+`(let ((parent (ruby-file-name-require (buffer-file-name))))
+(when parent (format "\nrequire '%s'" parent)))`
+
+module `(ruby-module-name (buffer-file-name))`
+  $0
+end

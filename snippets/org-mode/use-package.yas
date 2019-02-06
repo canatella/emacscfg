@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: use-package
+# key: use
+# --
+#+begin_src emacs-lisp :tangle yes
+  (use-package $1
+    :ensure t
+    $0)
+#+end_src

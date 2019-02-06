@@ -95,7 +95,7 @@
 (defun vip-project-p (directory)
   "True if DIRECTORY is a vip project."
   (and (file-exists-p (concat (file-name-as-directory directory)
-                                  "veygo.rb"))
+                                  "veygo.kcnf"))
        ;; Exclude builder/lib/veygo.rb
        (not (string-match "/builder/lib" directory))))
 
@@ -334,23 +334,6 @@ If LOCAL is not nl, build for local host."
   (interactive (vip-build-parameters current-prefix-arg))
   (let ((command (vip-build-command workspace project target nil nil nil t)))
     (vip-compile workspace command)))
-
-(defun vip-build-test (workspace project &optional test)
-  "Run unit-tests in WORKSPACE for PROJECT, rebuilding only modified projects.
-
-If TEST it not nil, it should be a list of test description to
-match the test to run."
-  (interactive
-   (let* ((workspace (vip-fetch-workspace))
-           (project (vip-fetch-project workspace (vip-current-project))))
-        (list workspace project)))
-  (let* ((test-binary (vip-staging-file
-                      workspace (format "bin/%s-test" project) "local"))
-         (test-command (format "%s --reporter=info %s" test-binary
-                               (s-join "" (--map (format " --only=\"%s\"" it)
-                                                 test))))
-         (compile-command (vip-build-command workspace project "config build install" nil t nil t t)))
-    (vip-compile workspace (format "%s && %s" compile-command test-command))))
 
 (defun vip-install (workspace project)
   "Run vip builder config target in WORKSPACE for PROJECT."
@@ -649,7 +632,7 @@ Prompt with project DEFAULT if not nil."
   (interactive)
   (when (vip-toplevel)
     (vip-build-minor-mode t)
-    (setq-local compilation-error-regexp-alist '(vip bandit xcpretty))))
+    (setq-local compilation-error-regexp-alist '(vip bandit xcpretty java))))
 
 (defun vip-clang-tidy ()
   "Run clang format on current project."
@@ -771,8 +754,47 @@ the mode, `toggle' toggles the state."
   "Fetch a build file for WORKSPACE PROJECT."
   (vip-project-build-find-file workspace project "compile_commands.json"))
 
-(defvar vip-bandit-last-test nil "The last executed test.")
+(defvar vip-last-test nil "The last executed test.")
 
+(defun vip-junit-buffer-p (buffer)
+  "Return t if BUFFER contin a junit test case."
+  (save-excursion
+    (with-current-buffer buffer
+      (goto-char (point-min))
+      (re-search-forward "^import org.junit.Test;" nil t))))
+
+(defun vip-java-class-for-file ()
+  "Return the full name for the current class."
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward "^package \\([[:alnum:].]+\\);")
+    (format "%s.%s" (match-string 1)  (file-name-base buffer-file-name))))
+
+(defun vip-junit-test-at-point ()
+  "Return the current test name."
+  (when (vip-junit-buffer-p (current-buffer))
+    (save-excursion
+      (end-of-line)
+      (re-search-backward "@Test[[:space:]\n]+public[[:space:]]+void[[:space:]]+\\([[:alnum:]]+\\)" nil 't)
+      (let* ((name (match-string 1))
+             (class (vip-java-class-for-file))
+             (test (cons 'vip-build-junit-test (if name (format "%s#%s" class name) class))))
+        (prog1 test)
+        (setq vip-last-test test)))))
+
+(defun vip-build-junit-test (workspace project &optional test)
+  "Run junit-tests in WORKSPACE for PROJECT, rebuilding only modified projects.
+
+If TEST it not nil, it should be a list of test description to
+match the test to run."
+  (interactive
+   (let* ((workspace (vip-fetch-workspace))
+          (project (vip-fetch-project workspace (vip-current-project))))
+     (list workspace project)))
+  (when test (setenv "TEST_CLASS" test))
+  (vip-compile workspace (format "%s %s -d --device -- -m -1 vip-platform config build install ! -1 vip-android test"
+                                 vip-ruby-executable (vip-build-executable workspace)))
+  (setenv "TEST_CLASS"))
 (defun vip-bandit-buffer-p (buffer)
   "Return t if BUFFER contain is a bandit test case."
   (save-excursion
@@ -795,9 +817,76 @@ the mode, `toggle' toggles the state."
   (when (vip-bandit-buffer-p (current-buffer))
     (save-excursion
       (end-of-line)
-      (let ((test (reverse (-unfold #'vip-bandit-previous-description 1000))))
+      (let ((test (cons 'vip-build-bandit-test (reverse (-unfold #'vip-bandit-previous-description 1000)))))
         (prog1 test
-          (setq vip-bandit-last-test test))))))
+          (setq vip-last-test test))))))
+
+(defun vip-build-bandit-test (workspace project &optional test)
+  "Run unit-tests in WORKSPACE for PROJECT, rebuilding only modified projects.
+
+If TEST it not nil, it should be a list of test description to
+match the test to run."
+  (interactive
+   (let* ((workspace (vip-fetch-workspace))
+           (project (vip-fetch-project workspace (vip-current-project))))
+        (list workspace project)))
+  (let* ((test-binary (vip-staging-file
+                      workspace (format "bin/%s-test" project) "local"))
+         (test-command (format "%s --reporter=info %s" test-binary
+                               (s-join "" (--map (format " --only=\"%s\"" it)
+                                                 test))))
+         (compile-command (vip-build-command workspace project "config build install" nil t nil t t)))
+    (vip-compile workspace (format "%s && %s" compile-command test-command))))
+
+
+(defun vip-xc-buffer-p (buffer)
+  "Return t if BUFFER contin a xc test case."
+  (save-excursion
+    (with-current-buffer buffer
+      (goto-char (point-min))
+      (re-search-forward "^#import <XCTest/XCTest\\.h>" nil t))))
+
+(defun vip-xc-class-for-file ()
+  "Return the full name for the current class."
+  (file-name-base buffer-file-name))
+
+(defun vip-xc-test-at-point ()
+  "Return the current test name."
+  (when (vip-xc-buffer-p (current-buffer))
+    (save-excursion
+      (end-of-line)
+      (re-search-backward "^-[[:space:]]*(void)[[:space:]]*\\(test[[:alnum:]]+\\)[[:space:]\n]+{" nil 't)
+      (let* ((name (match-string 1))
+             (class (vip-xc-class-for-file))
+             (test (cons 'vip-build-xc-test (if name (format "%s/%s" class name) class))))
+        (prog1 test)
+        (setq vip-last-test test)))))
+
+(defun vip-build-xc-test (workspace project &optional test)
+  "Run xc-tests in WORKSPACE for PROJECT, rebuilding only modified projects.
+
+If TEST it not nil, it should be a list of test description to
+match the test to run."
+  (interactive
+   (let* ((workspace (vip-fetch-workspace))
+          (project (vip-fetch-project workspace (vip-current-project))))
+     (list workspace project)))
+  (when test (setenv "TEST_CLASS" test))
+  (vip-compile workspace (format "%s %s -d --device -- -m -1 vip-ios config build install ! -1 vip-ios test"
+                                 vip-ruby-executable (vip-build-executable workspace)))
+  (setenv "TEST_CLASS"))
+
+(defun vip-test-at-point ()
+  "Fetch the current test at point."
+  (cond ((vip-bandit-buffer-p (current-buffer)) (vip-bandit-test-at-point))
+        ((vip-junit-buffer-p (current-buffer)) (vip-junit-test-at-point))
+        ((vip-xc-buffer-p (current-buffer)) (vip-xc-test-at-point))))
+
+(defun vip-build-test (workspace project &optional test)
+  "Run test in WORKSPACE for PROJECT."
+  (let ((runner (car test))
+        (data (cdr test)))
+    (funcall runner workspace project data)))
 
 (defun vip-build-test-dwim (workspace project)
   "Run current test at point or whole test suite for WORKSPACE PROJECT."
@@ -806,7 +895,7 @@ the mode, `toggle' toggles the state."
           (project (vip-fetch-project workspace (vip-current-project))))
      (list workspace project)))
   (vip-build-test workspace project
-                  (or (vip-bandit-test-at-point) vip-bandit-last-test)))
+                  (or (vip-test-at-point) vip-last-test)))
 
 (defun vip-current-position ()
   "Return the relative filename and current line."
@@ -818,13 +907,13 @@ the mode, `toggle' toggles the state."
 (with-eval-after-load 'magit-mode
   (define-key magit-mode-map "e" #'vip-magit-ediff-dwim))
 
-(with-eval-after-load "compile"
-  (add-to-list 'compilation-error-regexp-alist-alist
-               '(vip "^\\s-*\\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\):\\([0-9]+\\)\\): \\(\\(fatal \\)?error\\|\\(warning\\)\\|\\(note\\)\\):" 2 3 4 (9 . 10) 1))
-  (add-to-list 'compilation-error-regexp-alist-alist
-               '(bandit "^\\s-*\\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\)\\): Expected" 2 3 nil nil 1))
-  (add-to-list 'compilation-error-regexp-alist-alist
-               '(xcpretty "^ *\\[x\\] \\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\):\\([0-9]+\\)\\):" 2 3 4 nil 1)))
+;;(with-eval-after-load "compile"
+;;  (add-to-list 'compilation-error-regexp-alist-alist
+;;               '(vip "^\\s-*\\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\):\\([0-9]+\\)\\): \\(\\(fatal \\)?error\\|\\(warning\\)\\|\\(note\\)\\):" 2 3 4 (9 . 10) 1))
+;;  (add-to-list 'compilation-error-regexp-alist-alist
+;;               '(bandit "^\\s-*\\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\)\\): Expected" 2 3 nil nil 1))
+;;  (add-to-list 'compilation-error-regexp-alist-alist
+;;               '(xcpretty "^ *\\[x\\] \\(\\([[:alnum:]/_.-]+\\):\\([0-9]+\\):\\([0-9]+\\)\\):" 2 3 4 nil 1)))
 
 ;(setq compilation-error-regexp-alist-alist (-remove (lambda (e) (or (equal (car e) 'bandit) (equal (car e) 'vip) (equal (car e) 'xcpretty))) compilation-error-regexp-alist-alist))
 

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: rails-migration-change-table
+# key: change_table
+# --
+change_table $1 do |t|
+  $0
+end

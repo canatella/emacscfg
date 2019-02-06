@@ -23,7 +23,7 @@
 (gc-cons-threshold-max)
 
 ;; Custom variables are setup using use-package.
-(customize-set-variable 'custom-file "/dev/null")
+(customize-set-variable 'custom-file nil)
 
 ;; This is for my custom packages
 (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
@@ -39,63 +39,24 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-                                        ;(unless (package-installed-p 'use-package)
-                                        ;  (package-install 'use-package))
+(setq use-package-verbose t)
 
 (eval-when-compile
   (add-to-list 'load-path (concat user-emacs-directory "packages/use-package/"))
   (require 'use-package)
 
-  (defun seq-insert-after (element place-holder sequence)
-    "Insert ELEMENT after PLACE-HOLDER into SEQUENCE."
-    (when sequence
-      (let ((e (car sequence)))
-        (cons e
-              (if (equal place-holder e)
-                  (cons element (cdr sequence))
-                (seq-insert-after element place-holder (cdr sequence)))))))
-
-  ;; make sure we enable dash
-  (use-package counsel-dash
-    :ensure t
+  (use-package helm-dash
+    :load-path "~/.emacs.d/packages/helm-dash"
     :config
     (mkdir "~/.docsets" t)
-    (setq counsel-dash-docsets '()))
+    (setq helm-dash-docsets '()))
 
-  (unless (seq-contains use-package-keywords :dash)
-    (setq use-package-keywords
-          (seq-insert-after :dash :delight use-package-keywords)))
 
-  (defun use-package-normalize/:dash (name-symbol keyword arg)
-    "Normalize use-package customize keyword."
-    (let ((error-msg (format  "%s wants a (<symbol> <docset> docset)  or list of these" name-symbol)))
-      (unless (listp arg)
-        (use-package-error error-msg))
-      (dolist (def arg arg)
-        (unless (listp def)
-          (use-package-error error-msg)))))
+  (use-package diminish
+    :ensure t))
 
-  (defun use-package-handler/:dash (name keyword args rest state)
-    "Generate use-package customize keyword code."
-    (let ((body (use-package-process-keywords name rest state)))
-      (use-package-concat
-       (seq-map (lambda (def)
-                  (let ((mode (intern (format "%s-hook" (car def))))
-                        (hook (intern (format "use-package-dash-setup-%s" (car def))))
-                        (docsets (cdr def)))
-                    `(progn
-                       (seq-do #'helm-dash-ensure-docset-installed (quote ,docsets))
-                       (defun ,hook ,()
-                         (make-local-variable 'counsel-dash-docsets)
-                         (seq-do (lambda (docset)
-                                   (add-to-list 'counsel-dash-docsets docset))
-                                 (quote ,docsets)))
-                       (add-hook (quote ,mode) (function ,hook)))))
-                args)
-       body))))
-
-(require 'diminish)
 (require 'my-secrets)
+(setq custom-safe-themes t)
 
 (org-babel-load-file (concat user-emacs-directory "config.org"))
 
@@ -103,3 +64,32 @@
 
 ;;; init.el ends here
 (put 'dired-find-alternate-file 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-file nil)
+ '(display-buffer-alist '((".*" display-buffer-reuse-window (reusable-frames . t))))
+ '(exec-path-from-shell-variables '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME"))
+ '(frame-background-mode 'dark)
+ '(initial-frame-alist '((vertical-scroll-bars) (fullscreen . maximized)))
+ '(mac-command-modifier 'hyper)
+ '(mac-option-modifier 'meta)
+ '(mac-right-command-modifier 'hyper)
+ '(mac-right-option-modifier nil)
+ '(ns-alternate-modifier 'meta)
+ '(ns-command-modifier 'hyper)
+ '(ns-right-alternate-modifier nil)
+ '(ns-right-command-modifier 'hyper)
+ '(package-selected-packages
+   '(rb-env rbenv ivy ivy-dired-history ivy-explorer ivy-prescient 0xc dts-mode electric-spacing password-store yasnippet yari yaml-mode which-key wgrep-ag sx sunburn-theme string-inflection spaceline-all-the-icons sos smex smartparens slack scala-mode ruby-block ruby-additional rubocop robe rhtml-mode repo racer quelpa-use-package projectile-rails php-mode pdf-tools osx-browse orgit org-sync org-redmine ns-auto-titlebar nov nodejs-repl multi-line language-detection java-imports itail htmlize helpful helm-fuzzier helm-flx helm-ag grayscale-theme google-this god-mode git-timemachine gist flycheck-rust flycheck-clang-tidy exec-path-from-shell elmine dtrt-indent dired-subtree dired-ranger dired-rainbow dired-narrow dired-filter dired-collapse diminish creamsody-theme counsel-projectile counsel-osx-app counsel-dash color-theme-sanityinc-tomorrow cmake-mode clang-format cargo bitbake atomic-chrome atom-one-dark-theme arjen-grey-theme all-the-icons-dired ag ac-rtags ac-helm))
+ '(scroll-bar-mode nil)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(eruby-standard-face ((t (:slant italic))))
+ '(spaceline-highlight-face ((t (:foreground "#484349" :background "#b48ead" :weight bold)))))

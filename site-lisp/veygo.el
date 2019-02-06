@@ -1,5 +1,3 @@
-;;; veygo.el -- Veygo integration package
-
 ;;; Commentary:
 
 ;;  Provide Veygo build system integration.

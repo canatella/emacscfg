@@ -54,6 +54,11 @@ end
     `(ruby-minitest-with-test-content ruby-minitest-ert-test-content
        ,@body))
 
+(defun ruby-minitest-forget-last-test ()
+  "Do not run test anymore on recompile."
+  (interactive)
+  (setq ruby-minitest-last-test nil))
+
 (defun ruby-minitest-buffer-p (buffer)
   "Return t if BUFFER is a minitest test case."
   (save-excursion
