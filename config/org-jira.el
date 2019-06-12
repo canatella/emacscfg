@@ -1,0 +1,30 @@
+(use-package org-jira
+  :ensure nil
+  :hook (org-mode . org-jira-mode)
+  :load-path "~/.emacs.d/packages/org-jira"
+  :custom
+  (jiralib-url "https://bloomlife.atlassian.net")
+  (org-jira-working-dir "~/Desktop/Bloomlife/org")
+  (org-jira-use-status-as-todo '())
+  (org-jira-verbosity '())
+  (org-jira-project-filename-alist '(("BLE" . "jira.org") ("DSP" . "jira.org")))
+  (org-jira-progress-issue-flow '(("To Do" . "In Progress")
+                                  ("In Progress" . "In Review")
+                                  ("In Review" . "Done")))
+  (org-jira-property-overrides '(("assignee" . "ASSIGNEE")
+                                 ("filename" . "PROJECT")
+                                 ("reporter" . "REPORTER")
+                                 ("type" . "JTYPE")
+                                 ("priority" . "JPRIO")
+                                 ("status" . "STATUS")
+                                 ("created" . "CREATED")
+                                 ("updated" . "UPDATED")
+                                 ("id" . "ID")
+                                 ("resolution" . "RESOLVED")))
+  (org-highest-priority ?A)
+  (org-lowest-priority ?E)
+  :custom-face
+  (org-level-1 ((t :box (:line-width 10 :color "#484349"))))
+  (org-level-2 ((t :box (:line-width 8 :color "#484349"))))
+  (org-level-3 ((t :box (:line-width 6 :color "#484349"))))
+  (org-level-4 ((t :box (:line-width 4 :color "#484349")))))
