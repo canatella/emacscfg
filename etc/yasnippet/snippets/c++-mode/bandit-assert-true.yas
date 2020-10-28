@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bandit assert true
+# key: att
+# --
+AssertThat((bool) $1, IsTrue($0));

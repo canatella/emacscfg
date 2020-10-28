@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lambda
+# key: lambda
+# --
+[$1]($2) { ${3: return ${4};} }

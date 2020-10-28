@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: bandit describe
+# key: desc
+# expand-env: ((yas-indent-line 'fixed))
+# --
+describe("$1", [&]() {
+  $0
+});

@@ -1,0 +1,5 @@
+(require 'package)
+(setq package-user-dir (concat user-emacs-directory "var/elpa")
+      package-gnupghome-dir (concat package-user-dir "/gnupg")
+      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")))

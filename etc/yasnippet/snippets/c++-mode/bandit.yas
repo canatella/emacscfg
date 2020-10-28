@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: bandit test case
+# key: bandit
+# expand-env: ((yas-indent-line 'fixed))
+# --
+#include <bandit/bandit.h>
+#define private public
+
+using namespace snowhouse;
+using namespace bandit;
+using namespace veygo::platform;
+
+go_bandit([]() {
+  $0
+});

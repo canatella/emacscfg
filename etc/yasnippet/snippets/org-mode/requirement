@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# key: req
+# name: requirement
+# --
+** TODO $1
+   :PROPERTIES:
+   :type:     `(bloom-jira-requirement-type)`
+   :status:   Todo
+   :END:
+   $0

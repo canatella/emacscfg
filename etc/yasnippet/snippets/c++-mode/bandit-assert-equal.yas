@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bandit assert
+# key: at=
+# --
+AssertThat($1, Equals($0));

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rails-migration-add-reference
+# key: add_reference
+# --
+add_reference :${1:table}, :${2:column}, :${3:index: true, foreign_key: true}

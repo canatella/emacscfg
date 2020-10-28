@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: rails-migration-rename-table
+# key: rename_table
+# --
+rename_table :${1:old_table_name}, :${2:new_table_name}
+$0

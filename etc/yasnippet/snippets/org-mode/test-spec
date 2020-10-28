@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: test-spec
+# key: test
+# --
+*** TODO $1
+    :PROPERTIES:
+    :type:     `(bloom-jira-test-spec-type)`
+    :status:   Todo
+    :END:
+    $0

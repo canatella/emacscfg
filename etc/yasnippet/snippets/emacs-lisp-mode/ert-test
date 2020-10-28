@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ert-test
+# key: ert
+# --
+(ert-deftest $1 ()
+  $0)
