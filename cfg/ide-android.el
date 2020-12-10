@@ -2,7 +2,7 @@
 
 (use-package-local pbuf)
 
-(use-package android
+(use-package-local android
   :after (pbuf)
   :custom ;; fmt
   (android-sdk-home

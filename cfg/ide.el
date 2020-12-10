@@ -5,6 +5,8 @@
   :config ;;
   (cerbere-global-mode 't))
 
+(use-package-local test-runner :custom (test-runner-key-prefix (kbd "C-x t")))
+
 (use-package reformatter :ensure t)
 
 (use-package company :ensure t :diminish :hook (after-init . global-company-mode))
@@ -40,21 +42,21 @@
 (use-package diff :custom (diff-switches "-u" "Use universal diff format."))
 
 (use-package ediff
-  :hook (ediff-mode . my-ediff-setup)
+  :hook (ediff-mode . cfg-ediff-setup)
   :custom ;;
   (ediff-split-window-function #'split-window-horizontally "Split window horizontaly in Ediff.")
-  (ediff-merge-split-window-function #'my-ediff-split-window
+  (ediff-merge-split-window-function #'cfg-ediff-split-window
                                      "Split window A/B horizontally and C/ancestor vertically.")
   (ediff-window-setup-function #'ediff-setup-windows-plain
                                "Put all Ediff buffers in the same frame.")
   :config ;;
-  (defun config-ediff-split-window ()
+  (defun cfg-ediff-split-window ()
     "Split window horizontally for A and B, and vertically for merged and ancertor."
     ;; if current window is window C, split vertically
     (if (equal "*ediff-merge*" (buffer-name))
         (split-window-vertically)
       (split-window-horizontally)))
-  (defun config-ediff-setup () (setq ediff-merge-window-share 0.65)))
+  (defun cfg-ediff-setup () (setq ediff-merge-window-share 0.65)))
 
 (use-package dtrt-indent
   :ensure t
@@ -96,5 +98,7 @@
   (magit-wip-after-apply-mode t "Track work in progress in a git branch.")
   :init ;;
   (require 'subr-x))
+
+(use-package-local test-runner)
 
 (use-package gud)

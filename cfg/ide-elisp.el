@@ -4,6 +4,10 @@
 
 (use-package-local elfmt)
 
+(use-package-local test-runner-ert ;;
+  :after (test-runner)
+  :config (add-to-list 'safe-local-variable-values '(test-runner-ert-load-path . ("." "../test-runner"))))
+
 (use-package  elisp-mode :dash (emacs-lisp-mode "Emacs_Lisp"))
 
 (eval-after-load 'elisp-format

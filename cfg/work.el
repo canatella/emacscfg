@@ -15,6 +15,7 @@
   (jiracs-jira-available-projects '("BLP" "DM")))
 
 (use-package-local bloomlife ;;
+  :after (cmake-api android)
   :config ;;
   (bloom-global-minor-mode t)
   (bloomlife-visit-dashboard))

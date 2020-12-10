@@ -15,6 +15,10 @@
   :after (cc-mode eglot)
   :bind (:map c-mode-base-map ("C-c o" . eglot-clangd-switch-source-header)))
 
+(use-package-local test-runner-catch2 :after (test-runner))
+
+(use-package-local cmake-api)
+
 (use-package
   cc-mode
   :custom (c-basic-offset 4 "Use 4 spaces for indentation.")
