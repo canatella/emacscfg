@@ -19,7 +19,8 @@
     (mapcar #'disable-theme custom-enabled-themes)
     (load-theme 'nord t)
     (custom-set-faces
-     '(show-paren-match-expression ((t (:background "#434C5E")))))))
+     '(show-paren-match-expression ((t (:background "#434C5E"))))))
+  (dark-theme))
 
 (use-package apropospriate-theme :ensure t :config
   (defun light-theme ()
@@ -111,14 +112,13 @@ Each composition must be supported by the font."
 (use-package
   frame
   :custom (frame-background-mode 'dark "Using a dark theme.")
-  (initial-frame-alist '((vertical-scroll-bars) (fullscreen . maximized)))
+  (initial-frame-alist
+   '((undecorated . t) (vertical-scroll-bars) (fullscreen . maximized)))
   (display-buffer-alist
    '((".*" display-buffer-reuse-window (reusable-frames . t)))
    "Do not always create a new window, reuse old ones.")
-  :config (set-frame-parameter nil 'fullscreen 'fullboth)
-  (set-frame-parameter (selected-frame) 'alpha '(100 100))
-  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-  (add-to-list 'default-frame-alist '(alpha 100 100)))
+  :config (set-frame-parameter (selected-frame) 'alpha '(90 90))
+  (add-to-list 'default-frame-alist '(alpha 90 90)))
 
 (use-package fringe :custom (fringe-mode '(8 . 8)))
 

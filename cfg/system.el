@@ -5,7 +5,7 @@
 
 (use-package async :ensure t)
 
-(use-package-local dash-docs :after (async) :config (mkdir "~/.docsets" t))
+(use-package-local dash-docs :after (async) :demand t :config (mkdir "~/.docsets" t))
 
 (use-package diminish :ensure t)
 
@@ -66,3 +66,10 @@
 (use-package bepo :config (bepo-global-mode))
 
 (use-package eshell :custom (pcomplet-cycle-completions '() "complete like bash"))
+
+(use-package envrc :ensure t :config (envrc-global-mode))
+
+(use-package tramp :custom
+  (tramp-default-method "ssh")
+  (tramp-connection-timeout 5)
+  (tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*" "Fix remote shell detection with vterm"))

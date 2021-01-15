@@ -37,6 +37,7 @@
 
 
 (load-config 'system)
+(load-config 'appearance)
 (load-config 'completion)
 (load-config 'editing)
 (load-config 'viewer)
@@ -52,7 +53,6 @@
 (load-config 'ide-rust)
 (load-config 'ide-terraform)
 (load-config 'work)
-(load-config 'appearance)
 
 (gc-cons-threshold-normal)
 

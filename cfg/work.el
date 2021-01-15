@@ -17,7 +17,6 @@
 (use-package-local bloomlife ;;
   :after (cmake-api android)
   :config ;;
-  (bloom-global-minor-mode t)
-  (bloomlife-visit-dashboard))
+  (bloom-global-minor-mode t))
 
 ;;(setenv "FIRESTORE_EMULATOR_HOME" "/Users/dam/Desktop/Bloomlife/repos/firestore-rules")

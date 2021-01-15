@@ -59,12 +59,23 @@
   :after sunburn-theme
   :custom (cov-coverage-mode nil)
   :config (sunburn-with-color-variables
-            (custom-set-faces
-             `(cov-coverage-run-face ((t :foreground ,sunburn-green+1)))
-             `(cov-coverage-not-run-face ((t :foreground ,sunburn-red+1)))
-             `(cov-none-face ((t :foreground ,sunburn-red+1)))
-             `(cov-heavy-face ((t :foreground ,sunburn-green+3)))
-             `(cov-med-face ((t :foreground ,sunburn-green+3)))
-             `(cov-light-face ((t :foreground ,sunburn-green+4))))))
+           (custom-set-faces
+            `(cov-coverage-run-face ((t :foreground ,sunburn-green+1)))
+            `(cov-coverage-not-run-face ((t :foreground ,sunburn-red+1)))
+            `(cov-none-face ((t :foreground ,sunburn-red+1)))
+            `(cov-heavy-face ((t :foreground ,sunburn-green+3)))
+            `(cov-med-face ((t :foreground ,sunburn-green+3)))
+            `(cov-light-face ((t :foreground ,sunburn-green+4))))))
+
+(with-eval-after-load 'reformatter
+  (reformatter-define cmake-format :program "cmake-format" :args
+    `("-c"
+      ,@(let*
+            ((main
+              (expand-file-name (locate-dominating-file default-directory ".cmake-format.yaml")))
+             (global (concat main ".cmake-format.yaml"))
+             (project (concat main "cmake-format.yaml")))
+          (list global (if (file-exists-p project) project)))
+      "-o" "-" "-")))
 
 (use-package-local djinni-mode)

@@ -3,6 +3,7 @@
 (use-package-local cerbere ;;
   :diminish "ⓒ" ;;
   :config ;;
+  :disabled t
   (cerbere-global-mode 't))
 
 (use-package-local test-runner :custom (test-runner-key-prefix (kbd "C-x t")))
@@ -89,6 +90,7 @@
 (use-package
   magit
   :ensure t
+  :demand t
   :bind (([f8] . magit-status))
   :custom ;;
   (magit-save-repository-buffers 'dontask "Do not ask to save buffer when refreshing.")
@@ -97,7 +99,8 @@
   (magit-wip-after-save-local-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-apply-mode t "Track work in progress in a git branch.")
   :init ;;
-  (require 'subr-x))
+  (require 'subr-x)
+  (require 'magit-extras))
 
 (use-package-local test-runner)
 

@@ -1,10 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package
-  python
-  :dash (python-mode "Python 3"))
-
-(use-package
-  py-autopep8
-  :ensure t
-  :hook (python-mode . py-autopep8-enable-on-save))
+(use-package python :dash (python-mode "Python 3"))
+(with-eval-after-load 'reformatter
+  (reformatter-define python-format :program "yapf")
+  (add-hook 'python-mode-hook #'python-format-on-save-mode))
