@@ -53,8 +53,6 @@
 
 (use-package savehist :custom (savehist-mode t "Save minibuffer history."))
 
-(use-package server :config (server-start))
-
 (use-package time :custom (display-time-24hr-format t))
 
 (use-package which-key
