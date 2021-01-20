@@ -6,7 +6,9 @@
   :after (pbuf)
   :custom ;; fmt
   (android-sdk-home
-   (concat conan-path "android-sdk/26.1.1/bloomlife/stable/package/8872e4c7fdd7a5876645d1735ac6e7efaac3e0e3/"))
+   (concat conan-path "android-sdk/26.1.1/bloomlife/stable/package/3592045486c60d1bd77c3351abdd2379d1980716/"))
   (android-ndk-home
    (concat conan-path
-           "android_ndk_installer/r20/bloomlife/stable/package/743cf0321be3152777da4d05247a66d1552e70a2/")))
+           "android_ndk_installer/r20/bloomlife/stable/package/44fcf6b9a7fb86b2586303e3db40189d3b511830/"))
+  (android-adb-path
+   (concat conan-path "android-sdk/26.1.1/bloomlife/stable/package/3592045486c60d1bd77c3351abdd2379d1980716/platform-tools/adb")))
