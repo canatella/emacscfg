@@ -9,13 +9,15 @@
   (solarized-use-less-bold t)
   (solarized-use-variable-pitch '()))
 
-(use-theme nord
+(use-theme nord-theme
   :style dark
+  :ensure t
   :custom-face '(show-paren-match-expression ((t (:background "#434C5E")))))
 
-(use-theme apropospriate
+(use-theme apropospriate-theme
   :name apropospriate-light
   :style light
+  :ensure t
   :custom-face '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
 ;;; Font configuration
