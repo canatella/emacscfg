@@ -1,7 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 (use-package use-package-ensure-system-package :ensure t)
 
-(use-package no-littering :ensure t)
+(use-package no-littering :ensure t
+  :config (setq auto-save-file-name-transforms
+                `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 (use-package async :ensure t)
 
@@ -31,7 +33,7 @@
   :ensure t
   :custom (exec-path-from-shell-variables
            '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME" "ARTIFACTORY_USER" "ARTIFACTORY_PASSWORD" "BITBUCKET_USER" "BITBUCKET_PASSWORD" "FIRESTORE_EMULATOR_HOME" "JLINK_SERIAL_NRF52" "JLINK_SERIAL_SAM4S"))
-  :config (when (memq window-system '(mac ns)) (exec-path-from-shell-initialize)))
+  :config (exec-path-from-shell-initialize))
 
 (use-package helpful
   :ensure t
@@ -71,3 +73,15 @@
   (tramp-default-method "ssh")
   (tramp-connection-timeout 5)
   (tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*" "Fix remote shell detection with vterm"))
+
+(defun config-delete-process-at-point ()
+  "Kill process at point in process list buffers."
+  (interactive)
+  (let ((process (get-text-property (point) 'tabulated-list-id)))
+    (cond
+     ((and process (processp process))
+      (delete-process process)
+      (revert-buffer))
+     (t (error "No process at point!")))))
+
+(define-key process-menu-mode-map (kbd "k") #'config-delete-process-at-point)

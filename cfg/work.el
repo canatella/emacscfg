@@ -14,6 +14,8 @@
   (jiracs-jira-url "https://bloomlife.atlassian.net/")
   (jiracs-jira-available-projects '("BLP" "DM")))
 
+(use-package-local atlassian)
+
 (use-package-local bloomlife ;;
   :after (cmake-api android)
   :config ;;

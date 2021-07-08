@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bell log level
+# key: bell
+# --
+bloom::logger::log_level(bloom::log_level::debug);

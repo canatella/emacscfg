@@ -6,7 +6,7 @@
   :disabled t
   (cerbere-global-mode 't))
 
-(use-package-local test-runner :custom (test-runner-key-prefix (kbd "C-x t")))
+(use-package-local test-runner :custom (test-runner-key-prefix (kbd "C-c t")))
 
 (use-package reformatter :ensure t)
 
@@ -40,6 +40,11 @@
   (compilation-ask-about-save '() "Do not ask for save when compiling.")
   (compilation-scroll-output 'first-error "Scroll down with output, but stop at first error."))
 
+(use-package ispell :config
+  (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
+
+(use-package flyspell :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode)))
+
 (use-package diff :custom (diff-switches "-u" "Use universal diff format."))
 
 (use-package ediff
@@ -66,11 +71,21 @@
   (dtrt-indent-active-mode-line-info "" "Remove mode line info.")
   :config (dtrt-indent-global-mode t))
 
-(use-package-local eglot
-  :hook ((c-mode c++-mode objc-mode)
-         . eglot-ensure)
+(use-package eglot
+  :hook (((c-mode c++-mode objc-mode python-mode)
+          . eglot-ensure)
+         (python-mode . eglot-format-on-save-mode))
+  :ensure t
   :custom ;;
-  (eglot-auto-reconnect t))
+  (eglot-auto-reconnect t)
+  :config ;;
+  (define-minor-mode eglot-format-on-save-mode
+    "When enabled, call `eglot-format-buffer' when this buffer is saved."
+    nil
+    :global nil
+    (if eglot-format-on-save-mode
+        (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+      (remove-hook 'before-save-hook #'eglot-format-buffer t))))
 
 (use-package
   eldoc
@@ -91,8 +106,11 @@
   magit
   :ensure t
   :demand t
-  :bind (([f8] . magit-status))
+  :bind (("C-c m s" . magit-status)
+         ("C-c m d" . magit-dispatch)
+         ("C-c m f" . magit-file-dispatch))
   :custom ;;
+  (magit-define-global-key-bindings '() "Do not define global key bindings")
   (magit-save-repository-buffers 'dontask "Do not ask to save buffer when refreshing.")
   (magit-wip-after-apply-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-save-mode-lighter '() "No indicator for work in progress in modline.")
@@ -102,6 +120,21 @@
   (require 'subr-x)
   (require 'magit-extras))
 
+(use-package ghub :ensure t)
+(use-package closql :ensure t)
+(use-package forge :load-path "~/.emacs.d/pkg/forge/lisp" :after (closql magit))
+
 (use-package-local test-runner)
 
+(use-package xref
+  :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)
+  (xref-show-definitions-function #'xref-show-definitions-completing-read))
+
 (use-package gud)
+
+(use-package project
+  :custom (project-switch-commands
+           '((project-find-file "Find file")
+             (project-dired "Dired")
+             (project-vterm "Term")
+             (magit-project-status "Magit"))))

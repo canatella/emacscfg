@@ -18,8 +18,6 @@
   :after (selectrum)
   :bind (:map selectrum-minibuffer-map ("C-c C-o" . embark-export) ("C-c C-c" . embark-act-noexit)))
 
-(use-package project)
-
 (use-package consult :ensure t
   :after (project)
   :custom (consult-project-root-function #'project-current-root)

@@ -34,11 +34,17 @@
   :diminish ((c++-mode . "🅲++")
              (c++//lw-mode . "🅲++"))
   :mode ("\\.impl\\'" . c++-mode)
-  :config (defun config-c-mode-common-setup
+  :config (defun config-c-mode-flyspell-check-word-predicate
               ()
-            "Use auto fill and subword mode."
-            (turn-on-auto-fill)
-            (subword-mode t))
+            "Used for `flyspell-generic-check-word-predicate' in c modes."
+            (and
+             (flyspell-generic-progmode-verify)
+             (save-excursion (beginning-of-line) (not (looking-at "^// NOLINT")))))
+  (defun config-c-mode-common-setup ()
+    "Use auto fill and subword mode."
+    (turn-on-auto-fill)
+    (subword-mode t)
+    (setq flyspell-generic-check-word-predicate #'config-c-mode-flyspell-check-word-predicate))
   (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
   (add-hook 'c-mode-common-hook #'config-c-mode-common-setup))
 
@@ -69,13 +75,17 @@
 
 (with-eval-after-load 'reformatter
   (reformatter-define cmake-format :program "cmake-format" :args
-    `("-c"
-      ,@(let*
-            ((main
-              (expand-file-name (locate-dominating-file default-directory ".cmake-format.yaml")))
-             (global (concat main ".cmake-format.yaml"))
-             (project (concat main "cmake-format.yaml")))
-          (list global (if (file-exists-p project) project)))
-      "-o" "-" "-")))
+    (let ((args
+           `("-c"
+             ,@(let*
+                   ((main
+                     (expand-file-name
+                      (locate-dominating-file default-directory ".cmake-format.yaml")))
+                    (global (concat main ".cmake-format.yaml"))
+                    (project (concat main "cmake-format.yaml")))
+                 (seq-filter #'identity (list global (when (file-exists-p project) project))))
+             "-o" "-" "-")))
+      (message "cmake-format %s" args)
+      args)))
 
 (use-package-local djinni-mode)

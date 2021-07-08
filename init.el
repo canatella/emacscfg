@@ -16,7 +16,7 @@
 ;; Custom variables are setup using use-package.
 (customize-set-variable 'custom-file "/dev/null")
 (customize-set-variable 'inhibit-compacting-font-caches '())
-
+(customize-set-variable 'package-native-compile t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -56,6 +56,7 @@
 (load-config 'ide)
 (load-config 'ide-android)
 (load-config 'ide-c)
+(load-config 'ide-docker)
 (load-config 'ide-elisp)
 (load-config 'ide-java)
 (load-config 'ide-python)

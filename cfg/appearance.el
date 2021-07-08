@@ -1,24 +1,28 @@
 ;; -*- lexical-binding: t; -*-
 (use-package-local use-theme)
 
-(use-theme solarized
+(use-theme solarized-theme
+  :name solarized-dark-high-contrast
   :style dark
   :ensure t
-  :disabled :custom
-  (solarized-distinct-fringe-background '())
+  :custom (solarized-distinct-fringe-background '())
   (solarized-use-less-bold t)
   (solarized-use-variable-pitch '()))
+
+(use-theme solarized-theme :name solarized-light-high-contrast :style light)
 
 (use-theme nord-theme
   :style dark
   :ensure t
-  :custom-face '(show-paren-match-expression ((t (:background "#434C5E")))))
+  :disabled :custom-face
+  '(show-paren-match-expression ((t (:background "#434C5E")))))
 
 (use-theme apropospriate-theme
   :name apropospriate-light
   :style light
   :ensure t
-  :custom-face '(show-paren-match-expression ((t (:background "#F5F5FC")))))
+  :disabled :custom-face
+  '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
 ;;; Font configuration
 (defconst cfg-fonts
@@ -139,3 +143,5 @@
 (use-package scroll-bar :custom (scroll-bar-mode '() "No scroll bar."))
 
 (use-package tool-bar :custom (tool-bar-mode '() "No tool bar."))
+
+(set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji"))
