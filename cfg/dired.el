@@ -12,18 +12,18 @@
 
 (use-package dired-aux)
 
-(use-package dired-filter :after dired :ensure t)
+(use-package dired-filter :after dired :straight t)
 
 (use-package
   dired-subtree
   :after dired
-  :ensure t
+  :straight t
   :bind (:map dired-mode-map ("i" . dired-subtree-insert) (";" . dired-subtree-remove)))
 
 (use-package
   dired-ranger
   :after dired
-  :ensure t
+  :straight t
   :bind (:map dired-mode-map
               ("C-w" . dired-ranger-mark-for-move)
               ("M-w" . dired-ranger-mark-for-copy)
@@ -46,14 +46,14 @@
     (if (eql dired-ranger-next-op 'move) (dired-ranger-move arg) (dired-ranger-paste arg))
     (setq dired-ranger-next-op nil)))
 
-(use-package dired-narrow :after dired :ensure t)
+(use-package dired-narrow :after dired :straight t)
 
-(use-package dired-rainbow :after dired :ensure t)
+(use-package dired-rainbow :after dired :straight t)
 
 (use-package
   dired-collapse
   :after dired
-  :ensure t
+  :straight t
   :config (add-hook 'dired-after-readin-hook 'dired-collapse 'append 'local))
 
 (use-package
@@ -61,4 +61,4 @@
   :custom (ls-lisp-dirs-first t "Directories first")
   (ls-lisp-use-insert-directory-program nil))
 
-(use-package ag :ensure t :ensure-system-package ag)
+(use-package ag :straight t :ensure-system-package ag)

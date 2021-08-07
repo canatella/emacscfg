@@ -8,9 +8,9 @@
   "↵"
   :hook (before-save . delete-trailing-whitespace))
 
-(use-package iedit :ensure t)
+(use-package iedit :straight t)
 
-(use-package mmm-mode :ensure t)
+(use-package mmm-mode :straight t)
 
 (use-package
   paren
@@ -23,7 +23,7 @@
 
 (use-package
   smartparens
-  :ensure t
+  :straight t
   :diminish :config
   (smartparens-global-mode t)
   (defvar sp-custom-bindings
@@ -63,19 +63,19 @@
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
   (sp-with-modes '(c++-mode djinni-mode) (sp-local-pair "<" ">")))
 
-(use-package string-inflection :ensure t)
+(use-package string-inflection :straight t)
 
 (use-package subword :diminish subword-mode)
 
 (use-package
   wgrep
-  :ensure t
+  :straight t
   :custom (wgrep-auto-save-buffer t "Automatically save buffer when commiting wgrep changes")
   (wgrep-enable-key "C-c C-q"))
 
 (use-package
   yasnippet
-  :ensure t
+  :straight t
   :diminish yas-minor-mode
   "ⓨ"
   :bind (("C-c <tab>" . yas-expand))

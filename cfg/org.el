@@ -4,4 +4,4 @@
   (org-return-follows-link t "Return key follows link")
   :config (add-hook 'org-mode 'turn-on-auto-fill))
 
-(use-package orgit :ensure t)
+(use-package orgit :straight t)

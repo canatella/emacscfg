@@ -1,15 +1,19 @@
 ;; -*- lexical-binding: t; -*-
-(use-package use-package-ensure-system-package :ensure t)
+(use-package use-package-ensure-system-package :straight t)
 
-(use-package no-littering :ensure t
+(use-package no-littering :straight t
   :config (setq auto-save-file-name-transforms
                 `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
-(use-package async :ensure t)
+(use-package async :straight t)
 
-(use-package-local dash-docs :after (async) :demand t :config (mkdir "~/.docsets" t))
+(use-package dash-docs :straight
+  (dash-docs :repo "canatella/dash-docs" :branch "add-use-package-keyword")
+  :after (async)
+  :demand t :config
+  (mkdir "~/.docsets" t))
 
-(use-package diminish :ensure t)
+(use-package diminish :straight t)
 
 (use-package emacs
   :hook ((minibuffer-setup . gc-cons-threshold-max)
@@ -24,19 +28,17 @@
   (bidi-paragraph-direction 'left-to-right "No need to spend cpu time on guessing text direction")
   (bidi-inhibit-bpa t "No need to spend cpu time on guessing text direction")
   (global-so-long-mode t)
+  (safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc)))
   :config (open-dribble-file "~/.emacs.d/var/dribble"))
 
-(use-package files
-  :custom (safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc))))
-
 (use-package exec-path-from-shell
-  :ensure t
+  :straight t
   :custom (exec-path-from-shell-variables
            '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME" "ARTIFACTORY_USER" "ARTIFACTORY_PASSWORD" "BITBUCKET_USER" "BITBUCKET_PASSWORD" "FIRESTORE_EMULATOR_HOME" "JLINK_SERIAL_NRF52" "JLINK_SERIAL_SAM4S"))
   :config (exec-path-from-shell-initialize))
 
 (use-package helpful
-  :ensure t
+  :straight t
   :bind (("C-h f" . helpful-callable)
          ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)
@@ -44,6 +46,8 @@
          ("C-h C" . helpful-command)))
 
 (use-package info+
+  :straight t
+  :disabled t
   :config (setq face-remapping-alist
                 (append face-remapping-alist
                         '((info-quoted-name . font-lock-constant-face)
@@ -58,16 +62,17 @@
 (use-package time :custom (display-time-24hr-format t))
 
 (use-package which-key
-  :ensure t
+  :straight t
   :diminish which-key-mode
   :config (setq inhibit-changing-match-data nil)
   (which-key-mode))
 
-(use-package bepo :config (bepo-global-mode))
+(require 'bepo)
+(bepo-global-mode)
 
 (use-package eshell :custom (pcomplet-cycle-completions '() "complete like bash"))
 
-(use-package envrc :ensure t :config (envrc-global-mode))
+(use-package envrc :straight t :config (envrc-global-mode))
 
 (use-package tramp :custom
   (tramp-default-method "ssh")

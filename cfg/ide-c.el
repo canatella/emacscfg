@@ -1,23 +1,25 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package cmake-mode :ensure t :dash "CMake" :custom (cmake-tab-width 4 "configure indent"))
+(use-package cmake-mode :straight t :dash "CMake" :custom (cmake-tab-width 4 "configure indent"))
 
 (use-package
   cmake-font-lock
-  :ensure t
+  :straight t
   :hook (cmake-mode-hook . cmake-font-lock-activate)
   :config (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
-(use-package eldoc-cmake :ensure t)
+(use-package eldoc-cmake :straight t)
 
-(use-package-local
-    eglot-clangd
+(use-package eglot-clangd :straight
+  (eglot-clangd :type git :host github :repo "canatella/eglot-clangd")
   :after (cc-mode eglot)
   :bind (:map c-mode-base-map ("C-c o" . eglot-clangd-switch-source-header)))
 
-(use-package-local test-runner-catch2 :after (test-runner))
+(use-package test-runner-catch2 :straight
+  (test-runner-catch2 :type git :host github :repo "canatella/test-runner-catch2-el")
+  :after (test-runner))
 
-(use-package-local cmake-api)
+(use-package cmake-api :straight (cmake-api :type git :host github :repo "canatella/cmake-api-el"))
 
 (use-package
   cc-mode
@@ -61,7 +63,7 @@
 
 (use-package
   cov
-  :ensure t
+  :straight t
   :after sunburn-theme
   :custom (cov-coverage-mode nil)
   :config (sunburn-with-color-variables
@@ -88,4 +90,5 @@
       (message "cmake-format %s" args)
       args)))
 
-(use-package-local djinni-mode)
+(use-package djinni-mode :straight
+  (djinni-mode :type git :host github :repo "canatella/djinni-mode"))

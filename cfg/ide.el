@@ -1,16 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package-local cerbere ;;
-  :diminish "ⓒ" ;;
-  :config ;;
-  :disabled t
-  (cerbere-global-mode 't))
+(use-package test-runner :straight
+  (test-runner :type git :host github :repo "canatella/test-runner-el")
+  :custom (test-runner-key-prefix (kbd "C-c t")))
 
-(use-package-local test-runner :custom (test-runner-key-prefix (kbd "C-c t")))
+(use-package reformatter :straight t)
 
-(use-package reformatter :ensure t)
-
-(use-package company :ensure t :diminish :hook (after-init . global-company-mode))
+(use-package company :straight t :diminish :hook (after-init . global-company-mode))
 
 (use-package
   comint
@@ -65,7 +61,7 @@
   (defun cfg-ediff-setup () (setq ediff-merge-window-share 0.65)))
 
 (use-package dtrt-indent
-  :ensure t
+  :straight t
   :diminish ;;
   :custom; ;
   (dtrt-indent-active-mode-line-info "" "Remove mode line info.")
@@ -75,7 +71,7 @@
   :hook (((c-mode c++-mode objc-mode python-mode)
           . eglot-ensure)
          (python-mode . eglot-format-on-save-mode))
-  :ensure t
+  :straight t
   :custom ;;
   (eglot-auto-reconnect t)
   :config ;;
@@ -96,15 +92,16 @@
 
 (use-package flymake :hook ((emacs-lisp-mode) . flymake-mode) :diminish "ⓕ")
 
-(use-package-local flymake-cursor
+(use-package flymake-cursor :straight
+  (flymake-cursor :type git :host github :repo "flymake/emacs-flymake-cursor")
   :custom ;;
   (flymake-cursor-auto-enable t "Always enable flymake cursor"))
 
-(use-package git-timemachine :ensure t)
+(use-package git-timemachine :straight t)
 
 (use-package
   magit
-  :ensure t
+  :straight t
   :demand t
   :bind (("C-c m s" . magit-status)
          ("C-c m d" . magit-dispatch)
@@ -121,11 +118,9 @@
   (require 'subr-x)
   (require 'magit-extras))
 
-(use-package ghub :ensure t)
-(use-package closql :ensure t)
-(use-package forge :load-path "~/.emacs.d/pkg/forge/lisp" :after (closql magit))
-
-(use-package-local test-runner)
+(use-package ghub :straight t)
+(use-package closql :straight t)
+(use-package forge :straight t)
 
 (use-package xref
   :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)

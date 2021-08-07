@@ -3,7 +3,7 @@
 # key: (use-package
 # --
 (use-package $0${1:${2:
-  :ensure t}${3:
+  :straight t}${3:
   :customize
   ${4:<forms>}}${5:
   :init

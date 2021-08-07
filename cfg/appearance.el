@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t; -*-
-(use-package-local use-theme)
+(use-package use-theme :straight (use-theme :type git :host github :repo "canatella/use-theme"))
 
 (use-theme solarized-theme
   :name solarized-dark-high-contrast
   :style dark
-  :ensure t
+  :straight t
   :custom (solarized-distinct-fringe-background '())
   (solarized-use-less-bold t)
   (solarized-use-variable-pitch '()))
@@ -13,14 +13,14 @@
 
 (use-theme nord-theme
   :style dark
-  :ensure t
+  :straight t
   :disabled :custom-face
   '(show-paren-match-expression ((t (:background "#434C5E")))))
 
 (use-theme apropospriate-theme
   :name apropospriate-light
   :style light
-  :ensure t
+  :straight t
   :disabled :custom-face
   '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
@@ -91,17 +91,18 @@
   :config (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-builtin-face nil :slant 'italic))
 
-(use-package-local ligature
+(use-package ligature :straight
+  (ligature :type git :host github :repo "mickeynp/ligature.el")
   :config (ligature-set-ligatures 't '("www"))
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
   (ligature-set-ligatures 'prog-mode (cfg-default-ligatures))
   (global-ligature-mode t))
 
-(use-package all-the-icons :ensure t)
+(use-package all-the-icons :straight t)
 
 (use-package
   all-the-icons-dired
-  :ensure t
+  :straight t
   :after (dired all-the-icons)
   :hook (dired-mode . all-the-icons-dired-mode))
 
@@ -128,7 +129,7 @@
 
 (use-package
   ns-auto-titlebar
-  :ensure t
+  :straight t
   :if (memq window-system '(mac ns))
   :custom (ns-auto-titlebar-mode t))
 

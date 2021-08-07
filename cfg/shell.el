@@ -1,4 +1,4 @@
-(use-package vterm :ensure t :custom
+(use-package vterm :straight t :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-eval-cmds
    '(("find-file" find-file)

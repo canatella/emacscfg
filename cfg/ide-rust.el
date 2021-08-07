@@ -2,15 +2,15 @@
 
 (use-package
   racer
-  :ensure t)
+  :straight t)
 
 (use-package
   rust-mode
-  :ensure t
+  :straight t
   :dash (rust-mode "Rust")
   :custom (rust-format-on-save t))
 
 (use-package
   cargo
-  :ensure t
+  :straight t
   :hook (rust-mode . cargo-minor-mode))

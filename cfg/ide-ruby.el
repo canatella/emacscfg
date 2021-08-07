@@ -66,11 +66,11 @@
 
 (use-package
   rbenv
-  :ensure t)
+  :straight t)
 
 (use-package
   robe
-  :ensure t
+  :straight t
   :after ruby-mode
   :diminish robe-mode
   :config (defun my-robe-setup ()
@@ -80,7 +80,7 @@
 
 (use-package
   rubocop
-  :ensure t)
+  :straight t)
 
 (use-package
   eruby-mode

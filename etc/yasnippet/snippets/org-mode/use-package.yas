@@ -4,6 +4,6 @@
 # --
 #+begin_src emacs-lisp :tangle yes
   (use-package $1
-    :ensure t
+    :straight t
     $0)
 #+end_src
