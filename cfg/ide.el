@@ -116,6 +116,7 @@
   (magit-wip-after-save-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-save-local-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-apply-mode t "Track work in progress in a git branch.")
+  (magit-repository-directories '(("~/.emacs.d/pkg/" . 1) ("~/bl/repos/" . 1)))
   :init ;;
   (require 'subr-x)
   (require 'magit-extras))
