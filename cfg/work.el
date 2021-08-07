@@ -1,6 +1,4 @@
 ;; -*- lexical-binding: t; -*-
-(use-package aio :ensure t)
-
 (defun bloomlife-visit-dashboard ()
   (interactive)
   (message "bloomlife visit dashboard")
@@ -9,12 +7,10 @@
           (right (split-window-right)))
       (with-selected-window left (find-file "~/Desktop/Bloomlife/org/dashboard.org")))))
 
-(use-package-local jiracs
-  :custom ;;
-  (jiracs-jira-url "https://bloomlife.atlassian.net/")
-  (jiracs-jira-available-projects '("BLP" "DM")))
-
+(use-package-local magit-async-section)
 (use-package-local atlassian)
+(use-package-local circleci)
+(use-package-local sonar)
 
 (use-package-local bloomlife ;;
   :after (cmake-api android)
