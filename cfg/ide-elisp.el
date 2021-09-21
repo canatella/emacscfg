@@ -8,7 +8,7 @@
   :after (test-runner)
   :config (add-to-list 'safe-local-variable-values '(test-runner-ert-load-path . ("." "../test-runner"))))
 
-(use-package  elisp-mode :dash (emacs-lisp-mode "Emacs_Lisp"))
+(use-package  elisp-mode :dash (emacs-lisp-mode "Emacs Lisp"))
 
 (use-package elisp-format :straight t
   :config (define-minor-mode elisp-format-on-save-mode

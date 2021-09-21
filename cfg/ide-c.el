@@ -46,7 +46,8 @@
     "Use auto fill and subword mode."
     (turn-on-auto-fill)
     (subword-mode t)
-    (setq flyspell-generic-check-word-predicate #'config-c-mode-flyspell-check-word-predicate))
+    (setq flyspell-generic-check-word-predicate #'config-c-mode-flyspell-check-word-predicate)
+    (define-key c-mode-base-map [remap c-indent-line-or-region] #'completion-at-point))
   (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
   (add-hook 'c-mode-common-hook #'config-c-mode-common-setup))
 
@@ -79,12 +80,11 @@
   (reformatter-define cmake-format :program "cmake-format" :args
     (let ((args
            `("-c"
-             ,@(let*
-                   ((main
-                     (expand-file-name
-                      (locate-dominating-file default-directory ".cmake-format.yaml")))
-                    (global (concat main ".cmake-format.yaml"))
-                    (project (concat main "cmake-format.yaml")))
+             ,@(let* ((main
+                       (expand-file-name
+                        (locate-dominating-file default-directory ".cmake-format.yaml")))
+                      (global (concat main ".cmake-format.yaml"))
+                      (project (concat main "cmake-format.yaml")))
                  (seq-filter #'identity (list global (when (file-exists-p project) project))))
              "-o" "-" "-")))
       (message "cmake-format %s" args)

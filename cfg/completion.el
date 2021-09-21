@@ -1,18 +1,34 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package prescient
+(use-package corfu
   :straight t
-  :custom (prescient-filter-method '(prefix))
-  (prescient-sort-length-enable nil)
-  :config (prescient-persist-mode 1))
+  ;; Optional customizations
+  :custom (tab-always-indent 'complete)
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
+  ;; (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+  ;; (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+  ;; (corfu-echo-documentation nil) ;; Do not show documentation in the echo area
+
+  :bind (:map corfu-map
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
+
+  ;; You may want to enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since dabbrev can be used globally (M-/).
+  :init (corfu-global-mode))
+
+(use-package orderless :straight t :custom (completion-styles '(orderless)))
 
 (use-package selectrum :straight t :config (selectrum-mode))
-
-(use-package selectrum-prescient
-  :straight t
-  :after (prescient selectrum)
-  :config (selectrum-prescient-mode 1)
-  (global-set-key [remap execute-extended-command] 'execute-extended-command))
 
 (use-package embark :straight t
   :after (selectrum)

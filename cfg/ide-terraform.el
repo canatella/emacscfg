@@ -2,5 +2,3 @@
   :after (reformatter)
   :hook (terraform-mode . terraform-format-on-save-mode)
   :config (reformatter-define terraform-format :program "terraform" :args '("fmt" "-")))
-
-(use-package company-terraform :straight t)
