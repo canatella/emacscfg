@@ -6,8 +6,6 @@
 
 (use-package reformatter :straight t)
 
-(use-package company :straight t :diminish :hook (after-init . global-company-mode))
-
 (use-package
   comint
   :custom (comint-buffer-maximum-size 10000 "Increase make comint buffer size.")
@@ -74,6 +72,7 @@
   :straight t
   :custom ;;
   (eglot-auto-reconnect t)
+  (eglot-stay-out-of '(eldoc-documentation-strategy))
   :config ;;
   (define-minor-mode eglot-format-on-save-mode
     "When enabled, call `eglot-format-buffer' when this buffer is saved."
@@ -88,16 +87,10 @@
   :diminish ;;
   :custom ;;
   (global-eldoc-mode -1 "disable eldoc in every buffer")
-  (eldoc-echo-area-use-multiline-p t))
+  (eldoc-echo-area-use-multiline-p t)
+  (eldoc-documentation-strategy #'eldoc-documentation-compose))
 
 (use-package flymake :hook ((emacs-lisp-mode) . flymake-mode) :diminish "ⓕ")
-
-(use-package flymake-cursor :straight
-  (flymake-cursor :type git :host github :repo "flymake/emacs-flymake-cursor")
-  :custom ;;
-  (flymake-cursor-auto-enable t "Always enable flymake cursor"))
-
-(use-package git-timemachine :straight t)
 
 (use-package
   magit
