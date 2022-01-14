@@ -35,6 +35,10 @@
 (defconst cfg-package-directory (format "%spkg/" user-emacs-directory))
 (defconst cfg-lib-directory (format "%slib/" user-emacs-directory))
 
+(when nil
+  (setq straight-disable-compile t
+        straight-disable-native-compile t))
+
 (eval-when-compile (add-to-list 'load-path (concat cfg-package-directory "use-package/"))
                    (add-to-list 'load-path (concat user-emacs-directory "lib/"))
                    (require 'use-package)
@@ -68,6 +72,7 @@
 (load-config 'ide-ruby)
 (load-config 'ide-rust)
 (load-config 'ide-terraform)
+(load-config 'ide-xml)
 (load-config 'work)
 
 

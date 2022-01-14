@@ -1,4 +1,7 @@
-(use-package vterm :straight t :custom
+(use-package vterm :straight t
+  :hook (vterm-mode . with-editor-export-editor)
+  :custom
+
   (vterm-kill-buffer-on-exit t)
   (vterm-eval-cmds
    '(("find-file" find-file)
@@ -16,9 +19,9 @@
             (interactive)
             (let* ((default-directory (project-root (project-current t)))
                    (default-project-shell-name
-                     (format "*vterm %s*"
-                             (file-name-nondirectory
-                              (directory-file-name (file-name-directory default-directory)))))
+                    (format "*vterm %s*"
+                            (file-name-nondirectory
+                             (directory-file-name (file-name-directory default-directory)))))
                    (shell-buffer (get-buffer default-project-shell-name)))
               (if (and shell-buffer (not current-prefix-arg))
                   (pop-to-buffer shell-buffer)

@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package test-runner :straight
-  (test-runner :type git :host github :repo "canatella/test-runner-el")
-  :custom (test-runner-key-prefix (kbd "C-c t")))
+             (test-runner :type git :host github :repo "canatella/test-runner-el")
+             :custom (test-runner-key-prefix (kbd "C-c t")))
 
 (use-package reformatter :straight t)
 
 (use-package
-  comint
+    comint
   :custom (comint-buffer-maximum-size 10000 "Increase make comint buffer size.")
   (comint-prompt-read-only t "The prompt is read only.")
   (comint-scroll-to-bottom-on-input t "Scroll all buffer window.")
@@ -15,7 +15,7 @@
   (comint-move-point-for-output t "Move point after output."))
 
 (use-package
-  ansi-color
+    ansi-color
   :custom ;;
   (ansi-color-for-comint-mode t "Colorize comint buffers")
   :after (comint)
@@ -25,7 +25,7 @@
   (add-hook 'compilation-filter-hook #'ansi-color-process-compilation-output))
 
 (use-package
-  compile
+    compile
   :bind (([f10] . recompile)
          ([H-f10] . compile)
          ([s-f10] . kill-compilation))
@@ -35,7 +35,7 @@
   (compilation-scroll-output 'first-error "Scroll down with output, but stop at first error."))
 
 (use-package ispell :config
-  (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
+             (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
 
 (use-package flyspell :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode)))
 
@@ -72,28 +72,33 @@
   :straight t
   :custom ;;
   (eglot-auto-reconnect t)
-  (eglot-stay-out-of '(eldoc-documentation-strategy))
+  (eglot-stay-out-of (eldoc-documentation-strategy))
   :config ;;
+  (setq eglot-stay-out-of '(eldoc-documentation-strategy))
   (define-minor-mode eglot-format-on-save-mode
     "When enabled, call `eglot-format-buffer' when this buffer is saved."
-    nil
-    :global nil
+    :lighter nil
     (if eglot-format-on-save-mode
         (add-hook 'before-save-hook #'eglot-format-buffer nil t)
       (remove-hook 'before-save-hook #'eglot-format-buffer t))))
 
 (use-package
-  eldoc
+    eldoc
   :diminish ;;
   :custom ;;
   (global-eldoc-mode -1 "disable eldoc in every buffer")
   (eldoc-echo-area-use-multiline-p t)
   (eldoc-documentation-strategy #'eldoc-documentation-compose))
 
-(use-package flymake :hook ((emacs-lisp-mode) . flymake-mode) :diminish "ⓕ")
+(use-package flymake :hook ((emacs-lisp-mode) . flymake-mode) :diminish)
+
+(use-package tree-sitter :straight t
+             :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
+             :config (global-tree-sitter-mode))
+(use-package tree-sitter-langs :straight t)
 
 (use-package
-  magit
+    magit
   :straight t
   :demand t
   :bind (("C-c m s" . magit-status)
@@ -110,10 +115,11 @@
   :init ;;
   (require 'subr-x)
   (require 'magit-extras))
-
+(use-package git-timemachine :straight t)
 (use-package ghub :straight t)
 (use-package closql :straight t)
 (use-package forge :straight t)
+(use-package code-review :straight t)
 
 (use-package xref
   :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)

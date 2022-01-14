@@ -17,12 +17,11 @@
 (use-package xwidget
   :config (unless (boundp 'xwidget-webkit-enable-plugins) (defvar xwidget-webkit-enable-plugins '())))
 
-(use-package xwwp :straight (xwwp :type git :host github :repo "canatella/xwwp"))
-
-(use-package xwwp-follow-link-ivy
-  :after (xwwp)
+(use-package xwwp :straight
+  (xwwp :type git :host github :repo "canatella/xwwp")
   :bind (:map xwidget-webkit-mode-map ("v" . xwwp-follow-link))
-  :custom (xwwp-follow-link-completion-system 'ivy))
+  :custom (xwwp-follow-link-completion-system 'consult)
+  :config (require 'xwwp-follow-link-consult))
 
 (use-package pdf-tools :straight t :config (pdf-tools-install))
 

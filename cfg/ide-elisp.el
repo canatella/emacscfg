@@ -11,12 +11,18 @@
 (use-package  elisp-mode :dash (emacs-lisp-mode "Emacs Lisp"))
 
 (use-package elisp-format :straight t
-  :config (define-minor-mode elisp-format-on-save-mode
-            "When enabled, call `elisp-format-buffer' when this buffer is saved."
-            nil
-            :global nil
-            (if elisp-format-on-save-mode
-                (add-hook 'before-save-hook #'elfmt nil t)
-              (remove-hook 'before-save-hook #'elfmt t))))
+             :config (define-minor-mode elisp-format-on-save-mode
+                       "When enabled, call `elisp-format-buffer' when this buffer is saved."
+                       :lighter nil
+                       (if elisp-format-on-save-mode
+                           (add-hook 'before-save-hook #'elfmt nil t)
+                         (remove-hook 'before-save-hook #'elfmt t))))
 
 (use-package form-feed :straight t :diminish :hook (emacs-lisp-mode . form-feed-mode))
+
+(use-package nameless :straight t
+             :hook (emacs-lisp-mode . nameless-mode)
+             :bind (("C-c n" . nameless-insert-name))
+             :custom (nameless-prefix "…-")
+             (nameless-abbrev-prefix "ns")
+             :custom-face (nameless-face ((t ()))))

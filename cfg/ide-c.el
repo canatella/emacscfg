@@ -31,11 +31,11 @@
      (java-mode . javadoc)
      (pike-mode . autodoc)))
   :dash (c++-mode "C++" "Firebase")
-  (java-mode "Android")
-  (objc-mode "Foundation")
+  :devdocs (c++-mode "cpp")
   :diminish ((c++-mode . "🅲++")
              (c++//lw-mode . "🅲++"))
-  :mode ("\\.impl\\'" . c++-mode)
+  :mode (("\\.impl\\'" . c++-mode)
+         ("\\.ino\\'" . c++-mode))
   :config (defun config-c-mode-flyspell-check-word-predicate
               ()
             "Used for `flyspell-generic-check-word-predicate' in c modes."

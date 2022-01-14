@@ -2,14 +2,15 @@
 (use-package use-theme :straight (use-theme :type git :host github :repo "canatella/use-theme"))
 
 (use-theme solarized-theme
-  :name solarized-dark-high-contrast
+  :name solarized-dark
   :style dark
   :straight t
-  :custom (solarized-distinct-fringe-background '())
+  :disabled :custom
+  (solarized-distinct-fringe-background '())
   (solarized-use-less-bold t)
   (solarized-use-variable-pitch '()))
 
-(use-theme solarized-theme :name solarized-light-high-contrast :style light)
+(use-theme solarized-theme :name solarized-light-high-contrast :style light :disabled t)
 
 (use-theme nord-theme
   :style dark
@@ -24,50 +25,15 @@
   :disabled :custom-face
   '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
-;;; Font configuration
-(defconst cfg-fonts
-  '(("Victor Mono" .
-     ("14:medium" .
-      ("</" "</>" "/>" "~-" "-~" "~@" "<~" "<~>" "<~~"
-       "~>" "~~" "~~>" ">=" "<=" "<!--" "##" "###" "####"
-       "|-" "-|" "|->" "<-|" ">-|" "|-<" "|=" "|=>" ">-"
-       "<-" "<--" "-->" "->" "-<" ">->" ">>-" "<<-" "<->"
-       "->>" "-<<" "<-<" "==>" "=>" "=/=" "!==" "!=" "<=="
-       ">>=" "=>>" ">=>" "<=>" "<=<" "<<=" "=<<" ".-" ".="
-       "=:=" "=!=" "==" "===" "::" ":=" ":>" ":<" ">:"
-       ";;" "<|" "<|>" "|>" "<>" "<$" "<$>" "$>" "<+"
-       "<+>" "+>" "?=" "/=" "/==" "/\\" "\\/" "__" "&&"
-       "++" "+++")))
-    ("Dank Mono" .
-     ("15" . ("!=" "!==" "/*" "*/" "{[" "]}" "[[" "]]" "::" ":::" "==" "===" "=>" "->" "<-" "++" "|>")))
-    ("Fira Code" .
-     ("14" .
-      ("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "[]"
-       "::" ":::" ":=" "!!" "!=" "!==" "-}" "--" "---" "-->" "->"
-       "->>" "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?"
-       "#_" "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
-       "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>"
-       "^=" "$>" "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>"
-       "<=" "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-       "<~" "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
-       "x" ":" "+" "+" "*")))
-    ("Cascadia" .
-     ("14" .
-      ("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-       "\\" "://")))))
+(use-theme nano-theme
+  :name ((dark . nano-dark)
+         (light . nano-light))
+  ;;  :custom (nano-fonts-use t)
+  ;;  :custom-face (nano-mono ((t (:family "Victor Mono"))))
+  :straight (nano-theme :type git :host github :repo "rougier/nano-theme"))
+
+;;;;; Font configuration
+(load-config 'ligature)
 
 (defun cfg-default-font ()
   "Return the first available font."
@@ -86,41 +52,41 @@
 (defun cfg-default-ligatures () "Return the default ligatures." (cddr (cfg-default-font)))
 
 (use-package
-  font-core
+    font-core
   :custom (global-font-lock-mode t  "Enable syntax highlighting.")
   :config (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-builtin-face nil :slant 'italic))
 
 (use-package ligature :straight
-  (ligature :type git :host github :repo "mickeynp/ligature.el")
-  :config (ligature-set-ligatures 't '("www"))
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  (ligature-set-ligatures 'prog-mode (cfg-default-ligatures))
-  (global-ligature-mode t))
+             (ligature :type git :host github :repo "mickeynp/ligature.el")
+             :config (ligature-set-ligatures 't '("www"))
+             (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+             (ligature-set-ligatures 'prog-mode (cfg-default-ligatures))
+             (global-ligature-mode t))
 
 (use-package all-the-icons :straight t)
 
 (use-package
-  all-the-icons-dired
+    all-the-icons-dired
   :straight t
   :after (dired all-the-icons)
   :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package
-  frame
+    frame
   :custom (frame-background-mode 'dark "Using a dark theme.")
   (initial-frame-alist
    `((undecorated . t)
      (vertical-scroll-bars)
      (fullscreen . maximized)
      (font . ,(cfg-default-font-spec))
-     (alpha . (90 . 90))))
+     (alpha . (95 . 95))))
   (default-frame-alist
-    `((undecorated . t)
-      (vertical-scroll-bars)
-      (fullscreen . maximized)
-      (font . ,(cfg-default-font-spec))
-      (alpha . (90 . 90))))
+   `((undecorated . t)
+     (vertical-scroll-bars)
+     (fullscreen . maximized)
+     (font . ,(cfg-default-font-spec))
+     (alpha . (95 . 95))))
   (display-buffer-alist
    '((".*" display-buffer-reuse-window (reusable-frames . t)))
    "Do not always create a new window, reuse old ones."))
@@ -128,13 +94,13 @@
 (use-package fringe :custom (fringe-mode '(8 . 8)))
 
 (use-package
-  ns-auto-titlebar
+    ns-auto-titlebar
   :straight t
   :if (memq window-system '(mac ns))
   :custom (ns-auto-titlebar-mode t))
 
 (use-package
-  ns-win
+    ns-win
   :if (memq window-system '(mac ns))
   :custom (mac-right-command-modifier 'super)
   (mac-right-option-modifier '())
@@ -146,3 +112,16 @@
 (use-package tool-bar :custom (tool-bar-mode '() "No tool bar."))
 
 (set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji"))
+
+;;(use-package nano-emacs :straight
+;;  (nano-emacs :type git :host github :repo "rougier/nano-emacs")
+;;  :config (require 'nano-faces)
+;;  (require 'nano-writer))
+
+;;(use-package mode-line
+;;  :custom-face (mode-line ((t (:family "Ubuntu Condensed" :height 100))))
+;;  (mode-line-active ((t (:family "Ubuntu Condensed"))))
+;;  (mode-line-buffer-id ((t (:family "Ubuntu Condensed"))))
+;;  (mode-line-emphasis ((t (:family "Ubuntu Condensed"))))
+;;  (mode-line-highlight ((t (:family "Ubuntu Condensed"))))
+;;  (mode-line-inactive ((t (:family "Ubuntu Condensed")))))

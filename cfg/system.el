@@ -1,17 +1,22 @@
 ;; -*- lexical-binding: t; -*-
-(use-package use-package-ensure-system-package :straight t)
+(use-package use-package-ensure-system-package :straight t
+             :config (add-to-list 'display-buffer-alist '("*system-packages*" . (display-buffer-no-window . nil))))
 
 (use-package no-littering :straight t
-  :config (setq auto-save-file-name-transforms
-                `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+             :config (setq auto-save-file-name-transforms
+                           `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 (use-package async :straight t)
 
 (use-package dash-docs :straight
-  (dash-docs :repo "canatella/dash-docs" :branch "add-use-package-keyword")
-  :after (async)
-  :demand t :config
-  (mkdir "~/.docsets" t))
+             (dash-docs :repo "dash-docs-el/dash-docs")
+             :ensure-system-package "sqlite3"
+             :after (async)
+             :demand t :config
+             :custom (dash-docs-browser-func #'xwidget-webkit-browse-url)
+             (mkdir "~/.docsets" t))
+
+(use-package devdocs :straight t)
 
 (use-package diminish :straight t)
 
@@ -72,12 +77,13 @@
 
 (use-package eshell :custom (pcomplet-cycle-completions '() "complete like bash"))
 
-(use-package envrc :straight t :config (envrc-global-mode))
+(use-package envrc :straight t :custom (envrc-lighter nil) :config (envrc-global-mode))
 
 (use-package tramp :custom
-  (tramp-default-method "ssh")
-  (tramp-connection-timeout 5)
-  (tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*" "Fix remote shell detection with vterm"))
+             (tramp-default-method "ssh")
+             (tramp-connection-timeout 5)
+             (tramp-shell-prompt-pattern
+              "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*" "Fix remote shell detection with vterm"))
 
 (defun config-delete-process-at-point ()
   "Kill process at point in process list buffers."
@@ -90,3 +96,20 @@
      (t (error "No process at point!")))))
 
 (define-key process-menu-mode-map (kbd "k") #'config-delete-process-at-point)
+
+(use-package daemons :straight t)
+
+(use-package unicode-fonts :ensure t :straight t :config (unicode-fonts-setup))
+
+(use-package auth-source :custom
+             (auth-source-gpg-encrypt-to '("dam@cosinux.org"))
+             :config (auth-source-pass-enable))
+
+(use-package password-store :straight t
+             :hook (password-store-mode . hl-line-mode)
+             :custom (password-store-password-length 16))
+
+(use-package explain-pause-mode
+  :straight (explain-pause-mode :type git :host github :repo "lastquestion/explain-pause-mode")
+  :diminish :config
+  (explain-pause-mode))

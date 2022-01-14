@@ -62,3 +62,9 @@
   (ls-lisp-use-insert-directory-program nil))
 
 (use-package ag :straight t :ensure-system-package ag)
+
+(defun xdg-open ()
+  "In dired, open the file named on this line."
+  (interactive)
+  (let* ((file (dired-get-filename nil t)))
+    (call-process "xdg-open" nil 0 nil file)))

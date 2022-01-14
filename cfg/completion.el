@@ -31,26 +31,37 @@
 (use-package selectrum :straight t :config (selectrum-mode))
 
 (use-package embark :straight t
-  :after (selectrum)
-  :bind (:map selectrum-minibuffer-map ("C-c C-o" . embark-export) ("C-c C-c" . embark-act-noexit)))
+             :after (selectrum)
+             :bind (("C-{" . embark-act)
+                    ("C-(" . embark-dwim)
+                    (:map selectrum-minibuffer-map
+                          ("C-c C-o" . embark-export)
+                          ("C-c C-c" . embark-act-noexit))))
 
 (use-package consult :straight t
-  :after (project)
-  :custom (consult-project-root-function #'project-current-root)
-  :bind (([f9] . consult-ripgrep)
-         ([remap switch-to-buffer] . consult-buffer)
-         ([remap switch-to-buffer-other-window] . consult-buffer-other-window)
-         ([remap switch-to-buffer-other-frame] . consult-buffer-other-frame))
-  :config (defun project-current-root
-              ()
-            "Return current project root."
-            (when-let ((project (project-current)))
-              (project-root (project-current)))))
+             :after (project)
+             :custom (consult-project-root-function #'project-current-root)
+             :bind (([f9] . consult-ripgrep)
+                    ([remap switch-to-buffer] . consult-buffer)
+                    ([remap switch-to-buffer-other-window] . consult-buffer-other-window)
+                    ([remap switch-to-buffer-other-frame] . consult-buffer-other-frame))
+             :config (defun project-current-root
+                         ()
+                       "Return current project root."
+                       (when-let ((project (project-current)))
+                         (project-root (project-current)))))
+
+(use-package consult-dash :straight
+             (consult-dash :repo "https://github.com/canatella/consult-dash.git" :branch main)
+             :after (dash-docs))
+
 
 (use-package embark-consult :straight t
-  :after (embark consult)
-  :hook ((embark-collect-mode . embark-consult-preview-minor-mode)))
+             :after (embark consult)
+             :hook ((embark-collect-mode . embark-consult-preview-minor-mode)))
 
 (use-package marginalia :straight t
-  :custom (marginalia-annotators '(marginalia-annotators-heavy))
-  :config (marginalia-mode))
+             :custom (marginalia-annotators '(marginalia-annotators-heavy))
+             :config (marginalia-mode))
+
+(use-package abbrev :custom (save-abbrevs nil) :diminish)
