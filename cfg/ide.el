@@ -1,41 +1,42 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package test-runner :straight
-             (test-runner :type git :host github :repo "canatella/test-runner-el")
-             :custom (test-runner-key-prefix (kbd "C-c t")))
+(use-package test-runner :quelpa
+  (test-runner :fetcher github :repo "canatella/test-runner-el")
+  :custom (test-runner-key-prefix (kbd "C-c t")))
 
-(use-package reformatter :straight t)
+(use-package reformatter :ensure t)
 
 (use-package
-    comint
+  comint
   :custom (comint-buffer-maximum-size 10000 "Increase make comint buffer size.")
   (comint-prompt-read-only t "The prompt is read only.")
   (comint-scroll-to-bottom-on-input t "Scroll all buffer window.")
   (comint-scroll-show-maximum-output t "Point to end after insertion.")
   (comint-move-point-for-output t "Move point after output."))
 
-(use-package
-    ansi-color
+(use-package ansi-color
+  :hook (compilation-filter . ansi-color-compilation-filter)
   :custom ;;
   (ansi-color-for-comint-mode t "Colorize comint buffers")
-  :after (comint)
-  :config ;;
-  (defun ansi-color-process-compilation-output ()
-    (let ((comint-last-output-start compilation-filter-start)) (ansi-color-process-output "")))
-  (add-hook 'compilation-filter-hook #'ansi-color-process-compilation-output))
+  (ansi-color-for-compilation-mode t "Colorize compilation buffers")
+  :after (comint compile)
+  ;;  :config ;;
+  ;;  (add-hook 'compilation-filter-hook #'ansi-color-process-output))
+  )
 
 (use-package
-    compile
+  compile
   :bind (([f10] . recompile)
          ([H-f10] . compile)
          ([s-f10] . kill-compilation))
   :diminish '(compilation-in-progress . "⚙")
   :custom ;;
   (compilation-ask-about-save '() "Do not ask for save when compiling.")
-  (compilation-scroll-output 'first-error "Scroll down with output, but stop at first error."))
+  (compilation-scroll-output 'first-error "Scroll down with output, but stop at first error.")
+  :config)
 
 (use-package ispell :config
-             (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
+  (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
 
 (use-package flyspell :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode)))
 
@@ -59,17 +60,18 @@
   (defun cfg-ediff-setup () (setq ediff-merge-window-share 0.65)))
 
 (use-package dtrt-indent
-  :straight t
+  :ensure t
   :diminish ;;
   :custom; ;
   (dtrt-indent-active-mode-line-info "" "Remove mode line info.")
   :config (dtrt-indent-global-mode t))
 
 (use-package eglot
+  :ensure t
   :hook (((c-mode c++-mode objc-mode python-mode)
           . eglot-ensure)
          (python-mode . eglot-format-on-save-mode))
-  :straight t
+
   :custom ;;
   (eglot-auto-reconnect t)
   (eglot-stay-out-of (eldoc-documentation-strategy))
@@ -83,23 +85,25 @@
       (remove-hook 'before-save-hook #'eglot-format-buffer t))))
 
 (use-package
-    eldoc
+  eldoc
+  :ensure t
   :diminish ;;
   :custom ;;
   (global-eldoc-mode -1 "disable eldoc in every buffer")
   (eldoc-echo-area-use-multiline-p t)
   (eldoc-documentation-strategy #'eldoc-documentation-compose))
 
-(use-package flymake :hook ((emacs-lisp-mode) . flymake-mode) :diminish)
+(use-package flymake :ensure t :hook ((emacs-lisp-mode) . flymake-mode) :diminish)
 
-(use-package tree-sitter :straight t
-             :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
-             :config (global-tree-sitter-mode))
-(use-package tree-sitter-langs :straight t)
+(use-package tree-sitter
+  :ensure t
+  :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
+  :config (global-tree-sitter-mode))
+(use-package tree-sitter-langs   :ensure t)
 
 (use-package
-    magit
-  :straight t
+  magit
+  :ensure t
   :demand t
   :bind (("C-c m s" . magit-status)
          ("C-c m d" . magit-dispatch)
@@ -115,11 +119,15 @@
   :init ;;
   (require 'subr-x)
   (require 'magit-extras))
-(use-package git-timemachine :straight t)
-(use-package ghub :straight t)
-(use-package closql :straight t)
-(use-package forge :straight t)
-(use-package code-review :straight t)
+(use-package git-timemachine   :ensure t
+)
+(use-package ghub  :ensure t
+)
+(use-package closql   :ensure t
+)
+(use-package forge   :ensure t
+)
+(use-package code-review   :ensure t)
 
 (use-package xref
   :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)
@@ -133,3 +141,6 @@
              (project-dired "Dired")
              (project-vterm "Term")
              (magit-project-status "Magit"))))
+
+(use-package yaml-mode  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)))

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: property
+# key: @pr
+# --
+@property
+def $1(self) -> $2:
+    return $0

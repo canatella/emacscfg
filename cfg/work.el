@@ -7,25 +7,30 @@
           (right (split-window-right)))
       (with-selected-window left (find-file "~/Desktop/Bloomlife/org/dashboard.org")))))
 
-(use-package magit-async-section :straight
-  (magit-async-section :type git :host github :repo "canatella/magit-async-section"))
-(use-package atlassian :straight
-  (atlassian :type git :host github :repo "canatella/atlassian-el")
+(use-package magit-async-section :quelpa
+  (magit-async-section :fetcher github :repo "canatella/magit-async-section"))
+(use-package request :ensure t)
+(use-package atlassian :quelpa
+  (atlassian :fetcher github :repo "canatella/atlassian-el")
+  :after request
   :custom (atlassian-user "damien@bloom-life.com")
   (atlassian-bitbucket-user "dmerenne"))
 
-(use-package circleci :straight (circleci :type git :host github :repo "canatella/circleci-el"))
-(use-package sonar :straight (sonar :type git :host github :repo "canatella/sonar-el"))
-(use-package bloomlife :straight
-  (bloomlife :type git :host bitbucket :protocol ssh :repo "bloomlife/bloom-el") ;;
+(use-package circleci :quelpa (circleci :fetcher github :repo "canatella/circleci-el"))
+(use-package sonar :quelpa (sonar :fetcher github :repo "canatella/sonar-el"))
+
+(use-package bloomlife :quelpa
+  (bloomlife :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git") ;;
   :after (cmake-api android)
   :config ;;
   (bloom-global-minor-mode t))
 
 ;;(setenv "FIRESTORE_EMULATOR_HOME" "/Users/dam/Desktop/Bloomlife/repos/firestore-rules")
 
-(use-package slack :straight
-  (slack :type git :host github :repo "aculich/emacs-slack" :branch "cookie")
+(use-package slack
+  :disabled
+  :quelpa
+  (slack :fetcher github :repo "aculich/emacs-slack" :branch "cookie")
   :custom (slack-buffer-emojify t)
   (slack-image-file-directory "/home/dam/.cache/emacs/slack")
   (slack-profile-image-file-directory "/home/dam/.cache/emacs/slack")

@@ -2,7 +2,8 @@
 
 (use-package
   ruby-mode
-  :dash (ruby-mode "Ruby 2")
+  :ensure t
+  :devdocs (ruby-mode "ruby~3")
   :custom (ruby-indent-level 2 "Use 2 space for indenting ruby code.")
   (ruby-align-chained-calls nil)
   :config (add-to-list 'compilation-error-regexp-alist-alist
@@ -63,20 +64,24 @@
                 (symbol-function 'ruby-toggle-string-quotes)
                 #'my-ruby-toggle-string-quotes-advise))
 
-(use-package rbenv :straight t)
+(use-package rbenv   :ensure t
+)
 
 (use-package
   robe
-  :straight t
+  :ensure t
+
   :after ruby-mode
   :diminish robe-mode
   :config (defun my-robe-setup () (local-set-key (kbd "H-j") #'robe-jump) (robe-mode))
   (add-hook 'ruby-mode-hook #'my-robe-setup))
 
-(use-package rubocop :straight t)
+(use-package rubocop   :ensure t
+)
 
 (use-package
   eruby-mode
+    :ensure t
   :diminish eruby-mode
   :disabled :custom-face
   (eruby-standard-face ((t (:slant italic)))))

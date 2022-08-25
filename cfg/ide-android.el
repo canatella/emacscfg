@@ -1,9 +1,9 @@
 (defconst conan-path (format "%s/.conan/data/" (getenv "HOME")))
 
-(use-package pbuf :straight (pbuf :type git :host github :repo "canatella/pbuf-el"))
+(use-package pbuf :quelpa (pbuf :fetcher github :repo "canatella/pbuf-el"))
 
 (use-package android
-  :straight (android :type git :host github :repo "canatella/android-el")
+  :quelpa (android :fetcher github :repo "canatella/android-el")
   :after (pbuf)
   :custom ;; fmt
   (android-sdk-home

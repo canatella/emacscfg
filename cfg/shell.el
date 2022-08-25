@@ -1,7 +1,7 @@
-(use-package vterm :straight t
+(use-package vterm
+  :ensure t
   :hook (vterm-mode . with-editor-export-editor)
-  :custom
-
+  :custom (vterm-shell "/bin/bash")
   (vterm-kill-buffer-on-exit t)
   (vterm-eval-cmds
    '(("find-file" find-file)

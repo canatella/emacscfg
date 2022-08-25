@@ -1,67 +1,42 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package dired :init (put 'dired-find-alternate-file 'disabled nil))
-
 (use-package
   dired
   :custom (dired-always-read-filesystem t "Revert buffers before searching them.")
-  (dired-auto-revert-buffer-t "Reload dired buffer when revisiting.")
+  (dired-auto-revert-buffer t "Reload dired buffer when revisiting.")
+  (dired-do-revert-buffer t "Reload dired buffer when explicitly changed.")
   (dired-dwim-target t "do what I mean when copying or moving.")
+  (dired-mark-region t "only act on file in region.")
+  :init (put 'dired-find-alternate-file 'disabled nil)
   :config (defun my-dired-setup () (dired-hide-details-mode t))
   (add-hook 'dired-mode-hook #'my-dired-setup))
 
 (use-package dired-aux)
 
-(use-package dired-filter :after dired :straight t)
+(use-package dired-filter     :ensure t
+:after dired)
 
 (use-package
   dired-subtree
+    :ensure t
   :after dired
-  :straight t
+
   :bind (:map dired-mode-map ("i" . dired-subtree-insert) (";" . dired-subtree-remove)))
 
-(use-package
-  dired-ranger
-  :after dired
-  :straight t
-  :bind (:map dired-mode-map
-              ("C-w" . dired-ranger-mark-for-move)
-              ("M-w" . dired-ranger-mark-for-copy)
-              ("C-y" . dired-ranger-paste-or-move))
-  :config (defvar dired-ranger-next-op nil
-            "If 'move, calling dired-ranger-dwim will call dired-ranger-move, otherwise, call dired-ranger-paste.")
-  (defun dired-ranger-mark-for-copy (arg)
-    "Mark a file for copy."
-    (interactive "P")
-    (setq dired-ranger-next-op 'copy)
-    (dired-ranger-copy arg))
-  (defun dired-ranger-mark-for-move (arg)
-    "Mark a file for move."
-    (interactive "P")
-    (setq dired-ranger-next-op 'move)
-    (dired-ranger-copy arg))
-  (defun dired-ranger-paste-or-move (arg)
-    "Copy or move dired-ranger ring given `dired-ranger-next-op'"
-    (interactive "P")
-    (if (eql dired-ranger-next-op 'move) (dired-ranger-move arg) (dired-ranger-paste arg))
-    (setq dired-ranger-next-op nil)))
+(use-package dired-narrow :ensure t :after dired)
 
-(use-package dired-narrow :after dired :straight t)
-
-(use-package dired-rainbow :after dired :straight t)
+(use-package dired-rainbow :ensure t :after dired)
 
 (use-package
   dired-collapse
+  :ensure t
   :after dired
-  :straight t
   :config (add-hook 'dired-after-readin-hook 'dired-collapse 'append 'local))
 
 (use-package
   ls-lisp
   :custom (ls-lisp-dirs-first t "Directories first")
   (ls-lisp-use-insert-directory-program nil))
-
-(use-package ag :straight t :ensure-system-package ag)
 
 (defun xdg-open ()
   "In dired, open the file named on this line."

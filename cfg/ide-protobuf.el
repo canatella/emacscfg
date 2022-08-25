@@ -1,6 +1,7 @@
-(use-package protobuf-mode :straight t :ensure-system-package prototool)
+(use-package protobuf-mode :ensure t :ensure-system-package prototool)
 
-(use-package flymake-prototool :straight
-  (flymake-prototool :type git :host github :repo "canatella/flymake-prototool")
-  :after  protobuf-mode :hook
+(use-package flymake-easy :ensure t)
+(use-package flymake-prototool :quelpa
+  (flymake-prototool :fetcher github :repo "canatella/flymake-prototool")
+  :after  (protobuf-mode flymake-easy) :hook
   (protobuf-mode . flymake-prototool-load))

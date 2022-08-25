@@ -2,9 +2,7 @@
 
 (use-package
   java-imports
-  :straight t
+  :ensure t
   :config (add-hook 'java-mode-hook 'java-imports-scan-file))
 
-(use-package
-  scala-mode
-  :straight t)
+(use-package scala-mode :ensure t)

@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package nov :straight t :mode ("\\.epub\\'" . nov-mode))
+(use-package nov :ensure t :mode ("\\.epub\\'" . nov-mode))
 
 (use-package markdown-mode
-  :straight t
+  :ensure t
   :custom (markdown-fontify-code-blocks-natively t)
   (markdown-command "multimarkdown"))
 
-(use-package osx-browse :straight t :if (string= system-type "darwin"))
+(use-package osx-browse :ensure t :if (string= system-type "darwin"))
 
 (use-package browse-url
   :bind (("C-h s" . browse-url-dwim-search))
@@ -17,17 +17,14 @@
 (use-package xwidget
   :config (unless (boundp 'xwidget-webkit-enable-plugins) (defvar xwidget-webkit-enable-plugins '())))
 
-(use-package xwwp :straight
-  (xwwp :type git :host github :repo "canatella/xwwp")
+(use-package xwwp :quelpa  (xwwp :fetcher github :repo "canatella/xwwp" :branch "consult-support")
   :bind (:map xwidget-webkit-mode-map ("v" . xwwp-follow-link))
   :custom (xwwp-follow-link-completion-system 'consult)
   :config (require 'xwwp-follow-link-consult))
 
-(use-package pdf-tools :straight t :config (pdf-tools-install))
+(use-package pdf-tools :ensure t :config (pdf-tools-install 'no-query))
 
 (use-package plantuml-mode
-  :straight t
+  :ensure t
   :custom (plantuml-default-exec-mode 'executable "Use jar for previewing")
   (plantuml-executable-args '("-headless" "-nbthread")))
-
-(use-package yaml-mode :straight t :mode (("\\.yml\\'" . yaml-mode)))

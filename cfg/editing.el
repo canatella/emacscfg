@@ -8,22 +8,21 @@
   "↵"
   :hook (before-save . delete-trailing-whitespace))
 
-(use-package iedit :straight t)
+;; Replace multiple instance of a word at once
+(use-package iedit :ensure t)
 
-(use-package mmm-mode :straight t)
+(use-package mmm-mode :ensure t)
 
 (use-package
   paren
   :custom (show-paren-style 'expression)
   (show-paren-when-point-in-periphery 't)
-  (show-paren-when-point-inside-paren 't)
   :config (show-paren-mode 't))
 
 (use-package cc-mode)
 
-(use-package
-  smartparens
-  :straight t
+(use-package smartparens
+  :ensure t
   :diminish :config
   (smartparens-global-mode t)
   (defvar sp-custom-bindings
@@ -63,19 +62,19 @@
     (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
   (sp-with-modes '(c++-mode djinni-mode) (sp-local-pair "<" ">")))
 
-(use-package string-inflection :straight t)
+(use-package string-inflection :ensure t)
 
-(use-package subword :diminish subword-mode)
+(use-package subword  :ensure t :diminish subword-mode)
 
 (use-package
   wgrep
-  :straight t
+ :ensure t
   :custom (wgrep-auto-save-buffer t "Automatically save buffer when commiting wgrep changes")
   (wgrep-enable-key "C-c C-q"))
 
 (use-package
   yasnippet
-  :straight t
+  :ensure t
   :diminish yas-minor-mode
   "ⓨ"
   :bind (("C-c <tab>" . yas-expand))

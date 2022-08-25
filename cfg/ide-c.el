@@ -1,25 +1,25 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package cmake-mode :straight t :dash "CMake" :custom (cmake-tab-width 4 "configure indent"))
+(use-package cmake-mode :ensure t :custom (cmake-tab-width 4 "configure indent"))
 
 (use-package
   cmake-font-lock
-  :straight t
+ :ensure t
   :hook (cmake-mode-hook . cmake-font-lock-activate)
   :config (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
-(use-package eldoc-cmake :straight t)
+(use-package eldoc-cmake  :ensure t)
 
-(use-package eglot-clangd :straight
-  (eglot-clangd :type git :host github :repo "canatella/eglot-clangd")
+(use-package eglot-clangd :quelpa
+  (eglot-clangd :fetcher github :repo "canatella/eglot-clangd")
   :after (cc-mode eglot)
   :bind (:map c-mode-base-map ("C-c o" . eglot-clangd-switch-source-header)))
 
-(use-package test-runner-catch2 :straight
-  (test-runner-catch2 :type git :host github :repo "canatella/test-runner-catch2-el")
+(use-package test-runner-catch2 :quelpa
+  (test-runner-catch2 :fetcher github :repo "canatella/test-runner-catch2-el")
   :after (test-runner))
 
-(use-package cmake-api :straight (cmake-api :type git :host github :repo "canatella/cmake-api-el"))
+(use-package cmake-api :quelpa (cmake-api :fetcher github :repo "canatella/cmake-api-el"))
 
 (use-package
   cc-mode
@@ -30,7 +30,6 @@
      (objc-mode . doxygen)
      (java-mode . javadoc)
      (pike-mode . autodoc)))
-  :dash (c++-mode "C++" "Firebase")
   :devdocs (c++-mode "cpp")
   :diminish ((c++-mode . "🅲++")
              (c++//lw-mode . "🅲++"))
@@ -64,7 +63,7 @@
 
 (use-package
   cov
-  :straight t
+ :ensure t
   :after sunburn-theme
   :custom (cov-coverage-mode nil)
   :config (sunburn-with-color-variables
@@ -90,5 +89,5 @@
       (message "cmake-format %s" args)
       args)))
 
-(use-package djinni-mode :straight
-  (djinni-mode :type git :host github :repo "canatella/djinni-mode"))
+(use-package djinni-mode :quelpa
+  (djinni-mode :fetcher github :repo "canatella/djinni-mode"))

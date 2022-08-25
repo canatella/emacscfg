@@ -6,8 +6,8 @@
     (remove-hook 'before-save-hook #'eglot-format-buffer t))
   (setq-local indent-line-function #'eglot-format-buffer))
 
-(use-package dockerfile-mode :straight t :after eglot :hook
+(use-package dockerfile-mode :ensure t :after eglot :hook
              (dockerfile-mode . dockerfile-format-on-save-mode)
              :config (add-to-list 'eglot-server-programs `(dockerfile-mode . ("docker-langserver" "--stdio"))))
 
-(use-package docker :straight t)
+(use-package docker :ensure t)
