@@ -14,14 +14,14 @@
 (use-theme solarized-theme  :ensure t :name solarized-light-high-contrast :style light :disabled t)
 
 (use-theme nord-theme
- :ensure t
-           :style dark
+  :ensure t
+  :style dark
 
   :disabled :custom-face
   '(show-paren-match-expression ((t (:background "#434C5E")))))
 
 (use-theme apropospriate-theme
- :ensure t           
+  :ensure t
   :name apropospriate-light
   :style light
 
@@ -86,21 +86,19 @@
      (font . ,(cfg-default-font-spec))
      (alpha . (95 . 95))))
   (default-frame-alist
-   `((undecorated . t)
-     (vertical-scroll-bars)
-     (fullscreen . maximized)
-     (font . ,(cfg-default-font-spec))
-     (alpha . (95 . 95))))
+    `((undecorated . t)
+      (vertical-scroll-bars)
+      (fullscreen . maximized)
+      (font . ,(cfg-default-font-spec))
+      (alpha . (95 . 95))))
   (display-buffer-alist
    '((".*" display-buffer-reuse-window (reusable-frames . t)))
    "Do not always create a new window, reuse old ones."))
 
-(use-package fringe
-  :custom (fringe-mode '(8 . 8)))
+(use-package fringe :custom (fringe-mode '(8 . 8)))
 
-(use-package
-  ns-auto-titlebar
-  :if (memq window-system '(mac ns))
+(use-package ns-auto-titlebar :ensure t :if
+  (memq window-system '(mac ns))
   :custom (ns-auto-titlebar-mode t))
 
 (use-package
@@ -111,14 +109,12 @@
   (mac-option-modifier 'meta)
   (mac-command-modifier 'super))
 
-(use-package scroll-bar
-  :custom (scroll-bar-mode '() "No scroll bar."))
+(use-package scroll-bar :custom (scroll-bar-mode '() "No scroll bar."))
 
-(use-package tool-bar
-  :custom (tool-bar-mode '() "No tool bar."))
+(use-package tool-bar :custom (tool-bar-mode '() "No tool bar."))
 
-(set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji"))
-
+(when (fboundp 'set-fontset-font)
+  (set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji")))
 ;;(use-package nano-emacs :straight
 ;;  (nano-emacs :type git :host github :repo "rougier/nano-emacs")
 ;;  :config (require 'nano-faces)
