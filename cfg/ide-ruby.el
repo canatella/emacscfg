@@ -64,24 +64,12 @@
                 (symbol-function 'ruby-toggle-string-quotes)
                 #'my-ruby-toggle-string-quotes-advise))
 
-(use-package rbenv   :ensure t
-)
-
-(use-package
-  robe
-  :ensure t
-
-  :after ruby-mode
-  :diminish robe-mode
-  :config (defun my-robe-setup () (local-set-key (kbd "H-j") #'robe-jump) (robe-mode))
-  (add-hook 'ruby-mode-hook #'my-robe-setup))
-
-(use-package rubocop   :ensure t
-)
+(use-package rbenv   :ensure t)
+(use-package rubocop   :ensure t)
 
 (use-package
   eruby-mode
-    :ensure t
+  :ensure t
   :diminish eruby-mode
   :disabled :custom-face
   (eruby-standard-face ((t (:slant italic)))))
