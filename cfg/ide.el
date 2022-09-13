@@ -119,19 +119,20 @@
   (magit-wip-after-save-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-save-local-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-apply-mode t "Track work in progress in a git branch.")
-  (magit-repository-directories '(("~/.emacs.d/pkg/" . 1) ("~/bl/repos/" . 1)))
+  (magit-repository-directories
+   '(("~/.emacs.d/pkg/" . 1)
+     ("~/bl/repos/" . 1)
+     ("~/.local/Cellar/" . 1)))
+  (magit-wip-mode t)
   :init ;;
   (require 'subr-x)
   (require 'magit-extras))
-(use-package git-timemachine   :ensure t
-)
-(use-package ghub  :ensure t
-)
-(use-package closql   :ensure t
-)
-(use-package forge   :ensure t
-)
-(use-package code-review   :ensure t)
+(use-package git-timemachine :ensure t)
+(use-package ghub :ensure t)
+(use-package closql :ensure t)
+(use-package forge :after magit :quelpa
+  (forge :fetcher github :repo "canatella/forge" :branch  "bitbucket"))
+(use-package code-review :ensure t)
 
 (use-package xref
   :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)
@@ -146,5 +147,4 @@
              (project-vterm "Term")
              (magit-project-status "Magit"))))
 
-(use-package yaml-mode  :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)))
+(use-package yaml-mode  :ensure t :mode (("\\.yml\\'" . yaml-mode)))
