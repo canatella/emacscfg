@@ -13,12 +13,11 @@
 
 (use-package dired-aux)
 
-(use-package dired-filter     :ensure t
-:after dired)
+(use-package dired-filter     :ensure t :after dired)
 
 (use-package
   dired-subtree
-    :ensure t
+  :ensure t
   :after dired
 
   :bind (:map dired-mode-map ("i" . dired-subtree-insert) (";" . dired-subtree-remove)))
@@ -43,3 +42,6 @@
   (interactive)
   (let* ((file (dired-get-filename nil t)))
     (call-process "xdg-open" nil 0 nil file)))
+
+(use-package fd-dired :ensure t :ensure-system-package "fd-find"
+  :custom (fd-dired-program "fdfind"))
