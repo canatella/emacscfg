@@ -4,10 +4,11 @@
 
 (use-package no-littering  :ensure t
   :demand t
-  :custom (auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+  :custom (auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
-(use-package devdocs :quelpa (devdocs :fetcher github :repo "canatella/devdocs.el" :branch "use-package") :bind (("C-h ." . devdocs-lookup)))
+(use-package devdocs :quelpa
+  (devdocs :fetcher github :repo "canatella/devdocs.el" :branch "use-package")
+  :bind (("C-h ." . devdocs-lookup)))
 
 (use-package diminish :ensure t)
 
@@ -29,13 +30,13 @@
   :config (open-dribble-file "~/.emacs.d/var/dribble"))
 
 (use-package exec-path-from-shell
- :ensure t
+  :ensure t
   :custom (exec-path-from-shell-variables
            '("PATH" "MANPATH" "ANDROID_HOME" "ANDROID_NDK_HOME" "ARTIFACTORY_USER" "ARTIFACTORY_PASSWORD" "BITBUCKET_USER" "BITBUCKET_PASSWORD" "FIRESTORE_EMULATOR_HOME" "JLINK_SERIAL_NRF52" "JLINK_SERIAL_SAM4S"))
   :config (exec-path-from-shell-initialize))
 
 (use-package helpful
-   :ensure t
+  :ensure t
   :bind (("C-h f" . helpful-callable)
          ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)
@@ -102,8 +103,12 @@
   (auth-source-gpg-encrypt-to '("dam@cosinux.org"))
   :config (auth-source-pass-enable))
 
+(use-package with-editor :ensure t)
+(use-package auth-source-pass :ensure t)
 (use-package password-store
-  :ensure t
+  :after (with-editor auth-source-pass)
+  :quelpa (password-store :fetcher github :repo "canatella/password-store" :branch "add-password-store-edit-command" :files
+                          ("contrib/emacs/*.el"))
   :hook (password-store-mode . hl-line-mode)
   :custom (password-store-password-length 16))
 
