@@ -17,14 +17,10 @@
 (use-package xwidget
   :config (unless (boundp 'xwidget-webkit-enable-plugins) (defvar xwidget-webkit-enable-plugins '())))
 
-(use-package xwwp :quelpa  (xwwp :fetcher github :repo "canatella/xwwp" :branch "consult-support")
+(use-package xwwp :quelpa
+  (xwwp :fetcher github :repo "canatella/xwwp" :branch "consult-support")
   :bind (:map xwidget-webkit-mode-map ("v" . xwwp-follow-link))
   :custom (xwwp-follow-link-completion-system 'consult)
   :config (require 'xwwp-follow-link-consult))
 
 (use-package pdf-tools :ensure t :config (pdf-tools-install 'no-query))
-
-(use-package plantuml-mode
-  :ensure t
-  :custom (plantuml-default-exec-mode 'executable "Use jar for previewing")
-  (plantuml-executable-args '("-headless" "-nbthread")))
