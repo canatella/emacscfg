@@ -27,7 +27,18 @@
   (global-so-long-mode t)
   (window-min-width 110)
   (safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc)))
-  :config (open-dribble-file "~/.emacs.d/var/dribble"))
+  :config (open-dribble-file "~/.emacs.d/var/dribble")
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons
+     (format "[CRM%s] %s"
+             (replace-regexp-in-string "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" "" crm-separator)
+             (car args))
+     (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  (setq minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (use-package exec-path-from-shell
   :ensure t
