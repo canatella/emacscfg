@@ -38,7 +38,11 @@
 (use-package ispell :config
   (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
 
-(use-package flyspell :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode)))
+(use-package flyspell :diminish
+  :hook ((prog-mode . flyspell-prog-mode)
+         (text-mode . flyspell-mode))
+  :custom-face (flyspell-incorrect
+                ((t (:inherit nil :underline (:color "#D08770" :style  wave))))))
 
 (use-package diff :custom (diff-switches "-u" "Use universal diff format."))
 
