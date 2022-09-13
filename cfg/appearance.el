@@ -29,6 +29,7 @@
   '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
 (use-theme nano-theme
+  :after use-theme
   :name ((dark . nano-dark)
          (light . nano-light))
   ;;  :custom (nano-fonts-use t)
@@ -86,14 +87,19 @@
      (font . ,(cfg-default-font-spec))
      (alpha . (95 . 95))))
   (default-frame-alist
-    `((undecorated . t)
-      (vertical-scroll-bars)
-      (fullscreen . maximized)
-      (font . ,(cfg-default-font-spec))
-      (alpha . (95 . 95))))
+   `((undecorated . t)
+     (vertical-scroll-bars .nil)
+     (fullscreen . maximized)
+     (tool-bar-liens . 0)
+     (menu-bar-liens . 0)
+     (font . ,(cfg-default-font-spec))
+     (alpha . (95 . 95))))
   (display-buffer-alist
    '((".*" display-buffer-reuse-window (reusable-frames . t)))
-   "Do not always create a new window, reuse old ones."))
+   "Do not always create a new window, reuse old ones.")
+  (window-divider-mode t "Show separator between frames")
+  (window-divider-default-right-width 1)
+  :custom-face (window-divider ((t (:foreground "#b0bec5")))))
 
 (use-package fringe :custom (fringe-mode '(8 . 8)))
 
