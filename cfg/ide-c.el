@@ -4,7 +4,7 @@
 
 (use-package
   cmake-font-lock
- :ensure t
+  :ensure t
   :hook (cmake-mode-hook . cmake-font-lock-activate)
   :config (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t))
 
@@ -50,7 +50,7 @@
   (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
   (add-hook 'c-mode-common-hook #'config-c-mode-common-setup))
 
-(use-package gud-lldb)
+(use-package gud-lldb :disabled)
 
 (defun c++-declare-at-point ()
   "Convert virtual definition to an override definition."
@@ -63,7 +63,7 @@
 
 (use-package
   cov
- :ensure t
+  :ensure t
   :after sunburn-theme
   :custom (cov-coverage-mode nil)
   :config (sunburn-with-color-variables
@@ -89,5 +89,4 @@
       (message "cmake-format %s" args)
       args)))
 
-(use-package djinni-mode :quelpa
-  (djinni-mode :fetcher github :repo "canatella/djinni-mode"))
+(use-package djinni-mode :quelpa (djinni-mode :fetcher github :repo "canatella/djinni-mode"))
