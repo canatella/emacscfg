@@ -130,6 +130,7 @@
 (use-package git-timemachine :ensure t)
 (use-package ghub :ensure t)
 (use-package closql :ensure t)
+(use-package yaml :ensure t)
 (use-package forge :after magit :quelpa
   (forge :fetcher github :repo "canatella/forge" :branch  "bitbucket"))
 (use-package code-review :ensure t)
