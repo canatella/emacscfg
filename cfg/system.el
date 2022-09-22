@@ -3,7 +3,6 @@
   :config (add-to-list 'display-buffer-alist '("*system-packages*" . (display-buffer-no-window . nil))))
 
 (use-package no-littering  :ensure t
-  :demand t
   :custom (auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 (use-package devdocs :quelpa
