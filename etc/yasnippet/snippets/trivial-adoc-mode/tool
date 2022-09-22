@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tool
+# binding: C-c r t
+# --
+[.tool]#`yas-selected-text`$1#$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: risk
+# binding: C-c r r
+# --
+[.risk]#`yas-selected-text`$1#$0
