@@ -43,5 +43,11 @@
   (let* ((file (dired-get-filename nil t)))
     (call-process "xdg-open" nil 0 nil file)))
 
-(use-package fd-dired :ensure t :ensure-system-package "fd-find"
-  :custom (fd-dired-program "fdfind"))
+(let ((system-package
+       (if (eq system-type 'darwin)
+           '(fd . "brew install fd")
+         '(fd . "sudo apt-get install fd-find")))
+      (exec (if (eq system-type 'darwin) "fd" "fdfind")))
+  (eval
+   `(use-package fd-dired :ensure t :ensure-system-package ,system-package
+      :custom (fd-dired-program ,exec))))
