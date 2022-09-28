@@ -34,6 +34,10 @@
 
 (eval-when-compile (add-to-list 'load-path (concat user-emacs-directory "lib/")))
 
+(use-package system-packages
+  :quelpa (system-packages :fetcher gitlab :repo "canatella/system-packages" :branch "add-package-mapping")
+  :custom (system-packages-map '("fd" (apt . ("fd-find")))))
+
 ;; Custom variables are setup using use-package.
 (customize-set-variable 'custom-file "/dev/null")
 (customize-set-variable 'inhibit-compacting-font-caches '())
