@@ -112,6 +112,7 @@
   :bind (("C-c m s" . magit-status)
          ("C-c m d" . magit-dispatch)
          ("C-c m f" . magit-file-dispatch))
+  :diminish ((magit-wip-mode . ""))
   :custom ;;
   (magit-define-global-key-bindings '() "Do not define global key bindings")
   (magit-save-repository-buffers 'dontask "Do not ask to save buffer when refreshing.")
