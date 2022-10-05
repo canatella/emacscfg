@@ -144,6 +144,11 @@
 (use-package ghub :ensure t)
 (use-package closql :ensure t)
 (use-package yaml :ensure t)
+(use-package a :ensure t)
+(use-package uuidgen :ensure t)
+(use-package closql :ensure t)
+(use-package emojify :ensure t)
+(use-package deferred :ensure t)
 (use-package forge :after magit :quelpa
   (forge :fetcher github :repo "canatella/forge" :branch  "bitbucket"))
 (use-package code-review :quelpa (code-review :fetcher github :repo "canatella/code-review"))
