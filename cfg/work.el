@@ -22,15 +22,8 @@
 (use-package svg-tag-mode :ensure t)
 (use-package bloom :quelpa
   (bloom :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git")
-  :hook (bloom-minor-mode . bloom-projects-setup)
   :custom (bloom-global-minor-modes t)
-  (bloom-global-minor-mode t)
-  (defun bloom-projects-setup ()
-    "Setup bloom projects."
-    (when-let ((enabled bloom-minor-mode)
-               (pkg (bloom-pkg-current))
-               (setup-fn (intern (format "bloom-project-%s-setup" pkg))))
-      (when (and bloom-minor-mode (fboundp setup-fn)) (funcall setup-fn)))))
+  (bloom-global-minor-mode t))
 
 (defun bloom-project-goodall-setup ()
   "Setup for goodall project"
