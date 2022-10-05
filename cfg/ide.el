@@ -2,7 +2,8 @@
 
 (use-package test-runner :quelpa
   (test-runner :fetcher github :repo "canatella/test-runner-el")
-  :custom (test-runner-key-prefix (kbd "C-c t")))
+  :config (define-key project-prefix-map "t" test-runner-local-map))
+
 
 (use-package reformatter :ensure t)
 
@@ -26,14 +27,12 @@
 
 (use-package
   compile
-  :bind (([f10] . recompile)
-         ([H-f10] . compile)
-         ([s-f10] . kill-compilation))
   :diminish '(compilation-in-progress . "⚙")
   :custom ;;
   (compilation-ask-about-save '() "Do not ask for save when compiling.")
   (compilation-scroll-output 'first-error "Scroll down with output, but stop at first error.")
-  :config)
+  (compilation-read-command nil)
+  :config (add-to-list 'safe-local-variable-values '(compilation-command . "make -j pdf")))
 
 (use-package ispell :config
   (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
@@ -79,6 +78,7 @@
   :custom ;;
   (eglot-auto-reconnect t)
   (eglot-stay-out-of (eldoc-documentation-strategy))
+  (eglot-connect-timeout 120)
   :config ;;
   (setq eglot-stay-out-of '(eldoc-documentation-strategy))
   (define-minor-mode eglot-format-on-save-mode
@@ -119,6 +119,13 @@
   (magit-wip-after-save-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-save-local-mode-lighter '() "No indicator for work in progress in modline.")
   (magit-wip-after-apply-mode t "Track work in progress in a git branch.")
+  (magit-repolist-columns
+   '(("Status" 3 magit-repolist-column-flag nil)
+     ("Name" 25 magit-repolist-column-ident)
+     ("Version" 25 magit-repolist-column-version ((:sort magit-repolist-version<)))
+     ("B<U" 3 magit-repolist-column-unpulled-from-upstream ((:right-align t) (:sort <)))
+     ("B>U" 3 magit-repolist-column-unpushed-to-upstream ((:right-align t) (:sort <)))
+     ("Path" 99 magit-repolist-column-path nil)))
   (magit-repository-directories
    '(("~/.emacs.d/pkg/" . 1)
      ("~/bl/repos/" . 1)
@@ -126,14 +133,20 @@
   (magit-wip-mode t)
   :init ;;
   (require 'subr-x)
-  (require 'magit-extras))
+  (require 'magit-extras)
+  :config (defun pkg-repositories
+              ()
+            (interactive)
+            (let ((magit-repository-directories '(("~/.emacs.d/pkg/" . 1))))
+              (magit-list-repositories))))
+
 (use-package git-timemachine :ensure t)
 (use-package ghub :ensure t)
 (use-package closql :ensure t)
 (use-package yaml :ensure t)
 (use-package forge :after magit :quelpa
   (forge :fetcher github :repo "canatella/forge" :branch  "bitbucket"))
-(use-package code-review :ensure t)
+(use-package code-review :quelpa (code-review :fetcher github :repo "canatella/code-review"))
 
 (use-package xref
   :custom (xref-show-xrefs-function #'xref-show-definitions-completing-read)
@@ -142,10 +155,24 @@
 (use-package gud)
 
 (use-package project
-  :custom (project-switch-commands
-           '((project-find-file "Find file")
-             (project-dired "Dired")
-             (project-vterm "Term")
-             (magit-project-status "Magit"))))
+  :bind (:map project-prefix-map ("l" . #'project-lint))
+  :custom (project-vc-merge-submodules nil)
+  (project-switch-commands
+   '((project-compile "Compile")
+     (project-find-file "Find file")
+     (project-dired "Dired")
+     (project-vterm "Term")
+     (magit-project-status "Magit")
+     (project-lint "Lint")))
+  :config (defvar-local project-lint-command nil "Command to lint the current project")
+  (defun project-lint ()
+    "Lint project."
+    (interactive)
+    (let ((compile-command project-lint-command)
+          (default-directory (project-root (project-current t))))
+      (call-interactively #'compile))))
+
 
 (use-package yaml-mode  :ensure t :mode (("\\.yml\\'" . yaml-mode)))
+
+(string-match "^make " "make -j pdf")
