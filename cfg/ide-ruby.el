@@ -42,19 +42,6 @@
     (turn-on-auto-fill)
     (ruby-block-mode t)
     (subword-mode t))
-  (add-hook 'ruby-mode-hook #'my-ruby-mode-hook)
-  (defun my-ruby-compilation-hook ()
-    (when (and
-           (not (projectile-rails--ignore-buffer-p))
-           (projectile-project-p)
-           (projectile-rails-root)))
-    (setq-local compilation-error-regexp-alist
-                '(ruby-minitest-failure ruby-minitest-error
-                                        ruby-minitest-backtrace
-                                        rails-test-line
-                                        ruby-minitest-warning
-                                        rails-brakeman)))
-  (remove-hook 'compilation-mode-hook #'my-ruby-compilation-hook)
   (defun my-ruby-toggle-string-quotes-advise (orig-fun &rest args)
     (let ((orig-point (point)))
       (backward-char)
