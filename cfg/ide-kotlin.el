@@ -4,6 +4,7 @@
    (kotlin-mode . test-runner-mode)
    (kotlin-mode . kotlin-format-on-save-mode))
   :after (reformatter)
+  :devdocs (kotlin-mode "kotlin~1.7")
   :config (reformatter-define kotlin-format :program "ktlint" :args '("-F" "--stdin")))
 
 (use-package flymake-ktlint :ensure t)
