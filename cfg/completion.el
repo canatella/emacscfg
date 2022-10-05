@@ -19,7 +19,7 @@
   :after (vertico)
   :bind (("C-{" . embark-act)
          ("C-(" . embark-dwim)
-         (:map vertico-minibuffer-map ("C-c C-o" . embark-export) ("C-c C-c" . embark-act-noexit))))
+         (:map vertico-map ("C-c C-o" . embark-export) ("C-c C-c" . embark-act-noexit))))
 
 (use-package consult
   :ensure t
@@ -37,7 +37,8 @@
 
 (use-package embark-consult
   :ensure t
-  :requires (embark consult)
+  :after (embark consult)
+  :demand t
   :hook ((embark-collect-mode . embark-consult-preview-minor-mode)))
 
 (use-package marginalia
