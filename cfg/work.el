@@ -18,18 +18,32 @@
 
 (use-package circleci :quelpa (circleci :fetcher github :repo "canatella/circleci-el"))
 (use-package sonar :quelpa (sonar :fetcher github :repo "canatella/sonar-el"))
+(use-package svg-lib :quelpa (svg-lib :fetcher github :repo "rougier/svg-lib"))
+(use-package svg-tag-mode :ensure t)
+(use-package bloom :quelpa
+  (bloom :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git")
+  :hook (bloom-minor-mode . bloom-projects-setup)
+  :custom (bloom-global-minor-modes t)
+  (bloom-global-minor-mode t)
+  (defun bloom-projects-setup ()
+    "Setup bloom projects."
+    (when-let ((enabled bloom-minor-mode)
+               (pkg (bloom-pkg-current))
+               (setup-fn (intern (format "bloom-project-%s-setup" pkg))))
+      (when (and bloom-minor-mode (fboundp setup-fn)) (funcall setup-fn)))))
 
-(use-package bloomlife :quelpa
-  (bloomlife :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git") ;;
-  :after (cmake-api android)
-  :config ;;
-  (bloom-global-minor-mode t))
+(defun bloom-project-goodall-setup ()
+  "Setup for goodall project"
+  (setq-local compile-command "backend/gradlew -p backend --daemon --parallel assembleDist")
+  (setq-local project-lint-command "ktlint backend/*/src/**/*.kt"))
+
+
 
 ;;(setenv "FIRESTORE_EMULATOR_HOME" "/Users/dam/Desktop/Bloomlife/repos/firestore-rules")
 
+
 (use-package slack
-  :disabled
-  :quelpa
+  :disabled :quelpa
   (slack :fetcher github :repo "aculich/emacs-slack" :branch "cookie")
   :custom (slack-buffer-emojify t)
   (slack-image-file-directory "/home/dam/.cache/emacs/slack")
