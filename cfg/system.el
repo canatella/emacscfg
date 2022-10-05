@@ -7,7 +7,8 @@
 
 (use-package devdocs :quelpa
   (devdocs :fetcher github :repo "canatella/devdocs.el" :branch "use-package")
-  :bind (("C-h ." . devdocs-lookup)))
+  :bind (("C-h ." . devdocs-at-point))
+  :config (defun devdocs-at-point () (interactive) (devdocs-lookup nil (thing-at-point 'symbol))))
 
 (use-package diminish :ensure t)
 
