@@ -23,12 +23,15 @@
 (use-package bloom :quelpa
   (bloom :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git")
   :custom (bloom-global-minor-modes t)
-  (bloom-global-minor-mode t))
+  (bloom-global-minor-mode t)
+  (bloom-magit-jira-projects '("HAP")))
 
 (defun bloom-project-goodall-setup ()
   "Setup for goodall project"
   (setq-local compile-command "backend/gradlew -p backend --daemon --parallel assembleDist")
-  (setq-local project-lint-command "ktlint backend/*/src/**/*.kt"))
+  (setq-local project-lint-command "ktlint backend/*/src/**/*.kt")
+  (setq-local test-runner-backend 'kotest)
+  (test-runner-mode t))
 
 
 

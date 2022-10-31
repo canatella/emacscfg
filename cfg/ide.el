@@ -20,10 +20,7 @@
   :custom ;;
   (ansi-color-for-comint-mode t "Colorize comint buffers")
   (ansi-color-for-compilation-mode t "Colorize compilation buffers")
-  :after (comint compile)
-  ;;  :config ;;
-  ;;  (add-hook 'compilation-filter-hook #'ansi-color-process-output))
-  )
+  :after (comint compile))
 
 (use-package
   compile
