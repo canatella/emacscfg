@@ -35,7 +35,16 @@
   ;;  :custom (nano-fonts-use t)
   ;;  :custom-face (nano-mono ((t (:family "Victor Mono"))))
   :custom-face (show-paren-match-expression ((t (:extend t :weight extra-bold :background "#3B4252"))))
-  :quelpa (nano-theme :fetcher github :repo "canatella/nano-theme":branch "fix-load-theme-support"))
+  (ediff-fine-diff-A
+   ((((background dark))
+     (:extend t :background "#4b262a"))))
+  (ediff-fine-diff-B
+   ((((background dark))
+     (:extend t :background "#30382a"))))
+  (ediff-fine-diff-C
+   ((((background dark))
+     (:extend t :background "#312a1d"))))
+  :quelpa (nano-theme :fetcher github :repo "canatella/nano-theme":branch "compilation-support"))
 
 ;;;;; Font configuration
 (load-config 'ligature)
