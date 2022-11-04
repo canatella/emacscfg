@@ -108,6 +108,7 @@
 (use-package
   magit
   :ensure t
+  :ensure-system-package "git-absorb"
   :demand t
   :bind (("C-c m s" . magit-status)
          ("C-c m d" . magit-dispatch)
@@ -135,11 +136,13 @@
   :init ;;
   (require 'subr-x)
   (require 'magit-extras)
-  :config (defun pkg-repositories
-              ()
-            (interactive)
-            (let ((magit-repository-directories '(("~/.emacs.d/pkg/" . 1))))
-              (magit-list-repositories))))
+  :config (transient-replace-suffix 'magit-commit 'magit-commit-autofixup
+            '("x" "Absorb changes" magit-commit-absorb))
+
+  (defun pkg-repositories ()
+    (interactive)
+    (let ((magit-repository-directories '(("~/.emacs.d/pkg/" . 1))))
+      (magit-list-repositories))))
 
 (use-package git-timemachine :ensure t)
 (use-package ghub :ensure t)
