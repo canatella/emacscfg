@@ -40,6 +40,7 @@
 (use-config ide-asciidoc)
 (use-config ide-c)
 (use-config ide-docker)
+(use-config ide-go)
 (use-config ide-java)
 (use-config ide-kotlin)
 (use-config ide-protobuf)
