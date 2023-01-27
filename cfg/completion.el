@@ -39,7 +39,7 @@
   :ensure t
   :after (embark consult)
   :demand t
-  :hook ((embark-collect-mode . embark-consult-preview-minor-mode)))
+  :hook ((embark-collect-mode . consult-preview-at-point-mode)))
 
 (use-package marginalia
   :ensure t
