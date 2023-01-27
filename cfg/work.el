@@ -18,8 +18,7 @@
 
 (use-package circleci :quelpa (circleci :fetcher github :repo "canatella/circleci-el"))
 (use-package sonar :quelpa (sonar :fetcher github :repo "canatella/sonar-el"))
-(use-package svg-lib :quelpa (svg-lib :fetcher github :repo "rougier/svg-lib"))
-(use-package svg-tag-mode :ensure t)
+
 (use-package bloom :quelpa
   (bloom :fetcher git :url "git@bitbucket.org:bloomlife/bloom-el.git")
   :custom (bloom-global-minor-modes t)

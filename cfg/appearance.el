@@ -130,6 +130,15 @@
 
 (when (fboundp 'set-fontset-font)
   (set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji")))
+
+(use-package svg-tag-mode :ensure t
+  :custom (svg-tag-tags '())
+  (svg-lib-style-default
+   '(:background "#2E3440" :foreground "#ECEFF4" :padding 1 :margin 0 :stroke 2 :radius 3 :alignment 0.5 :width 20 :height 0.9 :scale 0.75 :crop-left nil :crop-right nil :collection "material" :font-family "Victor Mono" :font-size 12 :font-weight medium))
+  :config (make-variable-buffer-local 'svg-tag-tags)
+  (make-variable-buffer-local 'svg-tag--active-tags))
+
+
 ;;(use-package nano-emacs :straight
 ;;  (nano-emacs :type git :host github :repo "rougier/nano-emacs")
 ;;  :config (require 'nano-faces)
