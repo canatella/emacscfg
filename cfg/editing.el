@@ -68,9 +68,9 @@
 
 (use-package
   wgrep
- :ensure t
-  :custom (wgrep-auto-save-buffer t "Automatically save buffer when commiting wgrep changes")
-  (wgrep-enable-key "C-c C-q"))
+  :ensure t
+  :bind (:map grep-mode-map ("C-x C-q" . #'wgrep-change-to-wgrep-mode))
+  :custom (wgrep-auto-save-buffer t "Automatically save buffer when commiting wgrep changes"))
 
 (use-package
   yasnippet
