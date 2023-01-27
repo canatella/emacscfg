@@ -53,6 +53,7 @@
 (use-config ide-xml)
 (use-config mail)
 (use-config org)
+(use-config social)
 (use-config work)
 
 
