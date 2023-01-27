@@ -3,7 +3,8 @@
   :config (add-to-list 'display-buffer-alist '("*system-packages*" . (display-buffer-no-window . nil))))
 
 (use-package no-littering  :ensure t
-  :custom (auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+  :custom (auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (lock-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "lock-files/") t))))
 
 (use-package devdocs :quelpa
   (devdocs :fetcher github :repo "canatella/devdocs.el" :branch "use-package")
