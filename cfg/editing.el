@@ -1,21 +1,23 @@
 ;; -*- lexical-binding: t; -*-
+(use-package autorevert
+  :custom (auto-revert-mode-text '() "No lighter for autorevert"))
 
-(use-package autorevert :custom (auto-revert-mode-text '() "No lighter for autorevert"))
-
-(use-package
-  simple
-  :diminish auto-fill-function
+(use-package simple
+  :diminish
+  auto-fill-function
   "↵"
   :hook (before-save . delete-trailing-whitespace))
 
 ;; Replace multiple instance of a word at once
-(use-package iedit :ensure t)
+(use-package iedit
+  :ensure t)
 
-(use-package mmm-mode :ensure t)
+(use-package mmm-mode
+  :ensure t)
 
-(use-package
-  paren
-  :custom (show-paren-style 'expression)
+(use-package paren
+  :custom
+  (show-paren-style 'expression)
   (show-paren-when-point-in-periphery 't)
   :config (show-paren-mode 't))
 
@@ -23,7 +25,8 @@
 
 (use-package smartparens
   :ensure t
-  :diminish :config
+  :diminish
+  :config
   (smartparens-global-mode t)
   (defvar sp-custom-bindings
     '(("C-c p <right>" . sp-forward-sexp)
@@ -58,24 +61,26 @@
   (require 'smartparens-config)
   ;; Add new line after {}
   (sp-with-modes
-      '(c++-mode objc-mode c-mode java-mode js-mode rust-mode)
-    (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
+   '(c++-mode objc-mode c-mode java-mode js-mode rust-mode)
+   (sp-local-pair "{" nil :post-handlers '(:add ("||\n[i]" "RET"))))
   (sp-with-modes '(c++-mode djinni-mode) (sp-local-pair "<" ">")))
 
-(use-package string-inflection :ensure t)
+(use-package string-inflection
+  :ensure t)
 
-(use-package subword  :ensure t :diminish subword-mode)
+(use-package subword
+  :ensure t
+  :diminish subword-mode)
 
-(use-package
-  wgrep
+(use-package wgrep
   :ensure t
   :bind (:map grep-mode-map ("C-x C-q" . #'wgrep-change-to-wgrep-mode))
   :custom (wgrep-auto-save-buffer t "Automatically save buffer when commiting wgrep changes"))
 
-(use-package
-  yasnippet
+(use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode
+  :diminish
+  yas-minor-mode
   "ⓨ"
   :bind (("C-c <tab>" . yas-expand))
   :init (yas-global-mode t))

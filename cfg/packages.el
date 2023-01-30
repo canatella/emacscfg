@@ -1,12 +1,8 @@
 (when (fboundp 'startup-redirect-eln-cache)
   (startup-redirect-eln-cache
-   (convert-standard-filename
-    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+   (convert-standard-filename (expand-file-name "var/eln-cache/" user-emacs-directory))))
 
-(customize-set-variable 'package-archive-priorities
-                        '(("gnu" . 30)
-                          ("nongnu" . 20)
-                          ("melpa" . 50)))
+(customize-set-variable 'package-archive-priorities '(("gnu" . 30) ("nongnu" . 20) ("melpa" . 50)))
 (customize-set-variable 'package-user-dir (concat user-emacs-directory "var/elpa/"))
 (customize-set-variable 'package-gnupghome-dir (concat package-user-dir "gnupg/"))
 (customize-set-variable 'package-native-compile t)
@@ -25,14 +21,17 @@
   (customize-set-variable 'use-package-verbose 'errors)
   (customize-set-variable 'use-package-expand-minimally t))
 
-(unless (package-installed-p 'quelpa) (package-install 'quelpa))
-(unless (package-installed-p 'quelpa-use-package) (package-install 'quelpa-use-package))
+(unless (package-installed-p 'quelpa)
+  (package-install 'quelpa))
+(unless (package-installed-p 'quelpa-use-package)
+  (package-install 'quelpa-use-package))
 
 (require 'quelpa)
 (require 'quelpa-use-package)
 
 
-(eval-when-compile (add-to-list 'load-path (concat user-emacs-directory "lib/")))
+(eval-when-compile
+  (add-to-list 'load-path (concat user-emacs-directory "lib/")))
 
 (use-package system-packages
   :quelpa (system-packages :fetcher gitlab :repo "canatella/system-packages" :branch "add-package-mapping")

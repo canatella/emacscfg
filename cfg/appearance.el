@@ -1,94 +1,91 @@
 ;; -*- lexical-binding: t; -*-
-(use-package use-theme :quelpa (use-theme :fetcher github :repo "canatella/use-theme"))
+(use-package use-theme
+  :quelpa
+  (use-theme :fetcher
+    github
+    :repo "canatella/use-theme"))
 
 (use-theme solarized-theme
   :ensure t
   :name solarized-dark
   :style dark
 
-  :disabled :custom
+  :disabled
+  :custom
   (solarized-distinct-fringe-background '())
   (solarized-use-less-bold t)
   (solarized-use-variable-pitch '()))
 
-(use-theme solarized-theme  :ensure t :name solarized-light-high-contrast :style light :disabled t)
+(use-theme solarized-theme
+  :ensure t
+  :name solarized-light-high-contrast
+  :style light
+  :disabled t)
 
 (use-theme nord-theme
   :ensure t
   :style dark
-
-  :disabled :custom-face
-  '(show-paren-match-expression ((t (:background "#434C5E")))))
+  :disabled
+  :custom-face '(show-paren-match-expression ((t (:background "#434C5E")))))
 
 (use-theme apropospriate-theme
   :ensure t
   :name apropospriate-light
   :style light
-
-  :disabled :custom-face
-  '(show-paren-match-expression ((t (:background "#F5F5FC")))))
+  :disabled
+  :custom-face '(show-paren-match-expression ((t (:background "#F5F5FC")))))
 
 (use-theme nano-theme
   :after use-theme
-  :name ((dark . nano-dark)
-         (light . nano-light))
-  ;;  :custom (nano-fonts-use t)
-  ;;  :custom-face (nano-mono ((t (:family "Victor Mono"))))
-  :custom-face (show-paren-match-expression ((t (:extend t :weight extra-bold :background "#3B4252"))))
-  (ediff-fine-diff-A
-   ((((background dark))
-     (:extend t :background "#4b262a"))))
-  (ediff-fine-diff-B
-   ((((background dark))
-     (:extend t :background "#30382a"))))
-  (ediff-fine-diff-C
-   ((((background dark))
-     (:extend t :background "#312a1d"))))
-  :quelpa (nano-theme :fetcher github :repo "canatella/nano-theme":branch "compilation-support"))
+  :name ((dark . nano-dark) (light . nano-light))
+  ;;  :custom-face
+  ;;  (show-paren-match-expression ((t (:extend t :weight extra-bold :background "#3B4252"))))
+  ;;  (ediff-fine-diff-A ((((background dark)) (:extend t :background "#4b262a"))))
+  ;;  (ediff-fine-diff-B ((((background dark)) (:extend t :background "#30382a"))))
+  ;;  (ediff-fine-diff-C ((((background dark)) (:extend t :background "#312a1d"))))
+  :quelpa (nano-theme :fetcher github :repo "canatella/nano-theme" :branch "compilation-support"))
 
 ;;;;; Font configuration
 (load-config 'ligature)
 
 (defun cfg-default-font ()
   "Return the first available font."
-  (or
-   (seq-find
-    (lambda (font)
-      (member (car font) (font-family-list)))
-    cfg-fonts)
-   (car cfg-fonts)))
+  (or (seq-find (lambda (font) (member (car font) (font-family-list))) cfg-fonts) (car cfg-fonts)))
 
 (defun cfg-default-font-spec ()
   "Return the resource font spec."
   (let ((font (cfg-default-font)))
     (concat (car font) "-" (cadr font))))
 
-(defun cfg-default-ligatures () "Return the default ligatures." (cddr (cfg-default-font)))
+(defun cfg-default-ligatures ()
+  "Return the default ligatures."
+  (cddr (cfg-default-font)))
 
-(use-package
-  font-core
-  :custom (global-font-lock-mode t  "Enable syntax highlighting.")
-  :config (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
+(use-package font-core
+  :custom (global-font-lock-mode t "Enable syntax highlighting.")
+  :config
+  (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-builtin-face nil :slant 'italic))
 
 (use-package ligature
   :ensure t
-  :config (ligature-set-ligatures 't '("www"))
+  :config
+  (ligature-set-ligatures 't '("www"))
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
   (ligature-set-ligatures 'prog-mode (cfg-default-ligatures))
   (global-ligature-mode t))
 
-(use-package all-the-icons :ensure t)
+(use-package all-the-icons
+  :ensure t)
 
-(use-package
-  all-the-icons-dired
+(use-package all-the-icons-dired
   :ensure t
   :after (dired all-the-icons)
   :hook (dired-mode . all-the-icons-dired-mode))
 
-(use-package
-  frame
-  :custom (frame-background-mode 'dark "Using a dark theme.")
+(use-package frame
+  :custom
+  (frame-background-mode 'dark "Using a dark theme.")
   (initial-frame-alist
    `((undecorated . t)
      (vertical-scroll-bars)
@@ -110,32 +107,55 @@
   (window-divider-default-right-width 1)
   :custom-face (window-divider ((t (:foreground "#b0bec5")))))
 
-(use-package fringe :custom (fringe-mode '(8 . 8)))
+(use-package fringe
+  :custom (fringe-mode '(8 . 8)))
 
-(use-package ns-auto-titlebar :ensure t :if
-  (memq window-system '(mac ns))
+(use-package ns-auto-titlebar
+  :ensure t
+  :if (memq window-system '(mac ns))
   :custom (ns-auto-titlebar-mode t))
 
-(use-package
-  ns-win
+(use-package ns-win
   :if (memq window-system '(mac ns))
-  :custom (mac-right-command-modifier 'super)
+  :custom
+  (mac-right-command-modifier 'super)
   (mac-right-option-modifier '())
   (mac-option-modifier 'meta)
   (mac-command-modifier 'super))
 
-(use-package scroll-bar :custom (scroll-bar-mode '() "No scroll bar."))
+(use-package scroll-bar
+  :custom (scroll-bar-mode '() "No scroll bar."))
 
-(use-package tool-bar :custom (tool-bar-mode '() "No tool bar."))
+(use-package tool-bar
+  :custom (tool-bar-mode '() "No tool bar."))
 
 (when (fboundp 'set-fontset-font)
   (set-fontset-font t '(#x1f000 . #x1faff) (font-spec :family "Noto Color Emoji")))
 
-(use-package svg-tag-mode :ensure t
-  :custom (svg-tag-tags '())
+(use-package svg-tag-mode
+  :ensure t
+  :custom
+  (svg-tag-tags '())
   (svg-lib-style-default
-   '(:background "#2E3440" :foreground "#ECEFF4" :padding 1 :margin 0 :stroke 2 :radius 3 :alignment 0.5 :width 20 :height 0.9 :scale 0.75 :crop-left nil :crop-right nil :collection "material" :font-family "Victor Mono" :font-size 12 :font-weight medium))
-  :config (make-variable-buffer-local 'svg-tag-tags)
+   '(:background
+     "#2E3440"
+     :foreground "#ECEFF4"
+     :padding 1
+     :margin 0
+     :stroke 2
+     :radius 3
+     :alignment 0.5
+     :width 20
+     :height 0.9
+     :scale 0.75
+     :crop-left nil
+     :crop-right nil
+     :collection "material"
+     :font-family "Victor Mono"
+     :font-size 12
+     :font-weight medium))
+  :config
+  (make-variable-buffer-local 'svg-tag-tags)
   (make-variable-buffer-local 'svg-tag--active-tags))
 
 

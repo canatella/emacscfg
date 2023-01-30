@@ -1,14 +1,16 @@
-(use-package trivial-adoc-mode :quelpa
-  (trivial-adoc-mode :fetcher github :repo "canatella/emacs-trivial-adoc-mode")
-  :bind (:map trivial-adoc-mode-map ("<f8>"  . #'trivial-adoc-compile-file))
+(use-package trivial-adoc-mode
+  :quelpa (trivial-adoc-mode :fetcher github :repo "canatella/emacs-trivial-adoc-mode")
+  :bind (:map trivial-adoc-mode-map ("<f8>" . #'trivial-adoc-compile-file))
   :custom (trivial-adoc-mode-one-sentence-per-line t))
 
 (defvar trivial-adoc-compilation-finish-functions '(trivial-adoc-compilation-finished))
 
-(defvar-local trivial-adoc-compilation-file nil "The file being compiled in a asciidoc compilation buffer.")
+(defvar-local trivial-adoc-compilation-file nil
+  "The file being compiled in a asciidoc compilation buffer.")
 (put 'trivial-adoc-compilation-file 'safe-local-variable #'file-exists-p)
 
-(defvar-local trivial-adoc-compilation-file-buffer nil "The buffer of the file being compiled in a asciidoc compilation buffer.")
+(defvar-local trivial-adoc-compilation-file-buffer nil
+  "The buffer of the file being compiled in a asciidoc compilation buffer.")
 
 (define-compilation-mode trivial-adoc-compilation-mode "asciidoc" "Compilation mode for asciidoc")
 
@@ -37,11 +39,15 @@
 
 (use-package structurizr-mode
   :mode "\\.c4\\'"
-  :quelpa (structurizr-mode :fetcher github :repo "canatella/structurizr-mode" :branch "fix-package-header"))
+  :quelpa
+  (structurizr-mode
+   :fetcher github
+   :repo "canatella/structurizr-mode"
+   :branch "fix-package-header"))
 
 (use-package plantuml-mode
   :ensure t
-  :mode (("\\.puml\\'" . plantuml-node)
-         ("\\.iuml\\'" . plantuml-mode))
-  :custom (plantuml-default-exec-mode 'executable "Use jar for previewing")
+  :mode (("\\.puml\\'" . plantuml-node) ("\\.iuml\\'" . plantuml-mode))
+  :custom
+  (plantuml-default-exec-mode 'executable "Use jar for previewing")
   (plantuml-executable-args '("-headless" "-nbthread")))

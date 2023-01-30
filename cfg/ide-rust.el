@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package racer :ensure t)
+(use-package racer
+  :ensure t)
 
 (use-package rust-mode
   :ensure t
@@ -9,4 +10,6 @@
   :custom (rust-format-on-save t)
   :config (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer"))))
 
-(use-package cargo :ensure t :hook (rust-mode . cargo-minor-mode))
+(use-package cargo
+  :ensure t
+  :hook (rust-mode . cargo-minor-mode))

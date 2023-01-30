@@ -1,11 +1,7 @@
 (with-eval-after-load 'hideshow
-  (add-to-list 'hs-special-modes-alist
-               (list 'nxml-mode
-                     "<!--\\|<[^/>]*[^/]>"
-                     "-->\\|</[^/>]*[^/]>"
-                     "<!--"
-                     'nxml-forward-element
-                     nil)))
+  (add-to-list
+   'hs-special-modes-alist
+   (list 'nxml-mode "<!--\\|<[^/>]*[^/]>" "-->\\|</[^/>]*[^/]>" "<!--" 'nxml-forward-element nil)))
 
 (use-package nxml-mode
   :hook (nxml-mode . hs-minor-mode)
