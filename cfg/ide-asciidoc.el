@@ -1,7 +1,13 @@
 (use-package trivial-adoc-mode
   :quelpa (trivial-adoc-mode :fetcher github :repo "canatella/emacs-trivial-adoc-mode")
   :bind (:map trivial-adoc-mode-map ("<f8>" . #'trivial-adoc-compile-file))
-  :custom (trivial-adoc-mode-one-sentence-per-line t))
+  :custom (trivial-adoc-mode-one-sentence-per-line t)
+  :config
+  (font-lock-add-keywords
+   'trivial-adoc-mode
+   '(("\\(Q\\):\\([DFPR]\\(-\\(CUS\\|DND\\|OPE\\|LOG\\|INF\\|DOC\\|HUM\\|MAN\\|MON\\|IMP\\)\\)?-\\([[:digit:]]+\\)\\)"
+      (1 font-lock-function-name-face)
+      (2 font-lock-variable-name-face)))))
 
 (defvar trivial-adoc-compilation-finish-functions '(trivial-adoc-compilation-finished))
 
