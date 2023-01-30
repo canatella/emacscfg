@@ -1,9 +1,6 @@
 (use-package org
   :ensure t
-  :bind (("C-c c" . #'consult-org-capture)
-         :map org-agenda-mode-map
-         ("M-." . #'org-agenda-goto)
-         ("g" . #'org-calendar-refreshxb))
+  :bind (("C-c c" . #'consult-org-capture))
   ;;  :hook (org-mode . #'cfg-setup-org-mode)
   :custom (org-src-fontify-natively t "Fontify code blocks.")
   (org-generic-id-locations-file
@@ -102,6 +99,11 @@
   (add-hook 'org-agenda-finalize-hook #'org-agenda-show-svg))
 
 (use-package org-gcal :ensure t)
+
+(use-package org-agenda
+  :bind (:map org-agenda-mode-map
+         ("M-." . #'org-agenda-goto)
+         ("g" . #'org-calendar-refresh)))
 
 (defun consult--org-capture-templates ()
   "Return a list of capture templates."
