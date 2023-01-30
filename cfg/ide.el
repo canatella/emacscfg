@@ -96,18 +96,10 @@
   (eldoc-echo-area-use-multiline-p t)
   (eldoc-documentation-strategy #'eldoc-documentation-compose))
 
-(use-package flymake :ensure t :hook ((emacs-lisp-mode) . flymake-mode) :diminish)
-
-(use-package tree-sitter
-  :ensure t
-  :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
-  :config (global-tree-sitter-mode))
-(use-package tree-sitter-langs   :ensure t)
-
 (use-package
   magit
-  :ensure t
-  :ensure-system-package "git-absorb"
+  :ensure t$
+;  :ensure-system-package "git-absorb"
   :demand t
   :bind (("C-c m s" . magit-status)
          ("C-c m d" . magit-dispatch)
