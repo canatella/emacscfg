@@ -39,7 +39,9 @@
   :bind (:map flyspell-mode-map ("C-M-i" . nil))
   :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode))
   :custom (flyspell-use-meta-tab nil)
-  :custom-face (flyspell-incorrect ((t (:inherit nil :underline (:color "#D08770" :style wave))))))
+  :custom-face
+  (flyspell-duplicate ((t (:inherit nil :underline (:color "#D08770" :style wave)))))
+  (flyspell-incorrect ((t (:inherit nil :underline (:color "#D08770" :style wave))))))
 
 (use-package diff
   :custom (diff-switches "-u" "Use universal diff format."))
