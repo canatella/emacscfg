@@ -35,8 +35,10 @@
   (add-to-list 'ispell-skip-region-alist '("^// NOLINTNEXTLINE.*" . "\n")))
 
 (use-package flyspell :diminish
+  :bind (:map flyspell-mode-map ("C-M-i" . nil))
   :hook ((prog-mode . flyspell-prog-mode)
          (text-mode . flyspell-mode))
+  :custom (flyspell-use-meta-tab nil)
   :custom-face (flyspell-incorrect
                 ((t (:inherit nil :underline (:color "#D08770" :style  wave))))))
 
@@ -180,5 +182,3 @@
 
 
 (use-package yaml-mode  :ensure t :mode (("\\.yml\\'" . yaml-mode)))
-
-(string-match "^make " "make -j pdf")
