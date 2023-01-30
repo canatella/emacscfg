@@ -13,31 +13,6 @@
     (dired-hide-details-mode t))
   (add-hook 'dired-mode-hook #'my-dired-setup))
 
-(use-package dired-aux)
-
-(use-package dired-filter
-  :ensure t
-  :after dired)
-
-(use-package dired-subtree
-  :ensure t
-  :after dired
-
-  :bind (:map dired-mode-map ("i" . dired-subtree-insert) (";" . dired-subtree-remove)))
-
-(use-package dired-narrow
-  :ensure t
-  :after dired)
-
-(use-package dired-rainbow
-  :ensure t
-  :after dired)
-
-(use-package dired-collapse
-  :ensure t
-  :after dired
-  :config (add-hook 'dired-after-readin-hook 'dired-collapse 'append 'local))
-
 (use-package ls-lisp
   :custom
   (ls-lisp-dirs-first t "Directories first")
@@ -51,10 +26,15 @@
 
 (use-package fd-dired
   :ensure t
-  :ensure-system-package "fd"
-  :config
-  (customize-set-variable
-   'fd-dired-program
-   (if (eq system-type 'darwin)
-       "fd"
-     "fdfind")))
+  :custom (fd-dired-program "fd"))
+
+(use-package ls-lisp
+  :bind ("C-x d" . #'dired-fd)
+  :config ;
+  (defun dired-fd ()
+    (interactive)
+    (let ((ls-lisp-use-insert-directory-program t)
+          (insert-directory-program "fdls"))
+      (with-current-buffer (call-interactively #'dired)
+        (make-local-variable 'ls-lisp-use-insert-directory-program)
+        (make-local-variable 'insert-directory-program)))))
