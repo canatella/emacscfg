@@ -1,4 +1,4 @@
-;;; Directory Local Variables
+;;; Directory Local Variables            -*- no-byte-compile: t -*-
 ;;; For more information see (info "(emacs) Directory Variables")
 
-((emacs-lisp-mode . ((mode . elisp-format-on-save))))
+((emacs-lisp-mode . ((elisp-autofmt-load-packages-local . ("use-package")))))
