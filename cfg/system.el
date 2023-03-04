@@ -177,3 +177,22 @@
 
 (use-package rg
   :ensure t)
+
+(use-package edit-server
+  :ensure t
+  :commands edit-server-start
+  :custom
+  (edit-server-new-frame-alist
+   '((name . "Firefox edit")
+     (width . 80)
+     (height . 25)
+     (minibuffer . t)
+     (menu-bar-lines . t)
+     (left . 1375)
+     (top . 700)
+     (fullscreen . nil)
+     (undecorated . nil)))
+  :init
+  (if after-init-time
+      (edit-server-start)
+    (add-hook 'after-init-hook #'(lambda () (edit-server-start)))))
