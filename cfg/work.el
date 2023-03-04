@@ -29,7 +29,7 @@
   :custom
   (bloom-global-minor-modes t)
   (bloom-global-minor-mode t)
-  (bloom-magit-jira-projects '("HAP")))
+  (bloom-magit-jira-projects '("GOOD" "HAP")))
 
 (defun bloom-project-goodall-setup ()
   "Setup for goodall project"
@@ -59,3 +59,19 @@
     :user "damien@bloom-life.com^cookie")
    ;;   :subscribed-channels '(test-rename rrrrr)
    :full-and-display-names t))
+
+(use-package password-generator
+  :config
+
+  (defun password-generator-biot (&optional pre-len return)
+    "Password generated with BioT rules.  PRE-LEN is prefix arg that defines password lenght.  RETURN specifies if password should be returned or inserted."
+    (interactive)
+    (let* ((password "")
+           (pass-length 32)
+           (symbols-for-pass "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))
+      (setq password (password-generator-generate-internal symbols-for-pass pass-length))
+      (cond
+       ((equal nil return)
+        (insert password))
+       (t
+        password)))))
