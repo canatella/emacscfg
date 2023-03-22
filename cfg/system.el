@@ -154,16 +154,9 @@
   :ensure t)
 (use-package auth-source-pass
   :ensure t)
-(use-package password-store
-  :after (with-editor auth-source-pass)
-  :quelpa
-  (password-store
-   :fetcher github
-   :repo "canatella/password-store"
-   :branch "add-password-store-edit-command"
-   :files ("contrib/emacs/*.el"))
-  :hook (password-store-mode . hl-line-mode)
-  :custom (password-store-password-length 16))
+
+(use-package mapass
+  :quelpa (mapass :fetcher github :repo "canatella/mapass" :branch "main"))
 
 (use-package explain-pause-mode
   :quelpa (explain-pause-mode :fetcher github :repo "lastquestion/explain-pause-mode")
