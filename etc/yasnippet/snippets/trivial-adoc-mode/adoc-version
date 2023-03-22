@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: adoc-version
+# --
+| $1
+| ${2:[.todo]#YYYY-MM-DD#}
+| Damien Merenne
+| ${3:[.todo]#description#}
+| CR ${4:[.todo]#XXX#}
+
+$0
