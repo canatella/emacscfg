@@ -31,3 +31,9 @@
   (nameless-prefix "…-")
   (nameless-abbrev-prefix "ns")
   :custom-face (nameless-face ((t ()))))
+
+(use-package package-lint
+  :ensure t)
+
+(use-package package-lint-flymake
+  :ensure t)
