@@ -4,7 +4,9 @@
   :ensure t
   :after mmm-mode
   :mode ("\\.http\\'" . restclient-mode)
+  :custom (restclient-log-request nil "Do not log requests")
   :config
+
   (mmm-add-group
    'restclient-elisp
    '((restclient-elisp-variable-multiline
