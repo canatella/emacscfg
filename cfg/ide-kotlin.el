@@ -1,12 +1,9 @@
+(defconst ktlint-executable "/home/dam/.local/Cellar/ktlint/ktlint-cli/build/run/ktlint")
+
 (use-package flymake-ktlint
+  :disabled
   :quelpa (flymake-ktlint :fetcher github :repo "canatella/flymake-ktlint")
-  :custom
-  (flymake-ktlint-executable "java")
-  (flymake-ktlint-args
-   '("-Xshare:on"
-     "-XX:SharedArchiveFile=/home/dam/.cache/java-cds/_nix_store_c6p2xj22qnrvglqhd0sbddvgwhrz7x0z-ktlint-0.45.2_bin_.ktlint-wrapped.jsa"
-     "-jar"
-     "/nix/store/c6p2xj22qnrvglqhd0sbddvgwhrz7x0z-ktlint-0.45.2/bin/.ktlint-wrapped")))
+  :custom (flymake-ktlint-executable ktlint-executable))
 
 (use-package kotlin-mode
   :ensure t
@@ -20,13 +17,16 @@
   :after (reformatter)
   :devdocs (kotlin-mode "kotlin~1.7")
   :config
-  (add-to-list
-   'eglot-server-programs
-   '(kotlin-mode
-     "~/.local/Cellar/kotlin-language-server/server/build/install/server/bin/kotlin-language-server"))
+  (add-to-list 'eglot-server-programs '(kotlin-mode "localhost" 8080))
+  (when nil
+    add-to-list
+    'eglot-server-programs
+    '(kotlin-mode
+      "~/.local/Cellar/kotlin-language-server/server/build/install/server/bin/kotlin-language-server"))
   (defun kotlin-eglot-setup ()
     (when (eq major-mode #'kotlin-mode)
-      (flymake-ktlint-add-hook)))
+      ;(flymake-ktlint-add-hook)
+      ))
   (defun kotlin-open-in-intellij ()
     "Open current file in intellij"
     (interactive)
@@ -39,14 +39,8 @@
                    (buffer-file-name)))
   (reformatter-define
    kotlin-format
-   :program "java"
-   :args
-   '("-Xshare:on"
-     "-XX:SharedArchiveFile=/home/dam/.cache/java-cds/_nix_store_c6p2xj22qnrvglqhd0sbddvgwhrz7x0z-ktlint-0.45.2_bin_.ktlint-wrapped.jsa"
-     "-jar"
-     "/nix/store/c6p2xj22qnrvglqhd0sbddvgwhrz7x0z-ktlint-0.45.2/bin/.ktlint-wrapped"
-     "-F"
-     "--stdin")))
+   :program ktlint-executable
+   :args '("-F" "--stdin" "--log-level=error")))
 
 
 (defconst test-runner-kotest-annotation-spec-test-regex
