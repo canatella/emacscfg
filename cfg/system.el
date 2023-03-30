@@ -34,7 +34,7 @@
   (global-so-long-mode t)
   (window-min-width 110)
   (safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc)))
-  :config (open-dribble-file "~/.emacs.d/var/dribble")
+  :config (open-dribble-file (no-littering-expand-var-file-name "dribble"))
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
@@ -189,3 +189,10 @@
   (if after-init-time
       (edit-server-start)
     (add-hook 'after-init-hook #'(lambda () (edit-server-start)))))
+
+(defun emacs-restart ()
+  "Check that configuration is valid and restart emacs"
+  (interactive)
+  (let ((default-directory user-emacs-directory))
+    (shell-command
+     "VALIDATING_CONFIG=1 emacs --batch --load init.el && systemctl --user restart emacs")))
