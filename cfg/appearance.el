@@ -38,7 +38,6 @@
 (use-theme nano-theme
   :after use-theme
   :name ((dark . nano-dark) (light . nano-light))
-  :custom-face (mmm-code-submode-face ((t ())))
   ;;  (show-paren-match-expression ((t (:extend t :weight extra-bold :background "#3B4252"))))
   ;;  (ediff-fine-diff-A ((((background dark)) (:extend t :background "#4b262a"))))
   ;;  (ediff-fine-diff-B ((((background dark)) (:extend t :background "#30382a"))))

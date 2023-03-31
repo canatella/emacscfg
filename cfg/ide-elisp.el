@@ -3,9 +3,6 @@
 (use-package cask-mode
   :ensure t)
 
-(use-package elfmt
-  :quelpa (elfmt :fetcher github :repo "riscy/elfmt"))
-
 (use-package
   test-runner-ert ;;
   :requires (test-runner)
@@ -16,7 +13,6 @@
 (use-package elisp-autofmt
   :ensure t
   :hook (emacs-lisp-mode . elisp-autofmt-mode))
-
 
 (use-package form-feed
   :ensure t

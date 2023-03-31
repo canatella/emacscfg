@@ -13,7 +13,9 @@
   :ensure t)
 
 (use-package mmm-mode
-  :ensure t)
+  :ensure t
+  :custom-face (mmm-code-submode-face ((t ()))))
+
 
 (use-package paren
   :custom

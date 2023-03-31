@@ -150,9 +150,7 @@
   :custom (auth-source-gpg-encrypt-to '("dam@cosinux.org"))
   :config (auth-source-pass-enable))
 
-(use-package with-editor
-  :ensure t)
-(use-package auth-source-pass
+(use-package password-generator
   :ensure t)
 
 (use-package mapass

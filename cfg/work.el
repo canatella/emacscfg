@@ -10,11 +10,9 @@
 
 (use-package magit-async-section
   :quelpa (magit-async-section :fetcher github :repo "canatella/magit-async-section"))
-(use-package request
-  :ensure t)
+
 (use-package atlassian
   :quelpa (atlassian :fetcher github :repo "canatella/atlassian-el")
-  :after request
   :custom
   (atlassian-user "damien@bloom-life.com")
   (atlassian-bitbucket-user "dmerenne"))

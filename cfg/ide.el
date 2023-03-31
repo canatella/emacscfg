@@ -38,10 +38,18 @@
   :diminish
   :bind (:map flyspell-mode-map ("C-M-i" . nil))
   :hook ((prog-mode . flyspell-prog-mode) (text-mode . flyspell-mode))
-  :custom (flyspell-use-meta-tab nil)
+  :custom
+  (flyspell-use-meta-tab nil)
+  (ispell-dictionnary nil)
   :custom-face
   (flyspell-duplicate ((t (:inherit nil :underline (:color "#D08770" :style wave)))))
   (flyspell-incorrect ((t (:inherit nil :underline (:color "#D08770" :style wave))))))
+
+
+(use-package flyspell-correct
+  :commands flyspell-correct-wrapper
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-c ." . flyspell-correct-wrapper)))
 
 (use-package diff
   :custom (diff-switches "-u" "Use universal diff format."))
@@ -134,29 +142,12 @@
     (let ((magit-repository-directories '(("~/.emacs.d/pkg/" . 1))))
       (magit-list-repositories))))
 
-(use-package git-timemachine
-  :ensure t)
-(use-package ghub
-  :ensure t)
-(use-package closql
-  :ensure t)
-(use-package yaml
-  :ensure t)
-(use-package a
-  :ensure t)
-(use-package uuidgen
-  :ensure t)
-(use-package closql
-  :ensure t)
-(use-package emojify
-  :ensure t)
-(use-package deferred
-  :ensure t)
 (use-package forge
-  :after magit
-  :quelpa (forge :fetcher github :repo "canatella/forge" :branch "bitbucket"))
+  :disabled
+  :ensure t)
+
 (use-package code-review
-  :quelpa (code-review :fetcher github :repo "canatella/code-review"))
+  :ensure t)
 
 (use-package xref
   :custom

@@ -13,9 +13,10 @@
 
 (defconst cfg-package-directory (format "%spkg/" user-emacs-directory))
 (defconst cfg-lib-directory (format "%slib/" user-emacs-directory))
+(defconst cfg-var-directory (format "%svar/" user-emacs-directory))
 
 (customize-set-variable 'quelpa-checkout-melpa-p nil)
-(customize-set-variable 'quelpa-dir (concat user-emacs-directory "var/quelpa/"))
+(customize-set-variable 'quelpa-dir (concat cfg-var-directory "quelpa"))
 (customize-set-variable 'quelpa-build-dir cfg-package-directory)
 (when validating-config
   (customize-set-variable 'use-package-verbose 'errors)
@@ -29,6 +30,31 @@
 (require 'quelpa)
 (require 'quelpa-use-package)
 
+;; Don't use quelpa to install dependencies
+(defun my-quelpa-package-install (arg &rest plist)
+  "Build and install package from ARG (a recipe or package name).
+PLIST is a plist that may modify the build and/or fetch process.
+If the package has dependencies recursively call this function to install them.
+Return new package version."
+  (let* ((rcp (quelpa-arg-rcp arg))
+         (file
+          (when rcp
+            (quelpa-build (append rcp plist)))))
+    (when file
+      (let* ((pkg-desc (quelpa-get-package-desc file))
+             (requires (package-desc-reqs pkg-desc))
+             (ver (package-desc-version pkg-desc)))
+        (when requires
+          (mapc
+           (lambda (req)
+             (unless (or (equal 'emacs (car req))
+                         (quelpa--package-installed-p (car req) (cadr req)))
+               (package-install (car req))))
+           requires))
+        (quelpa-package-install-file file)
+        ver))))
+
+(advice-add #'quelpa-package-install :override #'my-quelpa-package-install)
 
 (eval-when-compile
   (add-to-list 'load-path (concat user-emacs-directory "lib/")))
