@@ -2,7 +2,7 @@
   :ensure t
   :hook (vterm-mode . with-editor-export-editor)
   :custom
-  (vterm-shell "/bin/bash")
+  (vterm-shell "bash")
   (vterm-kill-buffer-on-exit t)
   (vterm-eval-cmds
    '(("find-file" find-file)
