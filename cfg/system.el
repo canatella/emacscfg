@@ -194,3 +194,5 @@
   (let ((default-directory user-emacs-directory))
     (shell-command
      "VALIDATING_CONFIG=1 emacs --batch --load init.el && systemctl --user restart emacs")))
+
+(use-package guix)

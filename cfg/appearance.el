@@ -63,6 +63,9 @@
 (use-package font-core
   :custom (global-font-lock-mode t "Enable syntax highlighting.")
   :config
+  (set-face-attribute 'default nil :family "Victor Mono" :weight 'normal)
+  (set-face-attribute 'bold nil :family "Victor Mono" :weight 'semibold)
+  (set-face-attribute 'italic nil :family "Victor Mono" :weight 'semilight :slant 'italic)
   (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-builtin-face nil :slant 'italic))
 
