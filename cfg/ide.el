@@ -143,10 +143,11 @@
       (magit-list-repositories))))
 
 (use-package forge
-  :disabled
+  :disabled t
   :ensure t)
 
 (use-package code-review
+  :disabled t
   :ensure t)
 
 (use-package xref
